@@ -1,7 +1,7 @@
 title: 조이김
 email: zoih.contact@gmail.com
 description: >-
-  회사 소개 문구를 여기에 작성하세요.
+  혁신적인 솔루션을 제공하는 조이김입니다.
 baseurl: ""
 url: "https://zoih.github.io"
 
@@ -11,8 +11,8 @@ theme: minima
 plugins:
   - jekyll-feed
 
-# 네비게이션 설정
-header_pages:
-  - about.md
-  - services.md
-  - contact.md
+# 네비게이션 설정 (사용 안함 - 단일 페이지로 구성)
+# header_pages:
+#   - about.md
+#   - services.md
+#   - contact.md
