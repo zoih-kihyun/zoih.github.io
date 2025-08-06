@@ -1,1 +1,27 @@
-
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="utf-8">
+    <title>{% if page.title %}{{ page.title }} - {% endif %}{{ site.title }}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="{{ '/' | relative_url }}">홈</a>
+            <a href="{{ '/about/' | relative_url }}">회사소개</a>
+            <a href="{{ '/services/' | relative_url }}">서비스</a>
+            <a href="{{ '/contact/' | relative_url }}">연락처</a>
+        </nav>
+    </header>
+    
+    <main>
+        {{ content }}
+    </main>
+    
+    <footer>
+        <p>&copy; 2025 {{ site.title }}. All rights reserved.</p>
+    </footer>
+</body>
+</html>
