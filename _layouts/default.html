@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>조이김</title>
-    <meta name="description" content="혁신적인 솔루션을 제공하는 조이김입니다">
+    <title>ZOIH - 따뜻한 기술로 선한 영향력을</title>
+    <meta name="description" content="사람과 세상을 위한 따뜻한 기술을 만드는 ZOIH입니다">
     <style>
         * {
             margin: 0;
@@ -138,13 +138,33 @@
             letter-spacing: -1px;
         }
         
+        .hero-slogan {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            opacity: 0.95;
+            font-weight: 600;
+            color: #fef9c3;
+        }
+        
         .hero p {
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             margin-bottom: 2rem;
             opacity: 0.9;
             max-width: 600px;
             margin-left: auto;
             margin-right: auto;
+        }
+        
+        .hero-chant {
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            font-style: italic;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px 25px;
+            border-radius: 25px;
+            display: inline-block;
+            backdrop-filter: blur(10px);
         }
         
         .cta-button {
@@ -166,8 +186,61 @@
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
         }
         
-        /* Services Section */
-        .services {
+        /* Vision & Motto Section */
+        .vision {
+            padding: 80px 0;
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            text-align: center;
+        }
+        
+        .vision h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            color: #92400e;
+        }
+        
+        .vision-statement {
+            font-size: 1.4rem;
+            color: #92400e;
+            font-weight: 600;
+            margin-bottom: 3rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.8;
+        }
+        
+        .motto-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .motto-item {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 1.5rem;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(146, 64, 14, 0.1);
+        }
+        
+        .motto-number {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #92400e;
+            margin-bottom: 0.5rem;
+        }
+        
+        .motto-text {
+            color: #92400e;
+            font-weight: 500;
+        }
+        
+        /* Core Values Section */
+        .values {
             padding: 80px 0;
             background: #f8fafc;
         }
@@ -180,54 +253,96 @@
             color: #1e293b;
         }
         
-        .services-grid {
+        .values-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
             gap: 2rem;
             margin-top: 3rem;
         }
         
-        .service-card {
+        .value-card {
             background: white;
             padding: 2.5rem;
             border-radius: 20px;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
             transition: all 0.3s ease;
             border: 1px solid #e2e8f0;
+            text-align: center;
         }
         
-        .service-card:hover {
+        .value-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
         }
         
-        .service-icon {
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-radius: 15px;
+        .value-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 1.5rem;
+            font-size: 2.5rem;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 1.5rem;
-            font-size: 1.5rem;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         }
         
-        .service-card h3 {
-            font-size: 1.5rem;
+        .value-card h3 {
+            font-size: 1.4rem;
             font-weight: 600;
             margin-bottom: 1rem;
             color: #1e293b;
         }
         
-        .service-card p {
+        .value-card p {
             color: #64748b;
             line-height: 1.7;
+        }
+        
+        /* Action Principles Section */
+        .principles {
+            padding: 80px 0;
+            background: white;
+        }
+        
+        .principles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .principle-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            padding: 1.5rem;
+            border-radius: 15px;
+            background: #f8fafc;
+            border-left: 4px solid #2563eb;
+        }
+        
+        .principle-icon {
+            font-size: 1.5rem;
+            margin-top: 0.2rem;
+        }
+        
+        .principle-content h4 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 0.5rem;
+        }
+        
+        .principle-content p {
+            color: #64748b;
+            line-height: 1.6;
         }
         
         /* About Section */
         .about {
             padding: 80px 0;
+            background: #f8fafc;
         }
         
         .about-content {
@@ -251,10 +366,11 @@
         }
         
         .timeline {
-            background: #f8fafc;
+            background: white;
             padding: 2rem;
             border-radius: 15px;
             border-left: 4px solid #2563eb;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
         }
         
         .timeline h3 {
@@ -342,6 +458,10 @@
                 font-size: 2.5rem;
             }
             
+            .hero-slogan {
+                font-size: 1.2rem;
+            }
+            
             .hero p {
                 font-size: 1.1rem;
             }
@@ -351,7 +471,15 @@
                 gap: 2rem;
             }
             
-            .services-grid {
+            .values-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .principles-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .motto-grid {
                 grid-template-columns: 1fr;
             }
             
@@ -364,11 +492,13 @@
 <body>
     <header>
         <nav class="container">
-            <a href="#" class="logo">조이김</a>
+            <a href="#" class="logo">ZOIH</a>
             <ul class="nav-links">
                 <li><a href="#home">홈</a></li>
-                <li><a href="#about">회사 소개</a></li>
-                <li><a href="#services">서비스</a></li>
+                <li><a href="#vision">비전</a></li>
+                <li><a href="#values">핵심가치</a></li>
+                <li><a href="#principles">행동원칙</a></li>
+                <li><a href="#about">회사소개</a></li>
                 <li><a href="#contact">연락처</a></li>
             </ul>
             <div class="mobile-menu">
@@ -382,30 +512,117 @@
     <main>
         <section id="home" class="hero">
             <div class="hero-content container">
-                <h1>조이김에 오신 것을 환영합니다</h1>
-                <p>혁신적인 솔루션과 전문적인 서비스로 고객의 성공을 함께 만들어갑니다</p>
+                <h1>ZOIH에 오신 것을 환영합니다</h1>
+                <div class="hero-slogan">우리는 사람과 세상을 위한 따뜻한 기술을 만듭니다</div>
+                <p>세상에 선한 영향력을 전하는 따뜻한 기술로 함께 성장하겠습니다</p>
+                <div class="hero-chant">언제나 즐거워하고, 모든 것에 감사하자! 📖</div>
                 <a href="#contact" class="cta-button">함께 시작하기</a>
             </div>
         </section>
 
-        <section id="services" class="services">
+        <section id="vision" class="vision">
             <div class="container">
-                <h2 class="section-title">주요 서비스</h2>
-                <div class="services-grid">
-                    <div class="service-card">
-                        <div class="service-icon">🚀</div>
-                        <h3>서비스 1</h3>
-                        <p>고객의 비즈니스 성장을 위한 전문적이고 체계적인 솔루션을 제공합니다. 최신 기술과 노하우를 바탕으로 최적의 결과를 보장합니다.</p>
+                <h2>비전 & 사훈</h2>
+                <div class="vision-statement">
+                    기쁨과 감사로, 진심으로 협력하며, 신뢰와 선한 영향력으로 함께 성장하는 기업
+                </div>
+                <div class="motto-grid">
+                    <div class="motto-item">
+                        <div class="motto-number">1</div>
+                        <div class="motto-text">기쁨으로 일하고</div>
                     </div>
-                    <div class="service-card">
-                        <div class="service-icon">💡</div>
-                        <h3>서비스 2</h3>
-                        <p>창의적이고 혁신적인 아이디어로 고객의 요구사항을 완벽하게 충족시키는 맞춤형 서비스를 제공합니다.</p>
+                    <div class="motto-item">
+                        <div class="motto-number">2</div>
+                        <div class="motto-text">진심으로 소통하며</div>
                     </div>
-                    <div class="service-card">
-                        <div class="service-icon">⚡</div>
-                        <h3>서비스 3</h3>
-                        <p>빠르고 정확한 업무 처리로 고객의 시간과 비용을 절약하며, 효율적인 프로세스를 통해 최고의 품질을 보장합니다.</p>
+                    <div class="motto-item">
+                        <div class="motto-number">3</div>
+                        <div class="motto-text">감사로 함께하고</div>
+                    </div>
+                    <div class="motto-item">
+                        <div class="motto-number">4</div>
+                        <div class="motto-text">선함으로 성장하자</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="values" class="values">
+            <div class="container">
+                <h2 class="section-title">핵심가치</h2>
+                <div class="values-grid">
+                    <div class="value-card">
+                        <div class="value-icon">😊</div>
+                        <h3>기쁨 (Joy at Work)</h3>
+                        <p>즐거운 마음으로 일하며 긍정적인 에너지를 나눕니다. 어려움 속에서도 웃음과 희망을 잃지 않습니다.</p>
+                    </div>
+                    <div class="value-card">
+                        <div class="value-icon">🙏</div>
+                        <h3>감사 (Gratitude)</h3>
+                        <p>모든 상황과 관계 속에서 감사하는 태도를 유지합니다. 작은 것부터 감사하며 사소한 도움에도 고마워합니다.</p>
+                    </div>
+                    <div class="value-card">
+                        <div class="value-icon">🤝</div>
+                        <h3>신뢰 (Trust)</h3>
+                        <p>약속을 지키고, 정직하며, 서로를 믿습니다. 시간, 품질, 신뢰를 지키는 것이 우리의 기본입니다.</p>
+                    </div>
+                    <div class="value-card">
+                        <div class="value-icon">💬</div>
+                        <h3>소통 (Sincere Communication)</h3>
+                        <p>진심 어린 대화와 협력으로 신뢰를 쌓습니다. 상대방의 이야기를 끝까지 듣고 존중합니다.</p>
+                    </div>
+                    <div class="value-card">
+                        <div class="value-icon">✨</div>
+                        <h3>선한 영향력 (Positive Impact)</h3>
+                        <p>사회와 주변에 좋은 변화를 만듭니다. 결정의 순간마다 사람과 사회에 유익한 방향을 선택합니다.</p>
+                    </div>
+                    <div class="value-card">
+                        <div class="value-icon">🌱</div>
+                        <h3>함께 성장 (Growth Together)</h3>
+                        <p>개인과 조직이 함께 발전하도록 돕습니다. 서로의 성장을 응원하고 지원합니다.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="principles" class="principles">
+            <div class="container">
+                <h2 class="section-title">행동원칙</h2>
+                <div class="principles-grid">
+                    <div class="principle-item">
+                        <div class="principle-icon">🌟</div>
+                        <div class="principle-content">
+                            <h4>항상 긍정적으로</h4>
+                            <p>어려움 속에서도 웃음과 희망을 잃지 않습니다. 긍정적인 마음가짐으로 모든 상황을 바라봅니다.</p>
+                        </div>
+                    </div>
+                    <div class="principle-item">
+                        <div class="principle-icon">👂</div>
+                        <div class="principle-content">
+                            <h4>진심으로 경청</h4>
+                            <p>상대방의 이야기를 끝까지 듣고 존중합니다. 진심 어린 소통으로 서로를 이해합니다.</p>
+                        </div>
+                    </div>
+                    <div class="principle-item">
+                        <div class="principle-icon">⏰</div>
+                        <div class="principle-content">
+                            <h4>약속을 지킴</h4>
+                            <p>시간, 품질, 신뢰를 지키는 것이 기본입니다. 작은 약속부터 큰 약속까지 성실히 이행합니다.</p>
+                        </div>
+                    </div>
+                    <div class="principle-item">
+                        <div class="principle-icon">💝</div>
+                        <div class="principle-content">
+                            <h4>작은 것부터 감사</h4>
+                            <p>사소한 도움과 성과에도 감사 인사를 전합니다. 일상의 작은 순간들을 소중히 여깁니다.</p>
+                        </div>
+                    </div>
+                    <div class="principle-item">
+                        <div class="principle-icon">🎯</div>
+                        <div class="principle-content">
+                            <h4>선을 선택</h4>
+                            <p>결정의 순간마다 사람과 사회에 유익한 방향을 택합니다. 선한 영향력을 만들어갑니다.</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -416,32 +633,31 @@
                 <div class="about-content">
                     <div class="about-text">
                         <h2>회사 소개</h2>
-                        <p>저희 조이김은 고객의 성공을 최우선으로 생각하는 전문 서비스 회사입니다. 풍부한 경험과 전문성을 바탕으로 고객에게 최고의 가치를 제공합니다.</p>
-                        <p>끊임없는 혁신과 도전 정신으로 업계를 선도하며, 고객과 함께 성장하는 파트너가 되겠습니다.</p>
-                        <h3 style="margin-top: 2rem; margin-bottom: 1rem; color: #1e293b;">회사 비전</h3>
+                        <p>저희 ZOIH은 '기쁨과 감사로, 진심으로 협력하며, 신뢰와 선한 영향력으로 함께 성장하는 기업'이라는 비전을 가지고 있습니다.</p>
+                        <p>사람과 세상을 위한 따뜻한 기술을 만들며, 세상에 선한 영향력을 전하는 것이 우리의 목표입니다. 기쁨으로 일하고, 진심으로 소통하며, 감사로 함께하고, 선함으로 성장하는 것이 우리의 사훈입니다.</p>
                         <p>혁신적인 기술과 창의적인 솔루션으로 고객의 꿈을 현실로 만드는 글로벌 리더가 되겠습니다.</p>
                     </div>
                     <div class="timeline">
                         <h3>연혁</h3>
                         <div class="timeline-item">
                             <div class="timeline-year">2020년</div>
-                            <div>회사 설립 및 초기 서비스 개시</div>
+                            <div>회사 설립 및 핵심가치 정립</div>
                         </div>
                         <div class="timeline-item">
                             <div class="timeline-year">2021년</div>
-                            <div>주요 파트너십 체결 및 서비스 확장</div>
+                            <div>따뜻한 기술 철학 확립 및 서비스 개시</div>
                         </div>
                         <div class="timeline-item">
                             <div class="timeline-year">2022년</div>
-                            <div>혁신적인 솔루션 개발 및 출시</div>
+                            <div>선한 영향력 확산 프로젝트 시작</div>
                         </div>
                         <div class="timeline-item">
                             <div class="timeline-year">2023년</div>
-                            <div>글로벌 진출 및 시장 확대</div>
+                            <div>사회적 가치 창출 및 파트너십 확대</div>
                         </div>
                         <div class="timeline-item">
                             <div class="timeline-year">2024년</div>
-                            <div>지속적인 성장과 고객 만족도 향상</div>
+                            <div>지속가능한 성장과 공동체 발전 기여</div>
                         </div>
                     </div>
                 </div>
@@ -451,7 +667,7 @@
         <section id="contact" class="contact">
             <div class="container">
                 <h2>연락하기</h2>
-                <p>프로젝트 문의나 상담이 필요하시면 언제든 연락주세요</p>
+                <p>따뜻한 기술로 함께할 프로젝트 문의나 상담이 필요하시면 언제든 연락주세요</p>
                 <a href="mailto:zoih.contact@gmail.com" class="contact-email">zoih.contact@gmail.com</a>
             </div>
         </section>
@@ -459,7 +675,7 @@
 
     <footer>
         <div class="container">
-            <p>&copy; 2024 조이김. All rights reserved.</p>
+            <p>&copy; 2024 ZOIH. 사람과 세상을 위한 따뜻한 기술. All rights reserved.</p>
         </div>
     </footer>
 
@@ -494,6 +710,29 @@
         
         mobileMenu.addEventListener('click', () => {
             navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
+        });
+
+        // Add scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe all cards and sections
+        document.querySelectorAll('.value-card, .service-card, .principle-item, .motto-item').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(el);
         });
     </script>
 </body>
