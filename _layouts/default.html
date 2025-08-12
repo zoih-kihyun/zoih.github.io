@@ -299,10 +299,96 @@
             line-height: 1.7;
         }
         
+        /* Services Section */
+        .services {
+            padding: 80px 0;
+            background: white;
+        }
+        
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .service-card {
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            padding: 2.5rem;
+            border-radius: 20px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            border: 1px solid #e2e8f0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .service-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.15);
+            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+        }
+        
+        .service-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 1.5rem;
+            font-size: 2.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .service-card h3 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: #1e293b;
+        }
+        
+        .service-subtitle {
+            font-size: 1rem;
+            color: #2563eb;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            font-style: italic;
+        }
+        
+        .service-card p {
+            color: #64748b;
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+        }
+        
+        .service-status {
+            display: inline-block;
+            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            box-shadow: 0 2px 10px rgba(251, 191, 36, 0.3);
+        }
+        
         /* Action Principles Section */
         .principles {
             padding: 80px 0;
-            background: white;
+            background: #f8fafc;
         }
         
         .principles-grid {
@@ -342,7 +428,7 @@
         /* About Section */
         .about {
             padding: 80px 0;
-            background: #f8fafc;
+            background: white;
         }
         
         .about-content {
@@ -471,7 +557,7 @@
                 gap: 2rem;
             }
             
-            .values-grid {
+            .services-grid {
                 grid-template-columns: 1fr;
             }
             
@@ -497,6 +583,7 @@
                 <li><a href="#home">홈</a></li>
                 <li><a href="#vision">비전</a></li>
                 <li><a href="#values">핵심가치</a></li>
+                <li><a href="#services">서비스</a></li>
                 <li><a href="#principles">행동원칙</a></li>
                 <li><a href="#about">회사소개</a></li>
                 <li><a href="#contact">연락처</a></li>
@@ -580,6 +667,36 @@
                         <div class="value-icon">🌱</div>
                         <h3>함께 성장 (Growth Together)</h3>
                         <p>개인과 조직이 함께 발전하도록 돕습니다. 서로의 성장을 응원하고 지원합니다.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="services" class="services">
+            <div class="container">
+                <h2 class="section-title">준비중인 서비스</h2>
+                <p style="text-align: center; color: #64748b; font-size: 1.1rem; margin-bottom: 2rem;">따뜻한 기술로 만들어가는 선한 영향력의 서비스들</p>
+                <div class="services-grid">
+                    <div class="service-card">
+                        <div class="service-icon">📈</div>
+                        <h3>오름</h3>
+                        <div class="service-subtitle">"함께 올라가는 성장 플랫폼"</div>
+                        <p>개인과 조직의 지속가능한 성장을 위한 종합 솔루션입니다. 기쁨과 감사의 마음으로 함께 성장하며, 각자의 잠재력을 최대한 발휘할 수 있도록 돕는 플랫폼을 준비하고 있습니다.</p>
+                        <div class="service-status">곧 출시 예정</div>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon">⚡</div>
+                        <h3>바로</h3>
+                        <div class="service-subtitle">"즉시 연결하는 소통 솔루션"</div>
+                        <p>진심으로 소통하고 신뢰를 쌓을 수 있는 즉시 연결 서비스입니다. 복잡한 과정 없이 바로바로 필요한 도움과 정보를 주고받으며, 따뜻한 인간관계를 만들어가는 플랫폼입니다.</p>
+                        <div class="service-status">개발 중</div>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon">🎯</div>
+                        <h3>올바로</h3>
+                        <div class="service-subtitle">"선한 선택을 돕는 가이드"</div>
+                        <p>선한 영향력을 만들어가는 올바른 선택을 돕는 서비스입니다. 일상의 크고 작은 결정에서 사람과 사회에 유익한 방향을 제시하며, 함께 더 나은 세상을 만들어가는 지혜로운 도구입니다.</p>
+                        <div class="service-status">기획 중</div>
                     </div>
                 </div>
             </div>
