@@ -3,582 +3,665 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ZOIH - 따뜻한 기술로 선한 영향력을</title>
+    <title>ZOIH - TECH FOR GOOD, JOY FOR ALL</title>
     <meta name="description" content="사람과 세상을 위한 따뜻한 기술을 만드는 ZOIH입니다">
     <style>
-        * {
+      /* ===== Design Tokens (팔레트/라운딩/그림자) ===== */
+      :root{
+        --bg:#ffffff;
+        --txt:#0f172a;               /* slate-900 */
+        --muted:#475569;             /* slate-600 */
+        --surface:#ffffff;
+        --line:rgba(2,6,23,.08);
+
+        --primary:#6366f1;           /* Indigo (미래지향) */
+        --secondary:#06b6d4;         /* Teal (테크) */
+        --warm:#f59e0b;              /* Amber (따뜻함) */
+        --accent:#8b5cf6;            /* Violet 보조 */
+
+        --radius-lg:20px;
+        --radius-md:14px;
+        --radius-sm:10px;
+
+        --elev-1:0 4px 16px rgba(2,6,23,.08);
+        --elev-2:0 10px 32px rgba(2,6,23,.12);
+        --glass:rgba(255,255,255,.6);
+
+        /* ===== 배경 이미지(원하면 교체) ===== */
+        --hero-img:url('{{ site.baseurl }}/assets/images/hero.png');
+        --noise:url('{{ site.baseurl }}/assets/images/pattern.png'); /* 8~16px짜리 미세 패턴 */
+      }
+
+    * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-        
+
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            background: #ffffff;
+            line-height: 1.65;
+            color: var(--txt);
+            background: var(--bg);
         }
-        
+
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 20px;
         }
-        
-        /* Header */
+
+        /* ===== Header (심플 + 유리 질감) ===== */
         header {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
             position: fixed;
             top: 0;
-            width: 100%;
+            left: 0;
+            right: 0;
             z-index: 1000;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            background: color-mix(in oklab, white 85%, transparent);
+            backdrop-filter: saturate(160%) blur(10px);
+            border-bottom: 1px solid var(--line);
         }
-        
+
         nav {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 1rem 0;
+            padding: 14px 0;
         }
-        
+
         .logo {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: #2563eb;
+            font-weight: 800;
+            letter-spacing: -0.3px;
             text-decoration: none;
-            letter-spacing: -0.5px;
+            color: var(--primary);
+            font-size: 1.35rem;
         }
-        
+
         .nav-links {
             display: flex;
             list-style: none;
-            gap: 2rem;
+            gap: 1.6rem;
         }
-        
-        .nav-links a {
-            color: #333;
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.3s ease;
-            position: relative;
-        }
-        
-        .nav-links a:hover {
-            color: #2563eb;
-        }
-        
-        .nav-links a:hover::after {
-            width: 100%;
-        }
-        
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: #2563eb;
-            transition: width 0.3s ease;
-        }
-        
-        /* Mobile menu */
+
+            .nav-links a {
+                text-decoration: none;
+                color: var(--muted);
+                font-weight: 600;
+                position: relative;
+                padding: 0.25rem 0;
+                transition: color 0.25s ease;
+            }
+
+                .nav-links a:hover {
+                    color: var(--primary);
+                }
+
+                .nav-links a::after {
+                    content: "";
+                    position: absolute;
+                    left: 0;
+                    bottom: -6px;
+                    height: 2px;
+                    width: 0;
+                    background: linear-gradient(90deg, var(--primary), var(--secondary));
+                    transition: width 0.25s ease;
+                }
+
+                .nav-links a:hover::after {
+                    width: 100%;
+                }
+
         .mobile-menu {
             display: none;
             flex-direction: column;
+            gap: 6px;
             cursor: pointer;
         }
-        
-        .mobile-menu span {
-            width: 25px;
-            height: 3px;
-            background: #333;
-            margin: 3px 0;
-            transition: 0.3s;
-        }
-        
-        /* Hero Section */
+
+            .mobile-menu span {
+                width: 26px;
+                height: 3px;
+                background: #334155;
+                border-radius: 2px;
+            }
+
+        /* ===== Hero (이미지 + 그라디언트 + 따뜻한 포인트) ===== */
         .hero {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 120px 0 80px;
-            text-align: center;
             position: relative;
+            margin-top: 66px;
+            padding: 120px 0 90px;
+            color: #fff;
             overflow: hidden;
+            text-align: center;
+            background: linear-gradient( 135deg, color-mix(in oklab, var(--primary) 78%, transparent) 0%, color-mix(in oklab, var(--secondary) 70%, transparent) 45%, color-mix(in oklab, var(--accent) 65%, transparent) 100% ), var(--hero-img) center/cover no-repeat;
         }
-        
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="1" fill="white" opacity="0.1"/></svg>') repeat;
-            background-size: 50px 50px;
-            animation: float 20s infinite linear;
-        }
-        
-        @keyframes float {
-            0% { transform: translateY(0px) translateX(0px); }
-            100% { transform: translateY(-100px) translateX(100px); }
-        }
-        
+
+            .hero::after {
+                content: "";
+                position: absolute;
+                inset: 0;
+                background: radial-gradient(1200px 500px at 10% 10%, rgba(255, 255, 255, 0.18), transparent 55%), radial-gradient(600px 300px at 90% 80%, rgba(245, 158, 11, 0.22), transparent 60%), var(--noise) repeat;
+                mix-blend-mode: overlay;
+                opacity: 0.35;
+                pointer-events: none;
+            }
+
         .hero-content {
             position: relative;
             z-index: 1;
         }
-        
+
         .hero h1 {
-            font-size: 3.5rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            letter-spacing: -1px;
+            font-size: 3.2rem;
+            letter-spacing: -0.8px;
+            margin-bottom: 0.6rem;
         }
-        
+
         .hero-slogan {
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-            opacity: 0.95;
-            font-weight: 600;
-            color: #fef9c3;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #fff8d6;
+            margin-bottom: 0.6rem;
         }
-        
+
         .hero p {
-            font-size: 1.2rem;
-            margin-bottom: 2rem;
-            opacity: 0.9;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
+            max-width: 680px;
+            margin: 0 auto 1.6rem;
+            opacity: 0.95;
         }
-        
+
         .hero-chant {
-            font-size: 1.1rem;
-            margin-bottom: 2rem;
-            opacity: 0.9;
-            font-style: italic;
-            background: rgba(255, 255, 255, 0.1);
-            padding: 15px 25px;
-            border-radius: 25px;
             display: inline-block;
+            padding: 12px 22px;
+            border-radius: 999px;
+            background: color-mix(in oklab, var(--glass) 100%, transparent);
             backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.35);
+            font-style: italic;
         }
-        
+
         .cta-button {
             display: inline-block;
-            background: rgba(255, 255, 255, 0.15);
-            color: white;
-            padding: 15px 35px;
+            margin-top: 12px;
+            padding: 14px 30px;
+            border-radius: 999px;
+            color: #fff;
             text-decoration: none;
-            border-radius: 50px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            font-weight: 800;
+            letter-spacing: 0.3px;
+            background: linear-gradient(90deg, var(--warm), #fbbf24);
+            box-shadow: 0 8px 22px rgba(245, 158, 11, 0.32);
+            transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
         }
-        
-        .cta-button:hover {
-            background: rgba(255, 255, 255, 0.25);
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-        }
-        
-        /* Vision & Motto Section */
-        .vision {
+
+            .cta-button:hover {
+                transform: translateY(-3px);
+                filter: saturate(1.05);
+                box-shadow: 0 16px 44px rgba(245, 158, 11, 0.36);
+            }
+
+        /* ===== Section Frames ===== */
+        main section {
             padding: 80px 0;
-            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
-            text-align: center;
+            border-bottom: 1px solid var(--line);
         }
-        
-        .vision h2 {
-            font-size: 2.5rem;
-            font-weight: 700;
-            margin-bottom: 2rem;
-            color: #92400e;
-        }
-        
-        .vision-statement {
-            font-size: 1.4rem;
-            color: #92400e;
-            font-weight: 600;
-            margin-bottom: 3rem;
-            max-width: 800px;
-            margin-left: auto;
-            margin-right: auto;
-            line-height: 1.8;
-        }
-        
-        .motto-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-        
-        .motto-item {
-            background: rgba(255, 255, 255, 0.8);
-            padding: 1.5rem;
-            border-radius: 15px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(146, 64, 14, 0.1);
-        }
-        
-        .motto-number {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: #92400e;
-            margin-bottom: 0.5rem;
-        }
-        
-        .motto-text {
-            color: #92400e;
-            font-weight: 500;
-        }
-        
-        /* Core Values Section */
-        .values {
-            padding: 80px 0;
-            background: #f8fafc;
-        }
-        
+
+            main section:last-of-type {
+                border-bottom: 0;
+            }
+
         .section-title {
             text-align: center;
-            font-size: 2.5rem;
-            font-weight: 700;
-            margin-bottom: 3rem;
-            color: #1e293b;
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin-bottom: 2.2rem;
+            color: #0b1220;
         }
-        
-        .values-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 2rem;
-            margin-top: 3rem;
-        }
-        
-        .value-card {
-            background: white;
-            padding: 2.5rem;
-            border-radius: 20px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-            transition: all 0.3s ease;
-            border: 1px solid #e2e8f0;
-            text-align: center;
-        }
-        
-        .value-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
-        }
-        
-        .value-icon {
-            width: 80px;
-            height: 80px;
-            margin: 0 auto 1.5rem;
-            font-size: 2.5rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        }
-        
-        .value-card h3 {
-            font-size: 1.4rem;
-            font-weight: 600;
-            margin-bottom: 1rem;
-            color: #1e293b;
-        }
-        
-        .value-card p {
-            color: #64748b;
-            line-height: 1.7;
-        }
-        
-        /* Services Section */
-        .services {
+
+  /* ===== “Vision” → 따뜻한 배경 + 카드 ===== */
+        /* Vision 섹션: 쿨톤 네온 그라디언트 + 미세 패턴 */
+        .vision {
             padding: 80px 0;
-            background: white;
-        }
-        
-        .services-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 2rem;
-            margin-top: 3rem;
-        }
-        
-        .service-card {
-            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
-            padding: 2.5rem;
-            border-radius: 20px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-            transition: all 0.3s ease;
-            border: 1px solid #e2e8f0;
+            background: radial-gradient(900px 380px at 10% 0%, rgba(99,102,241,.25), transparent 60%), linear-gradient(135deg, #0ea5b7 0%, #6366f1 55%, #8b5cf6 100%);
+            color: #eaf2ff;
             text-align: center;
             position: relative;
             overflow: hidden;
         }
-        
-        .service-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        }
-        
-        .service-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.15);
-            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
-        }
-        
-        .service-icon {
-            width: 80px;
-            height: 80px;
-            margin: 0 auto 1.5rem;
-            font-size: 2.5rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 20px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-        }
-        
-        .service-card h3 {
-            font-size: 1.6rem;
+
+            .vision::after {
+                /* 아주 약한 노이즈/패턴이 있으면 입체감 ↑ (선택) */
+                content: "";
+                position: absolute;
+                inset: 0;
+                background-image: url('{{ site.baseurl }}/assets/images/pattern.png'); /* 8~16px 작은 패턴 */
+                opacity: .06;
+                pointer-events: none;
+            }
+
+            .vision h2 {
+                font-size: 2.3rem;
+                font-weight: 800;
+                margin-bottom: 1.2rem;
+                color: #ffffff;
+                letter-spacing: -.3px;
+            }
+
+        .vision-statement {
+            max-width: 860px;
+            margin: 0 auto 2.2rem;
+            color: #e6edff;
             font-weight: 700;
-            margin-bottom: 0.5rem;
-            color: #1e293b;
+            line-height: 1.85;
+            text-shadow: 0 1px 10px rgba(0,0,0,.15);
         }
-        
-        .service-subtitle {
-            font-size: 1rem;
-            color: #2563eb;
-            font-weight: 600;
-            margin-bottom: 1rem;
-            font-style: italic;
-        }
-        
-        .service-card p {
-            color: #64748b;
-            line-height: 1.7;
-            margin-bottom: 1.5rem;
-        }
-        
-        .service-status {
-            display: inline-block;
-            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
-            color: white;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            box-shadow: 0 2px 10px rgba(251, 191, 36, 0.3);
-        }
-        
-        /* Action Principles Section */
-        .principles {
-            padding: 80px 0;
-            background: #f8fafc;
-        }
-        
-        .principles-grid {
+
+        .motto-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-            gap: 2rem;
-            margin-top: 3rem;
+            grid-template-columns: repeat(auto-fit, minmax(240px,1fr));
+            gap: 16px;
+            max-width: 860px;
+            margin: 0 auto;
         }
-        
-        .principle-item {
-            display: flex;
-            align-items: flex-start;
-            gap: 1rem;
-            padding: 1.5rem;
-            border-radius: 15px;
-            background: #f8fafc;
-            border-left: 4px solid #2563eb;
+
+        .motto-item {
+            background: rgba(255,255,255,.10);
+            border: 1px solid rgba(255,255,255,.22);
+            border-radius: 14px;
+            padding: 18px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 30px rgba(2,6,23,.20);
+            transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
         }
-        
-        .principle-icon {
-            font-size: 1.5rem;
-            margin-top: 0.2rem;
+
+            .motto-item:hover {
+                transform: translateY(-4px);
+                background: rgba(255,255,255,.14);
+                box-shadow: 0 18px 52px rgba(2,6,23,.28);
+            }
+
+        .motto-number {
+            font-size: 1.1rem;
+            font-weight: 800;
+            margin-bottom: .4rem;
+            color: #bfeaff;
+            letter-spacing: .2px;
         }
-        
-        .principle-content h4 {
-            font-size: 1.2rem;
+
+        .motto-text {
+            color: #eff6ff;
             font-weight: 600;
-            color: #1e293b;
-            margin-bottom: 0.5rem;
-        }
-        
-        .principle-content p {
-            color: #64748b;
             line-height: 1.6;
         }
-        
-        /* About Section */
-        .about {
-            padding: 80px 0;
-            background: white;
+
+
+  /* ===== Values/Services 공통 카드 ===== */
+          .values{background:#f8fafc}
+          .values-grid,.services-grid{
+                display:grid;
+                grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+                gap:22px;
+                margin-top:22px
+          }
+          .value-card,.service-card{
+                background:var(--surface);
+                border:1px solid var(--line);
+                border-radius:var(--radius-lg);
+                padding:28px;
+                text-align:center;
+                box-shadow:var(--elev-1);
+                transition:transform .2s ease, box-shadow .2s ease;
+          }
+          .value-card:hover,.service-card:hover{
+              transform:translateY(-6px);box-shadow:var(--elev-2)
+          }
+          .value-icon,.service-icon{
+                width:84px;
+                height:84px;
+                border-radius:22px;
+                margin:0 auto 16px;
+                display:flex;
+                align-items:center;
+                justify-content:center;
+                color:#fff;
+                font-size:2rem;
+                background:conic-gradient(from 180deg at 50% 50%, var(--primary), var(--secondary), var(--accent), var(--primary));
+                box-shadow:inset 0 0 16px rgba(255,255,255,.25);
+          }
+
+          .service-card::before{
+                content:"";
+                position:absolute;
+                left:0;
+                right:0;
+                top:0;
+                height:4px;
+                background:linear-gradient(90deg,var(--primary),var(--secondary));
+                border-top-left-radius:var(--radius-lg);
+                border-top-right-radius:var(--radius-lg);
+          }
+          .service-subtitle{
+                color:var(--primary);
+                font-weight:700;
+                font-style:italic;
+                margin-bottom:10px}
+          .service-status{
+                display:inline-block;
+                margin-top:10px;
+                border-radius:999px;
+                padding:8px 14px;
+                color:#fff;
+                background:linear-gradient(90deg,var(--warm),#fbbf24);
+                box-shadow:0 6px 18px rgba(245,158,11,.28);
+                font-weight:800
+          }
+
+        /* ===== Principles (라인 강조) ===== */
+        .principles {
+            background: #f8fafc;
         }
-        
+
+        .principles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+            gap: 18px;
+            margin-top: 18px;
+        }
+
+        .principle-item {
+            display: flex;
+            gap: 14px;
+            padding: 16px;
+            border-left: 4px solid var(--primary);
+            background: #fff;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--line);
+        }
+
+        .principle-icon {
+            font-size: 1.4rem;
+            color: var(--primary);
+            margin-top: 0.25rem;
+        }
+
+        .principle-content h4 {
+            font-weight: 800;
+            color: #0b1220;
+            margin-bottom: 6px;
+        }
+
+        .principle-content p {
+            color: var(--muted);
+        }
+
+        /* ===== About (이미지 + 타임라인) ===== */
+        .about {
+            background: #fff;
+        }
+
         .about-content {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 4rem;
+            gap: 42px;
             align-items: center;
         }
-        
+
         .about-text h2 {
-            font-size: 2.5rem;
-            font-weight: 700;
-            margin-bottom: 1.5rem;
-            color: #1e293b;
+            font-size: 2.3rem;
+            font-weight: 800;
+            color: #0b1220;
+            margin-bottom: 12px;
         }
-        
+
         .about-text p {
-            color: #64748b;
-            line-height: 1.8;
-            margin-bottom: 1.5rem;
+            color: var(--muted);
         }
-        
+
         .timeline {
-            background: white;
-            padding: 2rem;
-            border-radius: 15px;
-            border-left: 4px solid #2563eb;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            background: #fff;
+            border: 1px solid var(--line);
+            border-radius: var(--radius-md);
+            padding: 22px;
+            box-shadow: var(--elev-1);
+            border-left: 4px solid var(--primary);
         }
-        
-        .timeline h3 {
-            color: #1e293b;
-            margin-bottom: 1rem;
-            font-weight: 600;
-        }
-        
+
+            .timeline h3 {
+                margin-bottom: 10px;
+                color: #0b1220;
+            }
+
         .timeline-item {
-            margin-bottom: 1rem;
-            padding-bottom: 1rem;
+            padding: 10px 0;
             border-bottom: 1px solid #e2e8f0;
         }
-        
-        .timeline-item:last-child {
-            border-bottom: none;
-            margin-bottom: 0;
-        }
-        
+
+            .timeline-item:last-child {
+                border-bottom: 0;
+            }
+
         .timeline-year {
-            font-weight: 600;
-            color: #2563eb;
+            font-weight: 800;
+            color: var(--primary);
         }
-        
-        /* Contact Section */
+
+        /* ===== Contact / Footer ===== */
         .contact {
-            background: #1e293b;
-            color: white;
-            padding: 80px 0;
+            background: radial-gradient(900px 400px at 10% 0%, rgba(99, 102, 241, 0.22), transparent 60%), #0b1220;
+            color: #e7ecf6;
             text-align: center;
+            padding: 84px 0;
         }
-        
-        .contact h2 {
-            font-size: 2.5rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-        }
-        
-        .contact p {
-            font-size: 1.2rem;
-            opacity: 0.9;
-            margin-bottom: 2rem;
-        }
-        
+
+            .contact h2 {
+                font-size: 2.3rem;
+                font-weight: 800;
+                margin-bottom: 8px;
+            }
+
+            .contact p {
+                opacity: 0.9;
+                margin-bottom: 18px;
+            }
+
         .contact-email {
             display: inline-block;
-            background: #2563eb;
-            color: white;
-            padding: 15px 35px;
+            padding: 14px 28px;
+            border-radius: 999px;
+            color: #fff;
             text-decoration: none;
-            border-radius: 50px;
-            font-weight: 600;
-            transition: all 0.3s ease;
+            font-weight: 800;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            box-shadow: 0 10px 28px rgba(2, 6, 23, 0.35);
+            transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
         }
-        
-        .contact-email:hover {
-            background: #1d4ed8;
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(37, 99, 235, 0.4);
-        }
-        
-        /* Footer */
+
+            .contact-email:hover {
+                transform: translateY(-3px);
+                filter: saturate(1.05);
+                box-shadow: 0 18px 48px rgba(2, 6, 23, 0.45);
+            }
+
         footer {
-            background: #0f172a;
-            color: white;
+            background: #0b1220;
+            color: #a5b4fc;
             text-align: center;
-            padding: 2rem 0;
+            padding: 26px 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
         }
-        
-        footer p {
-            opacity: 0.7;
-        }
-        
-        /* Responsive */
+
+            footer p {
+                opacity: 0.85;
+            }
+
+        /* ===== Responsive ===== */
         @media (max-width: 768px) {
             .nav-links {
                 display: none;
             }
-            
+
             .mobile-menu {
                 display: flex;
             }
-            
+
             .hero h1 {
-                font-size: 2.5rem;
+                font-size: 2.3rem;
             }
-            
+
             .hero-slogan {
-                font-size: 1.2rem;
+                font-size: 1.05rem;
             }
-            
-            .hero p {
-                font-size: 1.1rem;
-            }
-            
+
             .about-content {
                 grid-template-columns: 1fr;
-                gap: 2rem;
+                gap: 22px;
             }
-            
-            .services-grid {
-                grid-template-columns: 1fr;
-            }
-            
+
+            .values-grid,
+            .services-grid,
             .principles-grid {
                 grid-template-columns: 1fr;
             }
-            
-            .motto-grid {
-                grid-template-columns: 1fr;
+        }
+
+        /* ===== 시스템 다크모드 (선택) ===== */
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg: #0b1220;
+                --txt: #e7ecf6;
+                --surface: #0f172a;
+                --line: rgba(148, 163, 184, 0.18);
             }
-            
-            .section-title {
-                font-size: 2rem;
+
+            header {
+                background: rgba(2, 6, 23, 0.72);
+                border-bottom: 1px solid var(--line);
+            }
+
+            .logo {
+                color: #a5b4fc;
+            }
+
+            .nav-links a {
+                color: #cbd5e1;
+            }
+
+            .hero {
+                color: #fff;
+            }
+
+            .values,
+            .principles {
+                background: #0f172a;
+            }
+
+            .value-card,
+            .service-card,
+            .timeline,
+            .principle-item {
+                background: #0b1220;
+            }
+
+                .section-title,
+                .about-text h2,
+                .timeline h3,
+                .principle-content h4 {
+                    color: #e7ecf6;
+                }
+
+            .muted,
+            .principle-content p,
+            .about-text p {
+                color: #cbd5e1;
             }
         }
+        .brand-logo {
+            height: 28px;
+            display: block
+        }
+
+        /* === Theme toggle (star) === */
+        .theme-btn {
+            appearance: none;
+            -webkit-appearance: none;
+            border: 0;
+            background: transparent;
+            cursor: pointer;
+            font-size: 1.3rem;
+            line-height: 1;
+            padding: .35rem .45rem;
+            margin-left: .5rem;
+            border-radius: 10px;
+            color: var(--primary);
+            transition: transform .2s ease, color .2s ease, background-color .2s ease;
+        }
+
+            .theme-btn:hover {
+                transform: rotate(-8deg) scale(1.06);
+            }
+
+            .theme-btn:focus-visible {
+                outline: 2px solid color-mix(in oklab, var(--primary) 60%, white);
+                outline-offset: 3px;
+            }
+
+            .theme-btn[aria-pressed="true"] {
+                color: #fbbf24;
+            }
+        /* 다크일 때 별 색상(따뜻한 앰버) */
+        @media (prefers-color-scheme: dark) {
+            .theme-btn {
+                color: #a5b4fc;
+            }
+
+                .theme-btn[aria-pressed="true"] {
+                    color: #fde68a;
+                }
+        }
+
+        /* (선택) 라이트/다크 로고 자동 전환을 사용할 경우 */
+        .brand-logo--light {
+            display: block;
+        }
+
+        .brand-logo--dark {
+            display: none;
+        }
+
+        :root[data-theme="dark"] .brand-logo--light {
+            display: none;
+        }
+
+        :root[data-theme="dark"] .brand-logo--dark {
+            display: block;
+        }
+
     </style>
+
 </head>
 <body>
     <header>
         <nav class="container">
-            <a href="#" class="logo">ZOIH</a>
+            <!--<a href="#" class="logo">ZOIH</a>-->
+            <!--<a class="logo" href="{{ site.baseurl }}/">
+                <picture>-->
+            <!-- 다크모드일 땐 밝은 로고 -->
+            <!--<source srcset="{{ site.baseurl }}/assets/brand/logo-a.jpg"
+                    media="(prefers-color-scheme: dark)">-->
+            <!-- 기본(라이트 모드) -->
+            <!--<img src="{{ site.baseurl }}/assets/brand/log-a.jpg"
+                         alt="ZOIHSOFT" class="brand-logo">
+                </picture>
+            </a>-->
+            <a class="logo" href="{{ '/' | relative_url }}">
+                <img src="{{ '/assets/brand/logo-dark.jpg' | relative_url }}" alt="ZOIHSOFT" class="brand-logo brand-logo--light">
+                <img src="{{ '/assets/brand/logo-light.jpg' | relative_url }}" alt="ZOIHSOFT" class="brand-logo brand-logo--dark">
+            </a>
             <ul class="nav-links">
                 <li><a href="#home">홈</a></li>
                 <li><a href="#vision">비전</a></li>
@@ -587,12 +670,14 @@
                 <li><a href="#principles">행동원칙</a></li>
                 <li><a href="#about">회사소개</a></li>
                 <li><a href="#contact">연락처</a></li>
+                <button id="theme-toggle" class="theme-btn" aria-label="테마 전환" title="테마 전환" aria-pressed="false">☆</button>
             </ul>
             <div class="mobile-menu">
                 <span></span>
                 <span></span>
                 <span></span>
             </div>
+
         </nav>
     </header>
 
@@ -611,7 +696,7 @@
                 <h2>비전</h2>
                 <div class="vision-statement">
                     기쁨과 감사로, 진심으로 협력하며, 신뢰와 선한 영향력으로 함께 성장하는 기업
-                </div>                
+                </div>
             </div>
         </section>
 
@@ -805,7 +890,7 @@
         // Mobile menu functionality
         const mobileMenu = document.querySelector('.mobile-menu');
         const navLinks = document.querySelector('.nav-links');
-        
+
         mobileMenu.addEventListener('click', () => {
             navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
         });
@@ -816,7 +901,7 @@
             rootMargin: '0px 0px -50px 0px'
         };
 
-        const observer = new IntersectionObserver(function(entries) {
+        const observer = new IntersectionObserver(function (entries) {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.style.opacity = '1';
@@ -834,4 +919,44 @@
         });
     </script>
 </body>
+<script>
+    (() => {
+        const KEY = 'theme';                     // localStorage key
+        const root = document.documentElement;
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+        const btn = document.getElementById('theme-toggle');
+
+        // 현재 테마 적용 + 버튼 상태/아이콘 반영
+        const apply = (mode) => {
+            if (mode === 'dark') {
+                root.setAttribute('data-theme', 'dark');
+                btn?.setAttribute('aria-pressed', 'true');
+                if (btn) btn.textContent = '★';     // 다크: 채운 별
+            } else {
+                root.removeAttribute('data-theme');
+                btn?.setAttribute('aria-pressed', 'false');
+                if (btn) btn.textContent = '☆';     // 라이트: 빈 별
+            }
+        };
+
+        // 초기값: 저장값 > OS 설정
+        const saved = localStorage.getItem(KEY);
+        const initial = saved ?? (prefersDark.matches ? 'dark' : 'light');
+        apply(initial);
+
+        // 클릭 토글
+        btn?.addEventListener('click', () => {
+            const nowDark = root.getAttribute('data-theme') === 'dark';
+            const next = nowDark ? 'light' : 'dark';
+            localStorage.setItem(KEY, next);
+            apply(next);
+        });
+
+        // 저장값이 없을 때만 OS 변경 반영
+        prefersDark.addEventListener?.('change', (e) => {
+            if (!localStorage.getItem(KEY)) apply(e.matches ? 'dark' : 'light');
+        });
+    })();
+</script>
+
 </html>
