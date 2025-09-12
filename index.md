@@ -1,6 +1,12 @@
 ---
 layout: home
-title: 홈
+title: "홈 | 병원 전산 인터페이스 전문"
+description: "원격/현장 전국 지원 · VITEK·MGIT·MALDI-TOF 등 의료장비 전산연동"
+permalink: /
+image: <!--/assets/images/og-home.png   # SNS/카톡 썸네일(1200x630)-->
+lang: ko-KR
+last_modified_at: 2025-09-10
+tags: [의료IT, 병원인터페이스, LIS, HL7, ASTM]
 ---
 
 # 회사명에 오신 것을 환영합니다

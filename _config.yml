@@ -1,7 +1,7 @@
-title: 조이김
+title: ZOIHSOFT - 조이김
 email: zoih.contact@gmail.com
 description: >-
-  혁신적인 솔루션을 제공하는 조이김입니다.
+  의료 전산(HIS/EMR/LIS/PIS/CDIS) 인터페이스 · 원격/현장 전국 지원 ·
 baseurl: ""
 url: "https://zoih.github.io"
 
@@ -10,6 +10,11 @@ markdown: kramdown
 theme: minima
 plugins:
   - jekyll-feed
+  - jekyll-seo-tag
+  - jekyll-sitemap
+
+  # 기본 이미지(공유 썸네일) 경로
+logo: /assets/images/og-default.png
 
 # 네비게이션 설정 (사용 안함 - 단일 페이지로 구성)
 # header_pages:
