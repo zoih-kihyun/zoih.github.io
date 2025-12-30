@@ -3,896 +3,1015 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ZOIH - TECH FOR GOOD, JOY FOR ALL</title>
-    <meta name="description" content="사람과 세상을 위한 따뜻한 기술을 만드는 ZOIH입니다">
+    <title>ZOIHSOFT - 의료기기 인터페이스 전문 솔루션</title>
+    <meta name="description" content="의료기기 인터페이스 전문 솔루션 ZOIHSOFT">
     <style>
-      /* ===== Design Tokens (팔레트/라운딩/그림자) ===== */
-      :root{
-        --bg:#ffffff;
-        --txt:#0f172a;               /* slate-900 */
-        --muted:#475569;             /* slate-600 */
-        --surface:#ffffff;
-        --line:rgba(2,6,23,.08);
+        /* ===== CSS Variables ===== */
+        :root {
+            --sidebar-bg: #0a1628;
+            --sidebar-hover: #1a2d4a;
+            --sidebar-active: #2563eb;
+            --sidebar-text: #94a3b8;
+            --sidebar-text-active: #ffffff;
+            --sidebar-width: 260px;
 
-        --primary:#6366f1;           /* Indigo (미래지향) */
-        --secondary:#06b6d4;         /* Teal (테크) */
-        --warm:#f59e0b;              /* Amber (따뜻함) */
-        --accent:#8b5cf6;            /* Violet 보조 */
+            --main-bg: #0f172a;
+            --card-bg: #1e293b;
+            --card-border: #334155;
 
-        --radius-lg:20px;
-        --radius-md:14px;
-        --radius-sm:10px;
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
 
-        --elev-1:0 4px 16px rgba(2,6,23,.08);
-        --elev-2:0 10px 32px rgba(2,6,23,.12);
-        --glass:rgba(255,255,255,.6);
+            --accent-blue: #3b82f6;
+            --accent-cyan: #06b6d4;
+            --accent-violet: #8b5cf6;
+            --accent-amber: #f59e0b;
+            --accent-green: #10b981;
 
-        /* ===== 배경 이미지(원하면 교체) ===== */
-        --hero-img:url('{{ site.baseurl }}/assets/images/hero.png');
-        --noise:url('{{ site.baseurl }}/assets/images/pattern.png'); /* 8~16px짜리 미세 패턴 */
-      }
+            --radius: 12px;
+            --radius-sm: 8px;
+        }
 
-    * {
+        * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
-        html {
-            scroll-behavior: smooth;
+        html, body {
+            height: 100%;
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--main-bg);
+            color: var(--text-primary);
         }
 
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            line-height: 1.65;
-            color: var(--txt);
-            background: var(--bg);
+        /* ===== Layout ===== */
+        .app-container {
+            display: flex;
+            min-height: 100vh;
         }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        /* ===== Header (심플 + 유리 질감) ===== */
-        header {
+        /* ===== Sidebar ===== */
+        .sidebar {
+            width: var(--sidebar-width);
+            background: var(--sidebar-bg);
+            border-right: 1px solid var(--card-border);
+            display: flex;
+            flex-direction: column;
             position: fixed;
             top: 0;
             left: 0;
-            right: 0;
-            z-index: 1000;
-            background: color-mix(in oklab, white 85%, transparent);
-            backdrop-filter: saturate(160%) blur(10px);
-            border-bottom: 1px solid var(--line);
+            height: 100vh;
+            z-index: 100;
+            transition: transform 0.3s ease;
         }
 
-        nav {
+        .sidebar-header {
+            padding: 20px;
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        .sidebar-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: var(--text-primary);
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-cyan));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 1.2rem;
+            color: white;
+        }
+
+        .logo-text {
+            font-size: 1.3rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .logo-text span {
+            color: var(--accent-cyan);
+        }
+
+        /* ===== Navigation ===== */
+        .sidebar-nav {
+            flex: 1;
+            padding: 16px 12px;
+            overflow-y: auto;
+        }
+
+        .nav-section {
+            margin-bottom: 8px;
+        }
+
+        .nav-section-title {
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 12px 12px 8px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            border-radius: var(--radius-sm);
+            color: var(--sidebar-text);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin-bottom: 2px;
+        }
+
+        .nav-item:hover {
+            background: var(--sidebar-hover);
+            color: var(--sidebar-text-active);
+        }
+
+        .nav-item.active {
+            background: var(--sidebar-active);
+            color: var(--sidebar-text-active);
+        }
+
+        .nav-item-icon {
+            font-size: 1.1rem;
+            width: 24px;
+            text-align: center;
+        }
+
+        /* Tree menu */
+        .nav-tree {
+            margin-left: 0;
+        }
+
+        .nav-tree-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 16px;
+            border-radius: var(--radius-sm);
+            color: var(--sidebar-text);
+            font-size: 0.95rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin-bottom: 2px;
+        }
+
+        .nav-tree-item:hover {
+            background: var(--sidebar-hover);
+            color: var(--sidebar-text-active);
+        }
+
+        .nav-tree-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .nav-tree-arrow {
+            font-size: 0.8rem;
+            transition: transform 0.2s ease;
+        }
+
+        .nav-tree-item.expanded .nav-tree-arrow {
+            transform: rotate(90deg);
+        }
+
+        .nav-submenu {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .nav-submenu.open {
+            max-height: 200px;
+        }
+
+        .nav-submenu .nav-item {
+            padding-left: 52px;
+            font-size: 0.9rem;
+        }
+
+        /* ===== Main Content ===== */
+        .main-content {
+            flex: 1;
+            margin-left: var(--sidebar-width);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header */
+        .main-header {
+            background: var(--sidebar-bg);
+            border-bottom: 1px solid var(--card-border);
+            padding: 16px 32px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 14px 0;
+            position: sticky;
+            top: 0;
+            z-index: 50;
         }
 
-        .logo {
-            font-weight: 800;
-            letter-spacing: -0.3px;
-            text-decoration: none;
-            color: var(--primary);
-            font-size: 1.35rem;
+        .header-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-primary);
         }
 
-        .nav-links {
+        .header-actions {
             display: flex;
-            list-style: none;
-            gap: 1.6rem;
+            align-items: center;
+            gap: 16px;
         }
 
-            .nav-links a {
-                text-decoration: none;
-                color: var(--muted);
-                font-weight: 600;
-                position: relative;
-                padding: 0.25rem 0;
-                transition: color 0.25s ease;
-            }
+        .theme-toggle {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-sm);
+            padding: 8px 12px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.2s ease;
+        }
 
-                .nav-links a:hover {
-                    color: var(--primary);
-                }
+        .theme-toggle:hover {
+            background: var(--sidebar-hover);
+            color: var(--text-primary);
+        }
 
-                .nav-links a::after {
-                    content: "";
-                    position: absolute;
-                    left: 0;
-                    bottom: -6px;
-                    height: 2px;
-                    width: 0;
-                    background: linear-gradient(90deg, var(--primary), var(--secondary));
-                    transition: width 0.25s ease;
-                }
+        /* Content Area */
+        .content-area {
+            flex: 1;
+            padding: 32px;
+        }
 
-                .nav-links a:hover::after {
-                    width: 100%;
-                }
-
-        .mobile-menu {
+        /* Page sections */
+        .page-section {
             display: none;
-            flex-direction: column;
-            gap: 6px;
+        }
+
+        .page-section.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ===== Home Page ===== */
+        .hero-section {
+            text-align: center;
+            padding: 80px 20px;
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(6, 182, 212, 0.1));
+            border-radius: var(--radius);
+            margin-bottom: 40px;
+            border: 1px solid var(--card-border);
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-cyan));
+            color: white;
+            padding: 8px 20px;
+            border-radius: 999px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 24px;
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, var(--text-primary), var(--accent-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            color: var(--accent-cyan);
+            font-weight: 700;
+            margin-bottom: 24px;
+        }
+
+        .hero-description {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto 32px;
+            line-height: 1.7;
+        }
+
+        .hero-cta {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-cyan));
+            color: white;
+            padding: 14px 32px;
+            border-radius: 999px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1rem;
+            transition: all 0.2s ease;
+            box-shadow: 0 8px 24px rgba(59, 130, 246, 0.3);
+        }
+
+        .hero-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 32px rgba(59, 130, 246, 0.4);
+        }
+
+        /* Stats */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .stat-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius);
+            padding: 24px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-top: 8px;
+        }
+
+        /* ===== Product Cards ===== */
+        .section-header {
+            margin-bottom: 24px;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+
+        .section-desc {
+            color: var(--text-secondary);
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 24px;
+        }
+
+        .product-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius);
+            padding: 28px;
+            transition: all 0.3s ease;
             cursor: pointer;
         }
 
-            .mobile-menu span {
-                width: 26px;
-                height: 3px;
-                background: #334155;
-                border-radius: 2px;
-            }
-
-        /* ===== Hero (이미지 + 그라디언트 + 따뜻한 포인트) ===== */
-        .hero {
-            position: relative;
-            margin-top: 66px;
-            /*padding: 120px 0 90px;*/
-            padding: 72px 0 90px;
-            color: #fff;
-            overflow: hidden;
-            text-align: center;
-            background: linear-gradient( 135deg, color-mix(in oklab, var(--primary) 78%, transparent) 0%, color-mix(in oklab, var(--secondary) 70%, transparent) 45%, color-mix(in oklab, var(--accent) 65%, transparent) 100% ), var(--hero-img) center/cover no-repeat;
+        .product-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--accent-blue);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
         }
 
-            .hero::after {
-                content: "";
-                position: absolute;
-                inset: 0;
-                background: radial-gradient(1200px 500px at 10% 10%, rgba(255, 255, 255, 0.18), transparent 55%), radial-gradient(600px 300px at 90% 80%, rgba(245, 158, 11, 0.22), transparent 60%), var(--noise) repeat;
-                mix-blend-mode: overlay;
-                opacity: 0.35;
-                pointer-events: none;
-            }
-
-        .hero-content {
-            position: relative;
-            z-index: 1;
-        }
-
-        .hero h1 {
-            font-size: 3.2rem;
-            letter-spacing: -0.8px;
-            margin-bottom: 0.6rem;
-        }
-
-        .hero-slogan {
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: #fff8d6;
-            margin-bottom: 0.6rem;
-        }
-
-        .hero-kicker {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: #fde68a;
-            margin-bottom: 0.6rem;
-        }
-        .hero p {
-            max-width: 680px;
-            margin: 0 auto 1.6rem;
-            opacity: 0.95;
-        }
-
-        .hero-chant {
-            display: inline-block;
-            padding: 12px 22px;
-            border-radius: 999px;
-            background: color-mix(in oklab, var(--glass) 100%, transparent);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.35);
-            font-style: italic;
-        }
-
-        .cta-button {
-            display: inline-block;
-            margin-top: 12px;
-            padding: 14px 30px;
-            border-radius: 999px;
-            color: #fff;
-            text-decoration: none;
-            font-weight: 800;
-            letter-spacing: 0.3px;
-            background: linear-gradient(90deg, var(--warm), #fbbf24);
-            box-shadow: 0 8px 22px rgba(245, 158, 11, 0.32);
-            transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
-        }
-
-            .cta-button:hover {
-                transform: translateY(-3px);
-                filter: saturate(1.05);
-                box-shadow: 0 16px 44px rgba(245, 158, 11, 0.36);
-            }
-
-        /* ===== Section Frames ===== */
-        main section {
-            padding: 80px 0;
-            border-bottom: 1px solid var(--line);
-        }
-
-            main section:last-of-type {
-                border-bottom: 0;
-            }
-
-        .section-title {
-            text-align: center;
-            font-size: 2.2rem;
-            font-weight: 800;
-            margin-bottom: 2.2rem;
-            color: #0b1220;
-        }
-
-  /* ===== “Vision” → 따뜻한 배경 + 카드 ===== */
-        /* Vision 섹션: 쿨톤 네온 그라디언트 + 미세 패턴 */
-        .vision {
-            padding: 80px 0;
-            background: radial-gradient(900px 380px at 10% 0%, rgba(99,102,241,.25), transparent 60%), linear-gradient(135deg, #0ea5b7 0%, #6366f1 55%, #8b5cf6 100%);
-            color: #eaf2ff;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-            .vision::after {
-                /* 아주 약한 노이즈/패턴이 있으면 입체감 ↑ (선택) */
-                content: "";
-                position: absolute;
-                inset: 0;
-                background-image: url('{{ site.baseurl }}/assets/images/pattern.png'); /* 8~16px 작은 패턴 */
-                opacity: .06;
-                pointer-events: none;
-            }
-
-            .vision h2 {
-                font-size: 2.3rem;
-                font-weight: 800;
-                margin-bottom: 1.2rem;
-                color: #ffffff;
-                letter-spacing: -.3px;
-            }
-
-        .vision-statement {
-            max-width: 860px;
-            margin: 0 auto 2.2rem;
-            color: #e6edff;
-            font-weight: 700;
-            line-height: 1.85;
-            text-shadow: 0 1px 10px rgba(0,0,0,.15);
-        }
-
-        .motto-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px,1fr));
-            gap: 16px;
-            max-width: 860px;
-            margin: 0 auto;
-        }
-
-        .motto-item {
-            background: rgba(255,255,255,.10);
-            border: 1px solid rgba(255,255,255,.22);
-            border-radius: 14px;
-            padding: 18px;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 10px 30px rgba(2,6,23,.20);
-            transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
-        }
-
-            .motto-item:hover {
-                transform: translateY(-4px);
-                background: rgba(255,255,255,.14);
-                box-shadow: 0 18px 52px rgba(2,6,23,.28);
-            }
-
-        .motto-number {
-            font-size: 1.1rem;
-            font-weight: 800;
-            margin-bottom: .4rem;
-            color: #bfeaff;
-            letter-spacing: .2px;
-        }
-
-        .motto-text {
-            color: #eff6ff;
-            font-weight: 600;
-            line-height: 1.6;
-        }
-
-
-  /* ===== Values/Services 공통 카드 ===== */
-          .values{background:#f8fafc}
-          .values-grid,.services-grid{
-                display:grid;
-                grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
-                gap:22px;
-                margin-top:22px
-          }
-          .value-card,.service-card{
-                background:var(--surface);
-                border:1px solid var(--line);
-                border-radius:var(--radius-lg);
-                padding:28px;
-                text-align:center;
-                box-shadow:var(--elev-1);
-                transition:transform .2s ease, box-shadow .2s ease;
-          }
-          .value-card:hover,.service-card:hover{
-              transform:translateY(-6px);box-shadow:var(--elev-2)
-          }
-          .value-icon,.service-icon{
-                width:84px;
-                height:84px;
-                border-radius:22px;
-                margin:0 auto 16px;
-                display:flex;
-                align-items:center;
-                justify-content:center;
-                color:#fff;
-                font-size:2rem;
-                background:conic-gradient(from 180deg at 50% 50%, var(--primary), var(--secondary), var(--accent), var(--primary));
-                box-shadow:inset 0 0 16px rgba(255,255,255,.25);
-          }
-
-          .service-card::before{
-                content:"";
-                position:absolute;
-                left:0;
-                right:0;
-                top:0;
-                height:4px;
-                background:linear-gradient(90deg,var(--primary),var(--secondary));
-                border-top-left-radius:var(--radius-lg);
-                border-top-right-radius:var(--radius-lg);
-          }
-          .service-subtitle{
-                color:var(--primary);
-                font-weight:700;
-                font-style:italic;
-                margin-bottom:10px}
-          .service-status{
-                display:inline-block;
-                margin-top:10px;
-                border-radius:999px;
-                padding:8px 14px;
-                color:#fff;
-                background:linear-gradient(90deg,var(--warm),#fbbf24);
-                box-shadow:0 6px 18px rgba(245,158,11,.28);
-                font-weight:800
-          }
-
-        /* ===== Principles (라인 강조) ===== */
-        .principles {
-            background: #f8fafc;
-        }
-
-        .principles-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
-            gap: 18px;
-            margin-top: 18px;
-        }
-
-        .principle-item {
+        .product-icon {
+            width: 64px;
+            height: 64px;
+            border-radius: 16px;
             display: flex;
-            gap: 14px;
-            padding: 16px;
-            border-left: 4px solid var(--primary);
-            background: #fff;
-            border-radius: var(--radius-md);
-            border: 1px solid var(--line);
-        }
-
-        .principle-icon {
-            font-size: 1.4rem;
-            color: var(--primary);
-            margin-top: 0.25rem;
-        }
-
-        .principle-content h4 {
-            font-weight: 800;
-            color: #0b1220;
-            margin-bottom: 6px;
-        }
-
-        .principle-content p {
-            color: var(--muted);
-        }
-
-        /* ===== About (이미지 + 타임라인) ===== */
-        .about {
-            background: #fff;
-        }
-
-        .about-content {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 42px;
             align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
         }
 
-        .about-text h2 {
-            font-size: 2.3rem;
-            font-weight: 800;
-            color: #0b1220;
+        .product-icon.blue { background: linear-gradient(135deg, #3b82f6, #1d4ed8); }
+        .product-icon.cyan { background: linear-gradient(135deg, #06b6d4, #0891b2); }
+        .product-icon.violet { background: linear-gradient(135deg, #8b5cf6, #7c3aed); }
+
+        .product-name {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .product-tagline {
+            color: var(--accent-cyan);
+            font-weight: 600;
+            font-style: italic;
             margin-bottom: 12px;
         }
 
-        .about-text p {
-            color: var(--muted);
+        .product-desc {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 16px;
         }
 
-        .timeline {
-            background: #fff;
-            border: 1px solid var(--line);
-            border-radius: var(--radius-md);
-            padding: 22px;
-            box-shadow: var(--elev-1);
-            border-left: 4px solid var(--primary);
+        .product-status {
+            display: inline-block;
+            padding: 6px 14px;
+            border-radius: 999px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            background: linear-gradient(135deg, var(--accent-amber), #d97706);
+            color: white;
         }
 
-            .timeline h3 {
-                margin-bottom: 10px;
-                color: #0b1220;
-            }
-
-        .timeline-item {
-            padding: 10px 0;
-            border-bottom: 1px solid #e2e8f0;
+        /* ===== About Section ===== */
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 32px;
         }
 
-            .timeline-item:last-child {
-                border-bottom: 0;
-            }
-
-        .timeline-year {
-            font-weight: 800;
-            color: var(--primary);
+        .about-content {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius);
+            padding: 32px;
         }
 
-        /* ===== Contact / Footer ===== */
-        .contact {
-            background: radial-gradient(900px 400px at 10% 0%, rgba(99, 102, 241, 0.22), transparent 60%), #0b1220;
-            color: #e7ecf6;
+        .about-content h2 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: var(--text-primary);
+        }
+
+        .about-content p {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: 12px;
+        }
+
+        .about-content strong {
+            color: var(--accent-cyan);
+        }
+
+        .capability-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius);
+            padding: 24px;
+        }
+
+        .capability-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 16px;
+            color: var(--text-primary);
+        }
+
+        .capability-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 14px 0;
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        .capability-item:last-child {
+            border-bottom: none;
+        }
+
+        .capability-icon {
+            color: var(--accent-blue);
+            font-size: 1rem;
+            margin-top: 2px;
+        }
+
+        .capability-label {
+            font-weight: 600;
+            color: var(--accent-cyan);
+            font-size: 0.85rem;
+        }
+
+        .capability-text {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* ===== Contact Section ===== */
+        .contact-section {
             text-align: center;
-            padding: 84px 0;
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(139, 92, 246, 0.1));
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius);
+            padding: 60px 32px;
         }
 
-            .contact h2 {
-                font-size: 2.3rem;
-                font-weight: 800;
-                margin-bottom: 8px;
-            }
+        .contact-section h2 {
+            font-size: 2rem;
+            margin-bottom: 12px;
+        }
 
-            .contact p {
-                opacity: 0.9;
-                margin-bottom: 18px;
-            }
+        .contact-section p {
+            color: var(--text-secondary);
+            margin-bottom: 24px;
+        }
 
         .contact-email {
             display: inline-block;
-            padding: 14px 28px;
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-violet));
+            color: white;
+            padding: 14px 32px;
             border-radius: 999px;
-            color: #fff;
             text-decoration: none;
-            font-weight: 800;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-            box-shadow: 0 10px 28px rgba(2, 6, 23, 0.35);
-            transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+            font-weight: 700;
+            font-size: 1rem;
+            transition: all 0.2s ease;
         }
 
-            .contact-email:hover {
-                transform: translateY(-3px);
-                filter: saturate(1.05);
-                box-shadow: 0 18px 48px rgba(2, 6, 23, 0.45);
-            }
+        .contact-email:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 32px rgba(139, 92, 246, 0.3);
+        }
 
-        footer {
-            background: #0b1220;
-            color: #a5b4fc;
+        /* ===== Product Detail Page ===== */
+        .product-detail {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius);
+            padding: 40px;
+        }
+
+        .product-detail-header {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            margin-bottom: 32px;
+            padding-bottom: 24px;
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        .product-detail-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.2rem;
+        }
+
+        .product-detail-title h1 {
+            font-size: 2rem;
+            margin-bottom: 8px;
+        }
+
+        .product-detail-title p {
+            color: var(--accent-cyan);
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .product-detail-body p {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: 16px;
+            font-size: 1.05rem;
+        }
+
+        /* ===== Footer ===== */
+        .main-footer {
+            background: var(--sidebar-bg);
+            border-top: 1px solid var(--card-border);
+            padding: 20px 32px;
             text-align: center;
-            padding: 26px 0;
-            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            color: var(--text-muted);
+            font-size: 0.9rem;
         }
 
-            footer p {
-                opacity: 0.85;
-            }
-
-        /* ===== Responsive ===== */
-        @media (max-width: 768px) {
-            .nav-links {
-                display: none;
-            }
-
-            .mobile-menu {
-                display: flex;
-            }
-
-            .hero h1 {
-                font-size: 2.3rem;
-            }
-
-            .hero-slogan {
-                font-size: 1.05rem;
-            }
-
-            .about-content {
-                grid-template-columns: 1fr;
-                gap: 22px;
-            }
-
-            .values-grid,
-            .services-grid,
-            .principles-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        /* ===== 시스템 다크모드 (선택) ===== */
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --bg: #0b1220;
-                --txt: #e7ecf6;
-                --surface: #0f172a;
-                --line: rgba(148, 163, 184, 0.18);
-            }
-
-            header {
-                background: rgba(2, 6, 23, 0.72);
-                border-bottom: 1px solid var(--line);
-            }
-
-            .logo {
-                color: #a5b4fc;
-            }
-
-            .nav-links a {
-                color: #cbd5e1;
-            }
-
-            .hero {
-                color: #fff;
-            }
-
-            .values,
-            .principles {
-                background: #0f172a;
-            }
-
-            .value-card,
-            .service-card,
-            .timeline,
-            .principle-item {
-                background: #0b1220;
-            }
-
-                .section-title,
-                .about-text h2,
-                .timeline h3,
-                .principle-content h4 {
-                    color: #e7ecf6;
-                }
-
-            .muted,
-            .principle-content p,
-            .about-text p {
-                color: #cbd5e1;
-            }
-        }
-        .brand-logo {
-            height: 28px;
-            display: block
-        }
-
-        /* === Theme toggle (star) === */
-        .theme-btn {
-            appearance: none;
-            -webkit-appearance: none;
-            border: 0;
-            background: transparent;
+        /* ===== Mobile ===== */
+        .mobile-menu-btn {
+            display: none;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-sm);
+            padding: 10px;
+            color: var(--text-primary);
             cursor: pointer;
-            font-size: 1.3rem;
-            line-height: 1;
-            padding: .35rem .45rem;
-            margin-left: .5rem;
-            border-radius: 10px;
-            color: var(--primary);
-            transition: transform .2s ease, color .2s ease, background-color .2s ease;
+            font-size: 1.2rem;
         }
 
-            .theme-btn:hover {
-                transform: rotate(-8deg) scale(1.06);
+        @media (max-width: 1024px) {
+            .about-grid {
+                grid-template-columns: 1fr;
             }
-
-            .theme-btn:focus-visible {
-                outline: 2px solid color-mix(in oklab, var(--primary) 60%, white);
-                outline-offset: 3px;
-            }
-
-            .theme-btn[aria-pressed="true"] {
-                color: #fbbf24;
-            }
-        /* 다크일 때 별 색상(따뜻한 앰버) */
-        @media (prefers-color-scheme: dark) {
-            .theme-btn {
-                color: #a5b4fc;
-            }
-
-                .theme-btn[aria-pressed="true"] {
-                    color: #fde68a;
-                }
         }
 
-        /* (선택) 라이트/다크 로고 자동 전환을 사용할 경우 */
-        .brand-logo--light {
-            display: block;
-        }
-
-        .brand-logo--dark {
-            display: none;
-        }
-
-        :root[data-theme="dark"] .brand-logo--light {
-            display: none;
-        }
-
-        :root[data-theme="dark"] .brand-logo--dark {
-            display: block;
-        }
-
-        /* about 섹션만 문단 들여쓰기 & 간격 */
-        #about p {
-            text-indent: 1.2em;
-        }
-
-            #about p + p {
-                margin-top: .50rem;
-            }
-
-        /* 모바일에서 들여쓰기 제거하고 싶다면 (선택) */
         @media (max-width: 768px) {
-            #about p {
-                text-indent: 0;
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .sidebar.open {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .hero-title {
+                font-size: 2.2rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1.2rem;
+            }
+
+            .content-area {
+                padding: 20px;
+            }
+
+            .product-grid {
+                grid-template-columns: 1fr;
             }
         }
 
-    </style>
+        /* Overlay for mobile */
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 99;
+        }
 
+        .sidebar-overlay.active {
+            display: block;
+        }
+    </style>
 </head>
 <body>
-    <header>
-        <nav class="container">
-            <a href="#" class="logo">ZOIH</a>
-            <!--<a class="logo" href="{{ site.baseurl }}/">
-                <picture>-->
-            <!-- 다크모드일 땐 밝은 로고 -->
-            <!--<source srcset="{{ site.baseurl }}/assets/brand/logo-a.jpg"
-                    media="(prefers-color-scheme: dark)">-->
-            <!-- 기본(라이트 모드) -->
-            <!--<img src="{{ site.baseurl }}/assets/brand/log-a.jpg"
-                         alt="ZOIHSOFT" class="brand-logo">
-                </picture>
-            </a>-->
-            <!--<a class="logo" href="{{ '/' | relative_url }}">
-                <img src="{{ '/assets/brand/logo-dark.jpg' | relative_url }}" alt="ZOIHSOFT" class="brand-logo brand-logo--light">
-                <img src="{{ '/assets/brand/logo-light.jpg' | relative_url }}" alt="ZOIHSOFT" class="brand-logo brand-logo--dark">
-            </a>-->
-            <ul class="nav-links">
-                <li><a href="#home">홈</a></li>
-                <li><a href="#services">서비스</a></li>
-                <li><a href="#about">회사소개</a></li>
-                <li><a href="#contact">연락처</a></li>
-                <button id="theme-toggle" class="theme-btn" aria-label="테마 전환" title="테마 전환" aria-pressed="false">☆</button>
-            </ul>
-            <div class="mobile-menu">
-                <span></span>
-                <span></span>
-                <span></span>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <a href="#" class="sidebar-logo" onclick="showPage('home')">
+                    <div class="logo-icon">Z</div>
+                    <div class="logo-text">ZOIH<span>SOFT</span></div>
+                </a>
             </div>
 
-        </nav>
-    </header>
+            <nav class="sidebar-nav">
+                <div class="nav-section">
+                    <div class="nav-section-title">Menu</div>
 
-    <main>
-        <section id="home" class="hero">
-            <div class="hero-content container">
-                <div class="hero-kicker">TECH FOR GOOD, JOY FOR ALL</div>
-                <p></p><p></p>
-                <h1>ZOIHSOFT</h1>
-                <h2>조이소프트(주)</h2>
-                <p></p>
-                <div class="hero-slogan">우리는 사람과 세상을 위한 따뜻한 기술을 만듭니다</div>
-                <p>세상에 선한 영향력을 전하는 따뜻한 기술로 함께 성장하겠습니다</p>
-                <a href="#contact" class="cta-button">함께 시작하기</a>
-            </div>
-        </section>
+                    <a class="nav-item active" data-page="home" onclick="showPage('home')">
+                        <span class="nav-item-icon">🏠</span>
+                        <span>홈</span>
+                    </a>
 
-        <section id="services" class="services">
-            <div class="container">
-                <h2 class="section-title">준비중인 서비스</h2>
-                <p style="text-align: center; color: #64748b; font-size: 1.1rem; margin-bottom: 2rem;">따뜻한 기술로 만들어가는 선한 영향력의 서비스들</p>
-                <div class="services-grid">
-                    <div class="service-card">
-                        <div class="service-icon">📈</div>
-                        <h3>오름</h3>
-                        <div class="service-subtitle">"함께 올라가는 성장 플랫폼"</div>
-                        <p>개인과 조직의 지속가능한 성장을 위한 종합 솔루션입니다. 기쁨과 감사의 마음으로 함께 성장하며, 각자의 잠재력을 최대한 발휘할 수 있도록 돕는 플랫폼을 준비하고 있습니다.</p>
-                        <div class="service-status">곧 출시 예정</div>
+                    <div class="nav-tree">
+                        <div class="nav-tree-item" onclick="toggleSubmenu(this)">
+                            <div class="nav-tree-left">
+                                <span class="nav-item-icon">📦</span>
+                                <span>제품 소개</span>
+                            </div>
+                            <span class="nav-tree-arrow">▶</span>
+                        </div>
+                        <div class="nav-submenu">
+                            <a class="nav-item" data-page="product-oreum" onclick="showPage('product-oreum')">
+                                <span>오름</span>
+                            </a>
+                            <a class="nav-item" data-page="product-baro" onclick="showPage('product-baro')">
+                                <span>바로</span>
+                            </a>
+                            <a class="nav-item" data-page="product-olbaro" onclick="showPage('product-olbaro')">
+                                <span>올바로</span>
+                            </a>
+                        </div>
                     </div>
-                    <div class="service-card">
-                        <div class="service-icon">⚡</div>
-                        <h3>바로</h3>
-                        <div class="service-subtitle">"즉시 연결하는 소통 솔루션"</div>
-                        <p>진심으로 소통하고 신뢰를 쌓을 수 있는 즉시 연결 서비스입니다. 복잡한 과정 없이 바로바로 필요한 도움과 정보를 주고받으며, 따뜻한 인간관계를 만들어가는 플랫폼입니다.</p>
-                        <div class="service-status">개발 중</div>
-                    </div>
-                    <div class="service-card">
-                        <div class="service-icon">🎯</div>
-                        <h3>올바로</h3>
-                        <div class="service-subtitle">"선한 선택을 돕는 가이드"</div>
-                        <p>선한 영향력을 만들어가는 올바른 선택을 돕는 서비스입니다. 일상의 크고 작은 결정에서 사람과 사회에 유익한 방향을 제시하며, 함께 더 나은 세상을 만들어가는 지혜로운 도구입니다.</p>
-                        <div class="service-status">기획 중</div>
-                    </div>
+
+                    <a class="nav-item" data-page="about" onclick="showPage('about')">
+                        <span class="nav-item-icon">🏢</span>
+                        <span>회사소개</span>
+                    </a>
+
+                    <a class="nav-item" data-page="contact" onclick="showPage('contact')">
+                        <span class="nav-item-icon">📧</span>
+                        <span>연락처</span>
+                    </a>
                 </div>
-            </div>
-        </section>
+            </nav>
+        </aside>
 
-        <section id="about" class="about">
-            <div class="container">
-                <div class="about-content">
-                    <div class="about-text">
-                        <h2>회사 소개</h2>
-                        <p>ZOIHSOFT는 의료 IT 전문기업입니다. "기쁨과 감사로, 진심으로 협력하며, 신뢰와 선한 영향력으로 함께 성장한다"는 비전을 지향합니다.</p>
-                        <p>이 비전을 바탕으로 <strong>표준 기반(HL7/ASTM) 데이터 연동</strong>과 <strong>안정적 운영</strong>에 집중합니다.</p>
-                        <p>경험 많은 팀이 진단검사·기능검사 등 <strong>체외진단 장비</strong>와 <strong>의료 전산시스템(LIS/EMR)</strong> 간 인터페이스를 설계·구축·운영합니다(예: RS-232/TCP-IP, ASTM/HL7).</p>
-                        <p><strong>경력</strong>: 핵심 구성원은 평균 <strong>약 18년</strong>, 최대 <strong>29년</strong>의 의료 IT 경력을 보유하고 있습니다.</p>
-                        <p><strong>목표</strong>: 결과 전송 정확도 향상, 수작업·지연 최소화, 장애 대응 시간 단축.</p>
-                        <p>우리는 <strong>책임 있는 기술 운영</strong>을 지향하며 <strong>환자 안전</strong>과 <strong>데이터 윤리</strong>를 최우선으로 삼고, 인터페이스 자동화를 통해 <strong>재작업·지연을 줄이고 자원 낭비를 최소화</strong>합니다.</p>
-                        <p>다년간 대학병원·의료재단 등 다양한 프로젝트 경험을 바탕으로 맞춤형 솔루션을 제공합니다. <strong>전국 어디서나 원격/현장 지원</strong>으로 빠르고 안정적인 구축과 운영을 지원합니다.</p>
-                        <p>ZOIHSOFT는 의료법·개인정보보호법 및 병원 보안 정책을 준수합니다.</p>
+        <!-- Overlay -->
+        <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
 
-                    </div>
-                    <div class="timeline">
-                        <h3>핵심 역량</h3>
-                        <div class="timeline-item">
-                            <div class="timeline-year">전문 분야</div>
-                            <div>의료 IT 전문가로 구성된 팀</div>
-                        </div>
-                        <div class="timeline-item">
-                            <div class="timeline-year">핵심 기술</div>
-                            <div>의료진단장비 인터페이스 및 검사 시스템 개발</div>
-                        </div>
-                        <div class="timeline-item">
-                            <div class="timeline-year">프로젝트</div>
-                            <div>대학병원, 의료재단 등 다수의 의료기관 프로젝트 수행</div>
-                        </div>
-                        <div class="timeline-item">
-                            <div class="timeline-year">비전</div>
-                            <div>의료 기술의 따뜻한 혁신으로 환자와 의료진 모두에게 도움이 되는 솔루션 개발</div>
-                        </div>
-                    </div>
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="main-header">
+                <button class="mobile-menu-btn" onclick="toggleSidebar()">☰</button>
+                <div class="header-title" id="headerTitle">홈</div>
+                <div class="header-actions">
+                    <button class="theme-toggle" onclick="toggleTheme()" title="테마 전환">☆</button>
                 </div>
-            </div>
-        </section>
+            </header>
 
-        <section id="contact" class="contact">
-            <div class="container">
-                <h2>연락하기</h2>
-                <p>따뜻한 기술로 함께할 프로젝트 문의나 상담이 필요하시면 언제든 연락주세요</p>
-                <a href="mailto:zoih.contact@gmail.com" class="contact-email">contact@zoihsoft.com</a>
-            </div>
-        </section>
-    </main>
+            <div class="content-area">
+                <!-- Home Page -->
+                <section class="page-section active" id="page-home">
+                    <div class="hero-section">
+                        <div class="hero-badge">Medical Device Interface Solution</div>
+                        <h1 class="hero-title">의료기기 인터페이스<br>전문 솔루션</h1>
+                        <h2 class="hero-subtitle">ZOIHSOFT.</h2>
+                        <p class="hero-description">
+                            표준 기반(HL7/ASTM) 데이터 연동과 안정적 운영에 집중합니다.<br>
+                            전국 어디서나 원격/현장 지원으로 빠르고 안정적인 구축을 지원합니다.
+                        </p>
+                        <a href="#" class="hero-cta" onclick="showPage('contact')">문의하기</a>
+                    </div>
 
-    <footer>
-        <div class="container">
-            <p>&copy; 2025 ZOIH. 사람과 세상을 위한 따뜻한 기술. All rights reserved.</p>
-        </div>
-    </footer>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-value">18+</div>
+                            <div class="stat-label">평균 경력 (년)</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">29</div>
+                            <div class="stat-label">최대 경력 (년)</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">HL7</div>
+                            <div class="stat-label">표준 프로토콜</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">24/7</div>
+                            <div class="stat-label">기술 지원</div>
+                        </div>
+                    </div>
+
+                    <div class="section-header">
+                        <h2 class="section-title">제품 소개</h2>
+                        <p class="section-desc">따뜻한 기술로 만들어가는 선한 영향력의 솔루션들</p>
+                    </div>
+
+                    <div class="product-grid">
+                        <div class="product-card" onclick="showPage('product-oreum')">
+                            <div class="product-icon blue">📈</div>
+                            <h3 class="product-name">오름</h3>
+                            <p class="product-tagline">"함께 올라가는 성장 플랫폼"</p>
+                            <p class="product-desc">개인과 조직의 지속가능한 성장을 위한 종합 솔루션입니다.</p>
+                            <span class="product-status">곧 출시 예정</span>
+                        </div>
+                        <div class="product-card" onclick="showPage('product-baro')">
+                            <div class="product-icon cyan">⚡</div>
+                            <h3 class="product-name">바로</h3>
+                            <p class="product-tagline">"즉시 연결하는 소통 솔루션"</p>
+                            <p class="product-desc">진심으로 소통하고 신뢰를 쌓을 수 있는 즉시 연결 서비스입니다.</p>
+                            <span class="product-status">개발 중</span>
+                        </div>
+                        <div class="product-card" onclick="showPage('product-olbaro')">
+                            <div class="product-icon violet">🎯</div>
+                            <h3 class="product-name">올바로</h3>
+                            <p class="product-tagline">"선한 선택을 돕는 가이드"</p>
+                            <p class="product-desc">선한 영향력을 만들어가는 올바른 선택을 돕는 서비스입니다.</p>
+                            <span class="product-status">기획 중</span>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Product: 오름 -->
+                <section class="page-section" id="page-product-oreum">
+                    <div class="product-detail">
+                        <div class="product-detail-header">
+                            <div class="product-detail-icon blue">📈</div>
+                            <div class="product-detail-title">
+                                <h1>오름</h1>
+                                <p>"함께 올라가는 성장 플랫폼"</p>
+                            </div>
+                        </div>
+                        <div class="product-detail-body">
+                            <p>개인과 조직의 지속가능한 성장을 위한 종합 솔루션입니다.</p>
+                            <p>기쁨과 감사의 마음으로 함께 성장하며, 각자의 잠재력을 최대한 발휘할 수 있도록 돕는 플랫폼을 준비하고 있습니다.</p>
+                            <p>의료 현장의 효율성을 높이고, 데이터 기반의 인사이트를 제공하여 더 나은 의사결정을 지원합니다.</p>
+                            <p style="margin-top: 24px;"><span class="product-status">곧 출시 예정</span></p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Product: 바로 -->
+                <section class="page-section" id="page-product-baro">
+                    <div class="product-detail">
+                        <div class="product-detail-header">
+                            <div class="product-detail-icon cyan">⚡</div>
+                            <div class="product-detail-title">
+                                <h1>바로</h1>
+                                <p>"즉시 연결하는 소통 솔루션"</p>
+                            </div>
+                        </div>
+                        <div class="product-detail-body">
+                            <p>진심으로 소통하고 신뢰를 쌓을 수 있는 즉시 연결 서비스입니다.</p>
+                            <p>복잡한 과정 없이 바로바로 필요한 도움과 정보를 주고받으며, 따뜻한 인간관계를 만들어가는 플랫폼입니다.</p>
+                            <p>의료 장비와 시스템 간의 실시간 연동을 통해 빠르고 정확한 데이터 전송을 보장합니다.</p>
+                            <p style="margin-top: 24px;"><span class="product-status">개발 중</span></p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Product: 올바로 -->
+                <section class="page-section" id="page-product-olbaro">
+                    <div class="product-detail">
+                        <div class="product-detail-header">
+                            <div class="product-detail-icon violet">🎯</div>
+                            <div class="product-detail-title">
+                                <h1>올바로</h1>
+                                <p>"선한 선택을 돕는 가이드"</p>
+                            </div>
+                        </div>
+                        <div class="product-detail-body">
+                            <p>선한 영향력을 만들어가는 올바른 선택을 돕는 서비스입니다.</p>
+                            <p>일상의 크고 작은 결정에서 사람과 사회에 유익한 방향을 제시하며, 함께 더 나은 세상을 만들어가는 지혜로운 도구입니다.</p>
+                            <p>의료 데이터의 정확성과 신뢰성을 검증하여 올바른 진단과 치료를 지원합니다.</p>
+                            <p style="margin-top: 24px;"><span class="product-status">기획 중</span></p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- About Page -->
+                <section class="page-section" id="page-about">
+                    <div class="about-grid">
+                        <div class="about-content">
+                            <h2>회사 소개</h2>
+                            <p>ZOIHSOFT는 의료 IT 전문기업입니다. "기쁨과 감사로, 진심으로 협력하며, 신뢰와 선한 영향력으로 함께 성장한다"는 비전을 지향합니다.</p>
+                            <p>이 비전을 바탕으로 <strong>표준 기반(HL7/ASTM) 데이터 연동</strong>과 <strong>안정적 운영</strong>에 집중합니다.</p>
+                            <p>경험 많은 팀이 진단검사·기능검사 등 <strong>체외진단 장비</strong>와 <strong>의료 전산시스템(LIS/EMR)</strong> 간 인터페이스를 설계·구축·운영합니다(예: RS-232/TCP-IP, ASTM/HL7).</p>
+                            <p><strong>경력</strong>: 핵심 구성원은 평균 <strong>약 18년</strong>, 최대 <strong>29년</strong>의 의료 IT 경력을 보유하고 있습니다.</p>
+                            <p><strong>목표</strong>: 결과 전송 정확도 향상, 수작업·지연 최소화, 장애 대응 시간 단축.</p>
+                            <p>우리는 <strong>책임 있는 기술 운영</strong>을 지향하며 <strong>환자 안전</strong>과 <strong>데이터 윤리</strong>를 최우선으로 삼고, 인터페이스 자동화를 통해 재작업·지연을 줄이고 자원 낭비를 최소화합니다.</p>
+                            <p>다년간 대학병원·의료재단 등 다양한 프로젝트 경험을 바탕으로 맞춤형 솔루션을 제공합니다. <strong>전국 어디서나 원격/현장 지원</strong>으로 빠르고 안정적인 구축과 운영을 지원합니다.</p>
+                            <p>ZOIHSOFT는 의료법·개인정보보호법 및 병원 보안 정책을 준수합니다.</p>
+                        </div>
+                        <div class="capability-card">
+                            <h3>핵심 역량</h3>
+                            <div class="capability-item">
+                                <span class="capability-icon">✓</span>
+                                <div>
+                                    <div class="capability-label">전문 분야</div>
+                                    <div class="capability-text">의료 IT 전문가로 구성된 팀</div>
+                                </div>
+                            </div>
+                            <div class="capability-item">
+                                <span class="capability-icon">✓</span>
+                                <div>
+                                    <div class="capability-label">핵심 기술</div>
+                                    <div class="capability-text">의료진단장비 인터페이스 및 검사 시스템 개발</div>
+                                </div>
+                            </div>
+                            <div class="capability-item">
+                                <span class="capability-icon">✓</span>
+                                <div>
+                                    <div class="capability-label">프로젝트</div>
+                                    <div class="capability-text">대학병원, 의료재단 등 다수의 의료기관 프로젝트 수행</div>
+                                </div>
+                            </div>
+                            <div class="capability-item">
+                                <span class="capability-icon">✓</span>
+                                <div>
+                                    <div class="capability-label">비전</div>
+                                    <div class="capability-text">의료 기술의 따뜻한 혁신으로 환자와 의료진 모두에게 도움이 되는 솔루션 개발</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Contact Page -->
+                <section class="page-section" id="page-contact">
+                    <div class="contact-section">
+                        <h2>연락하기</h2>
+                        <p>따뜻한 기술로 함께할 프로젝트 문의나 상담이 필요하시면 언제든 연락주세요</p>
+                        <a href="mailto:zoih.contact@gmail.com" class="contact-email">zoih.contact@gmail.com</a>
+                    </div>
+                </section>
+            </div>
+
+            <footer class="main-footer">
+                <p>&copy; 2025 ZOIHSOFT. 사람과 세상을 위한 따뜻한 기술. All rights reserved.</p>
+            </footer>
+        </main>
+    </div>
 
     <script>
-        // Smooth scrolling
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
-        });
-
-        // Header background on scroll
-        window.addEventListener('scroll', () => {
-            const header = document.querySelector('header');
-            if (window.scrollY > 100) {
-                header.style.background = 'rgba(255, 255, 255, 0.98)';
-            } else {
-                header.style.background = 'rgba(255, 255, 255, 0.95)';
-            }
-        });
-
-        // Mobile menu functionality
-        const mobileMenu = document.querySelector('.mobile-menu');
-        const navLinks = document.querySelector('.nav-links');
-
-        mobileMenu.addEventListener('click', () => {
-            navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
-        });
-
-        // Add scroll animations
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
+        // Page titles
+        const pageTitles = {
+            'home': '홈',
+            'product-oreum': '제품 소개 > 오름',
+            'product-baro': '제품 소개 > 바로',
+            'product-olbaro': '제품 소개 > 올바로',
+            'about': '회사소개',
+            'contact': '연락처'
         };
 
-        const observer = new IntersectionObserver(function (entries) {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
+        // Show page
+        function showPage(pageId) {
+            // Hide all pages
+            document.querySelectorAll('.page-section').forEach(page => {
+                page.classList.remove('active');
+            });
+
+            // Show selected page
+            const targetPage = document.getElementById('page-' + pageId);
+            if (targetPage) {
+                targetPage.classList.add('active');
+            }
+
+            // Update nav active state
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+                if (item.dataset.page === pageId) {
+                    item.classList.add('active');
                 }
             });
-        }, observerOptions);
 
-        // Observe all cards and sections
-        document.querySelectorAll('.value-card, .service-card, .principle-item, .motto-item').forEach(el => {
-            el.style.opacity = '0';
-            el.style.transform = 'translateY(30px)';
-            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-            observer.observe(el);
-        });
+            // Update header title
+            document.getElementById('headerTitle').textContent = pageTitles[pageId] || '홈';
+
+            // If product page, expand submenu
+            if (pageId.startsWith('product-')) {
+                const submenu = document.querySelector('.nav-submenu');
+                const treeItem = document.querySelector('.nav-tree-item');
+                if (submenu) submenu.classList.add('open');
+                if (treeItem) treeItem.classList.add('expanded');
+            }
+
+            // Close mobile sidebar
+            closeSidebar();
+        }
+
+        // Toggle submenu
+        function toggleSubmenu(element) {
+            element.classList.toggle('expanded');
+            const submenu = element.nextElementSibling;
+            if (submenu) {
+                submenu.classList.toggle('open');
+            }
+        }
+
+        // Mobile sidebar
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('open');
+            document.getElementById('sidebarOverlay').classList.toggle('active');
+        }
+
+        function closeSidebar() {
+            document.getElementById('sidebar').classList.remove('open');
+            document.getElementById('sidebarOverlay').classList.remove('active');
+        }
+
+        // Theme toggle (placeholder)
+        function toggleTheme() {
+            const btn = document.querySelector('.theme-toggle');
+            if (btn.textContent === '☆') {
+                btn.textContent = '★';
+            } else {
+                btn.textContent = '☆';
+            }
+        }
     </script>
 </body>
-<script>
-    (() => {
-        const KEY = 'theme';                     // localStorage key
-        const root = document.documentElement;
-        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
-        const btn = document.getElementById('theme-toggle');
-
-        // 현재 테마 적용 + 버튼 상태/아이콘 반영
-        const apply = (mode) => {
-            if (mode === 'dark') {
-                root.setAttribute('data-theme', 'dark');
-                btn?.setAttribute('aria-pressed', 'true');
-                if (btn) btn.textContent = '★';     // 다크: 채운 별
-            } else {
-                root.removeAttribute('data-theme');
-                btn?.setAttribute('aria-pressed', 'false');
-                if (btn) btn.textContent = '☆';     // 라이트: 빈 별
-            }
-        };
-
-        // 초기값: 저장값 > OS 설정
-        const saved = localStorage.getItem(KEY);
-        const initial = saved ?? (prefersDark.matches ? 'dark' : 'light');
-        apply(initial);
-
-        // 클릭 토글
-        btn?.addEventListener('click', () => {
-            const nowDark = root.getAttribute('data-theme') === 'dark';
-            const next = nowDark ? 'light' : 'dark';
-            localStorage.setItem(KEY, next);
-            apply(next);
-        });
-
-        // 저장값이 없을 때만 OS 변경 반영
-        prefersDark.addEventListener?.('change', (e) => {
-            if (!localStorage.getItem(KEY)) apply(e.matches ? 'dark' : 'light');
-        });
-    })();
-</script>
-
 </html>
