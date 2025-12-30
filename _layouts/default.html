@@ -771,6 +771,9 @@
                             <a class="nav-item" data-page="quote" onclick="showPage('quote')">
                                 <span>💬 오늘의 명언</span>
                             </a>
+                            <a class="nav-item" data-page="dday" onclick="showPage('dday')">
+                                <span>📅 D-day 계산기</span>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -1412,6 +1415,182 @@
                         <p class="quote-date" id="quote-date"></p>
                     </div>
                 </section>
+
+                <!-- D-day Calculator Page -->
+                <section class="page-section" id="page-dday">
+                    <style>
+                        .dday-grid {
+                            display: grid;
+                            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+                            gap: 24px;
+                        }
+                        .dday-card {
+                            background: var(--card-bg);
+                            border: 1px solid var(--card-border);
+                            border-radius: var(--radius);
+                            padding: 24px;
+                        }
+                        .dday-card h3 {
+                            font-size: 1.2rem;
+                            color: var(--accent-cyan);
+                            margin-bottom: 8px;
+                            display: flex;
+                            align-items: center;
+                            gap: 8px;
+                        }
+                        .dday-card .dday-desc {
+                            color: var(--text-secondary);
+                            font-size: 0.85rem;
+                            margin-bottom: 16px;
+                            line-height: 1.5;
+                        }
+                        .dday-form {
+                            display: flex;
+                            flex-direction: column;
+                            gap: 12px;
+                        }
+                        .dday-input-group {
+                            display: flex;
+                            flex-direction: column;
+                            gap: 4px;
+                        }
+                        .dday-input-group label {
+                            font-size: 0.85rem;
+                            color: var(--text-secondary);
+                        }
+                        .dday-input-group input {
+                            background: var(--sidebar-bg);
+                            border: 1px solid var(--card-border);
+                            border-radius: var(--radius-sm);
+                            padding: 10px 12px;
+                            color: var(--text-primary);
+                            font-size: 0.95rem;
+                        }
+                        .dday-input-group input:focus {
+                            outline: none;
+                            border-color: var(--accent-blue);
+                        }
+                        .dday-btn {
+                            background: linear-gradient(135deg, var(--accent-blue), var(--accent-cyan));
+                            color: white;
+                            border: none;
+                            border-radius: var(--radius-sm);
+                            padding: 12px;
+                            font-size: 0.95rem;
+                            font-weight: 600;
+                            cursor: pointer;
+                            transition: all 0.2s ease;
+                        }
+                        .dday-btn:hover {
+                            transform: translateY(-1px);
+                            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+                        }
+                        .dday-result {
+                            background: var(--sidebar-bg);
+                            border: 1px solid var(--card-border);
+                            border-radius: var(--radius-sm);
+                            padding: 20px;
+                            margin-top: 12px;
+                            text-align: center;
+                        }
+                        .dday-result-value {
+                            font-size: 2.5rem;
+                            font-weight: 700;
+                            color: var(--accent-cyan);
+                        }
+                        .dday-result-value.past {
+                            color: var(--accent-amber);
+                        }
+                        .dday-result-value.today {
+                            color: var(--accent-green);
+                        }
+                        .dday-result-label {
+                            font-size: 0.9rem;
+                            color: var(--text-secondary);
+                            margin-top: 4px;
+                        }
+                        .dday-result-date {
+                            font-size: 0.85rem;
+                            color: var(--text-muted);
+                            margin-top: 8px;
+                        }
+                    </style>
+
+                    <div class="section-header" style="margin-bottom: 24px;">
+                        <h2 class="section-title">D-day 계산기</h2>
+                        <p class="section-desc">프로젝트 일정, 납기일, 기념일 등 날짜 계산</p>
+                    </div>
+
+                    <div class="dday-grid">
+                        <!-- D-day Calculator -->
+                        <div class="dday-card">
+                            <h3>🎯 D-day 계산</h3>
+                            <p class="dday-desc">특정 날짜까지 남은 일수 또는 지난 일수를 계산합니다.</p>
+                            <div class="dday-form">
+                                <div class="dday-input-group">
+                                    <label>목표 날짜</label>
+                                    <input type="date" id="dday-target">
+                                </div>
+                                <button class="dday-btn" onclick="calculateDday()">계산하기</button>
+                                <div class="dday-result" id="dday-result" style="display: none;">
+                                    <div class="dday-result-value" id="dday-value">D-0</div>
+                                    <div class="dday-result-label" id="dday-label">오늘입니다</div>
+                                    <div class="dday-result-date" id="dday-date"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Date Difference Calculator -->
+                        <div class="dday-card">
+                            <h3>📊 두 날짜 사이 일수</h3>
+                            <p class="dday-desc">두 날짜 사이의 일수를 계산합니다.</p>
+                            <div class="dday-form">
+                                <div class="dday-input-group">
+                                    <label>시작 날짜</label>
+                                    <input type="date" id="diff-start">
+                                </div>
+                                <div class="dday-input-group">
+                                    <label>종료 날짜</label>
+                                    <input type="date" id="diff-end">
+                                </div>
+                                <button class="dday-btn" onclick="calculateDateDiff()">계산하기</button>
+                                <div class="dday-result" id="diff-result" style="display: none;">
+                                    <div class="dday-result-value" id="diff-value">0</div>
+                                    <div class="dday-result-label">일</div>
+                                    <div class="dday-result-date" id="diff-detail"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Add/Subtract Days Calculator -->
+                        <div class="dday-card">
+                            <h3>➕ 날짜 더하기/빼기</h3>
+                            <p class="dday-desc">특정 날짜에서 일수를 더하거나 뺀 날짜를 계산합니다.</p>
+                            <div class="dday-form">
+                                <div class="dday-input-group">
+                                    <label>기준 날짜</label>
+                                    <input type="date" id="add-base">
+                                </div>
+                                <div class="dday-input-group">
+                                    <label>더하거나 뺄 일수 (음수 가능)</label>
+                                    <input type="number" id="add-days" placeholder="예: 30 또는 -7">
+                                </div>
+                                <button class="dday-btn" onclick="calculateAddDays()">계산하기</button>
+                                <div class="dday-result" id="add-result" style="display: none;">
+                                    <div class="dday-result-value" id="add-value" style="font-size: 1.5rem;"></div>
+                                    <div class="dday-result-label" id="add-label"></div>
+                                    <div class="dday-result-date" id="add-weekday"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 24px; padding: 16px; background: var(--card-bg); border: 1px solid var(--card-border); border-radius: var(--radius);">
+                        <p style="color: var(--text-muted); font-size: 0.85rem; text-align: center;">
+                            💡 오늘 날짜: <span id="today-date-display"></span>
+                        </p>
+                    </div>
+                </section>
             </div>
 
             <footer class="main-footer">
@@ -1430,7 +1609,8 @@
             'about': '회사소개',
             'contact': '연락처',
             'calculator': '검사 계산기',
-            'quote': '쉬어가기 > 오늘의 명언'
+            'quote': '쉬어가기 > 오늘의 명언',
+            'dday': '쉬어가기 > D-day 계산기'
         };
 
         // Quotes data
@@ -1696,7 +1876,128 @@
         document.addEventListener('DOMContentLoaded', function() {
             showRandomQuote();
             updateQuoteDate();
+            initializeDdayPage();
         });
+
+        // D-day Calculator Functions
+        function initializeDdayPage() {
+            // Set today's date display
+            const today = new Date();
+            const options = { year: 'numeric', month: 'long', day: 'numeric', weekday: 'long' };
+            const todayDisplay = document.getElementById('today-date-display');
+            if (todayDisplay) {
+                todayDisplay.textContent = today.toLocaleDateString('ko-KR', options);
+            }
+
+            // Set default values for date inputs
+            const todayStr = today.toISOString().split('T')[0];
+            const ddayTarget = document.getElementById('dday-target');
+            const diffStart = document.getElementById('diff-start');
+            const diffEnd = document.getElementById('diff-end');
+            const addBase = document.getElementById('add-base');
+
+            if (ddayTarget) ddayTarget.value = todayStr;
+            if (diffStart) diffStart.value = todayStr;
+            if (diffEnd) diffEnd.value = todayStr;
+            if (addBase) addBase.value = todayStr;
+        }
+
+        function calculateDday() {
+            const targetInput = document.getElementById('dday-target').value;
+            if (!targetInput) {
+                alert('날짜를 선택해주세요.');
+                return;
+            }
+
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            const target = new Date(targetInput);
+            target.setHours(0, 0, 0, 0);
+
+            const diffTime = target - today;
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+            const valueEl = document.getElementById('dday-value');
+            const labelEl = document.getElementById('dday-label');
+            const dateEl = document.getElementById('dday-date');
+
+            valueEl.className = 'dday-result-value';
+
+            if (diffDays > 0) {
+                valueEl.textContent = `D-${diffDays}`;
+                labelEl.textContent = `${diffDays}일 남았습니다`;
+            } else if (diffDays < 0) {
+                valueEl.textContent = `D+${Math.abs(diffDays)}`;
+                valueEl.classList.add('past');
+                labelEl.textContent = `${Math.abs(diffDays)}일 지났습니다`;
+            } else {
+                valueEl.textContent = 'D-Day';
+                valueEl.classList.add('today');
+                labelEl.textContent = '오늘입니다!';
+            }
+
+            const options = { year: 'numeric', month: 'long', day: 'numeric', weekday: 'long' };
+            dateEl.textContent = target.toLocaleDateString('ko-KR', options);
+
+            document.getElementById('dday-result').style.display = 'block';
+        }
+
+        function calculateDateDiff() {
+            const startInput = document.getElementById('diff-start').value;
+            const endInput = document.getElementById('diff-end').value;
+
+            if (!startInput || !endInput) {
+                alert('두 날짜를 모두 선택해주세요.');
+                return;
+            }
+
+            const start = new Date(startInput);
+            const end = new Date(endInput);
+
+            const diffTime = Math.abs(end - start);
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+            document.getElementById('diff-value').textContent = diffDays;
+
+            const weeks = Math.floor(diffDays / 7);
+            const remainingDays = diffDays % 7;
+            let detail = '';
+            if (weeks > 0) {
+                detail = `(${weeks}주`;
+                if (remainingDays > 0) {
+                    detail += ` ${remainingDays}일`;
+                }
+                detail += ')';
+            }
+            document.getElementById('diff-detail').textContent = detail;
+
+            document.getElementById('diff-result').style.display = 'block';
+        }
+
+        function calculateAddDays() {
+            const baseInput = document.getElementById('add-base').value;
+            const daysInput = document.getElementById('add-days').value;
+
+            if (!baseInput || daysInput === '') {
+                alert('날짜와 일수를 입력해주세요.');
+                return;
+            }
+
+            const base = new Date(baseInput);
+            const days = parseInt(daysInput);
+
+            const result = new Date(base);
+            result.setDate(result.getDate() + days);
+
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            const weekdayOptions = { weekday: 'long' };
+
+            document.getElementById('add-value').textContent = result.toLocaleDateString('ko-KR', options);
+            document.getElementById('add-label').textContent = days >= 0 ? `${days}일 후` : `${Math.abs(days)}일 전`;
+            document.getElementById('add-weekday').textContent = result.toLocaleDateString('ko-KR', weekdayOptions);
+
+            document.getElementById('add-result').style.display = 'block';
+        }
     </script>
 </body>
 </html>
