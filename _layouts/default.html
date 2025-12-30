@@ -70,6 +70,8 @@
         .sidebar-header {
             padding: 20px;
             border-bottom: 1px solid var(--card-border);
+            min-height: 81px;
+            box-sizing: border-box;
         }
 
         .sidebar-logo {
@@ -233,6 +235,8 @@
             position: sticky;
             top: 0;
             z-index: 50;
+            min-height: 81px;
+            box-sizing: border-box;
         }
 
         .header-title {
@@ -743,6 +747,21 @@
                         <span class="nav-item-icon">📧</span>
                         <span>연락처</span>
                     </a>
+
+                    <div class="nav-tree">
+                        <div class="nav-tree-item" onclick="toggleSubmenu(this)">
+                            <div class="nav-tree-left">
+                                <span class="nav-item-icon">☕</span>
+                                <span>쉬어가기</span>
+                            </div>
+                            <span class="nav-tree-arrow">▶</span>
+                        </div>
+                        <div class="nav-submenu">
+                            <a class="nav-item" href="https://varoyutnori.vercel.app/" target="_blank">
+                                <span>🎲 윳놀이</span>
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </nav>
         </aside>
