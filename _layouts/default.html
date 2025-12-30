@@ -83,14 +83,13 @@
         .logo-icon {
             width: 40px;
             height: 40px;
-            background: linear-gradient(135deg, var(--accent-blue), var(--accent-cyan));
             border-radius: 10px;
+            object-fit: contain;
+        }
+
+        .logo-text-wrap {
             display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 800;
-            font-size: 1.2rem;
-            color: white;
+            flex-direction: column;
         }
 
         .logo-text {
@@ -101,6 +100,12 @@
 
         .logo-text span {
             color: var(--accent-cyan);
+        }
+
+        .logo-subtext {
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+            letter-spacing: 0.5px;
         }
 
         /* ===== Navigation ===== */
@@ -691,8 +696,11 @@
         <aside class="sidebar" id="sidebar">
             <div class="sidebar-header">
                 <a href="#" class="sidebar-logo" onclick="showPage('home')">
-                    <div class="logo-icon">Z</div>
-                    <div class="logo-text">ZOIH<span>SOFT</span></div>
+                    <img src="assets/images/조이소프트_엠블럼.png" alt="ZOIHSOFT" class="logo-icon">
+                    <div class="logo-text-wrap">
+                        <div class="logo-text">ZOIH<span>SOFT</span></div>
+                        <div class="logo-subtext">조이소프트</div>
+                    </div>
                 </a>
             </div>
 
@@ -925,7 +933,7 @@
                     <div class="contact-section">
                         <h2>연락하기</h2>
                         <p>따뜻한 기술로 함께할 프로젝트 문의나 상담이 필요하시면 언제든 연락주세요</p>
-                        <a href="mailto:zoih.contact@gmail.com" class="contact-email">zoih.contact@gmail.com</a>
+                        <a href="mailto:contact@zoihsoft.com" class="contact-email">contact@zoihsoft.com</a>
                     </div>
                 </section>
             </div>
