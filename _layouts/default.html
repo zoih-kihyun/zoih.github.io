@@ -777,6 +777,9 @@
                             <a class="nav-item" data-page="worldclock" onclick="showPage('worldclock')">
                                 <span>🕐 세계 시간</span>
                             </a>
+                            <a class="nav-item" data-page="numbergame" onclick="showPage('numbergame')">
+                                <span>🔢 숫자 맞추기</span>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -1747,6 +1750,203 @@
                         </p>
                     </div>
                 </section>
+
+                <!-- Number Game Page -->
+                <section class="page-section" id="page-numbergame">
+                    <style>
+                        .game-container {
+                            display: flex;
+                            flex-direction: column;
+                            align-items: center;
+                            justify-content: center;
+                            min-height: 60vh;
+                            text-align: center;
+                            padding: 40px 20px;
+                        }
+                        .game-card {
+                            background: var(--card-bg);
+                            border: 1px solid var(--card-border);
+                            border-radius: var(--radius);
+                            padding: 40px;
+                            max-width: 450px;
+                            width: 100%;
+                        }
+                        .game-title {
+                            font-size: 1.5rem;
+                            font-weight: 700;
+                            color: var(--text-primary);
+                            margin-bottom: 8px;
+                        }
+                        .game-desc {
+                            color: var(--text-secondary);
+                            font-size: 0.95rem;
+                            margin-bottom: 24px;
+                        }
+                        .game-input-area {
+                            display: flex;
+                            gap: 12px;
+                            margin-bottom: 20px;
+                        }
+                        .game-input {
+                            flex: 1;
+                            background: var(--sidebar-bg);
+                            border: 1px solid var(--card-border);
+                            border-radius: var(--radius-sm);
+                            padding: 14px 16px;
+                            color: var(--text-primary);
+                            font-size: 1.2rem;
+                            text-align: center;
+                            font-weight: 600;
+                        }
+                        .game-input:focus {
+                            outline: none;
+                            border-color: var(--accent-blue);
+                        }
+                        .game-btn {
+                            background: linear-gradient(135deg, var(--accent-blue), var(--accent-cyan));
+                            color: white;
+                            border: none;
+                            border-radius: var(--radius-sm);
+                            padding: 14px 24px;
+                            font-size: 1rem;
+                            font-weight: 600;
+                            cursor: pointer;
+                            transition: all 0.2s ease;
+                        }
+                        .game-btn:hover {
+                            transform: translateY(-1px);
+                            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+                        }
+                        .game-btn:disabled {
+                            opacity: 0.5;
+                            cursor: not-allowed;
+                            transform: none;
+                        }
+                        .game-message {
+                            min-height: 60px;
+                            display: flex;
+                            flex-direction: column;
+                            align-items: center;
+                            justify-content: center;
+                            margin-bottom: 20px;
+                        }
+                        .game-hint {
+                            font-size: 1.3rem;
+                            font-weight: 600;
+                            margin-bottom: 8px;
+                        }
+                        .game-hint.up { color: #ef4444; }
+                        .game-hint.down { color: #3b82f6; }
+                        .game-hint.correct { color: var(--accent-green); }
+                        .game-hint-sub {
+                            font-size: 0.9rem;
+                            color: var(--text-muted);
+                        }
+                        .game-stats {
+                            display: flex;
+                            justify-content: center;
+                            gap: 32px;
+                            padding: 16px;
+                            background: var(--sidebar-bg);
+                            border-radius: var(--radius-sm);
+                            margin-bottom: 20px;
+                        }
+                        .game-stat {
+                            text-align: center;
+                        }
+                        .game-stat-value {
+                            font-size: 1.5rem;
+                            font-weight: 700;
+                            color: var(--accent-cyan);
+                        }
+                        .game-stat-label {
+                            font-size: 0.8rem;
+                            color: var(--text-muted);
+                        }
+                        .game-reset {
+                            background: transparent;
+                            border: 1px solid var(--card-border);
+                            border-radius: var(--radius-sm);
+                            padding: 10px 20px;
+                            color: var(--text-secondary);
+                            font-size: 0.9rem;
+                            cursor: pointer;
+                            transition: all 0.2s ease;
+                        }
+                        .game-reset:hover {
+                            border-color: var(--accent-blue);
+                            color: var(--text-primary);
+                        }
+                        .game-history {
+                            margin-top: 20px;
+                            padding: 16px;
+                            background: var(--sidebar-bg);
+                            border-radius: var(--radius-sm);
+                            max-height: 120px;
+                            overflow-y: auto;
+                        }
+                        .game-history-title {
+                            font-size: 0.85rem;
+                            color: var(--text-muted);
+                            margin-bottom: 8px;
+                        }
+                        .game-history-list {
+                            display: flex;
+                            flex-wrap: wrap;
+                            gap: 8px;
+                            justify-content: center;
+                        }
+                        .game-history-item {
+                            padding: 4px 10px;
+                            border-radius: 999px;
+                            font-size: 0.85rem;
+                            font-weight: 500;
+                        }
+                        .game-history-item.up {
+                            background: rgba(239, 68, 68, 0.2);
+                            color: #ef4444;
+                        }
+                        .game-history-item.down {
+                            background: rgba(59, 130, 246, 0.2);
+                            color: #3b82f6;
+                        }
+                    </style>
+
+                    <div class="game-container">
+                        <div class="game-card">
+                            <h2 class="game-title">🔢 숫자 맞추기</h2>
+                            <p class="game-desc">1부터 100 사이의 숫자를 맞춰보세요!</p>
+
+                            <div class="game-stats">
+                                <div class="game-stat">
+                                    <div class="game-stat-value" id="game-attempts">0</div>
+                                    <div class="game-stat-label">시도 횟수</div>
+                                </div>
+                                <div class="game-stat">
+                                    <div class="game-stat-value" id="game-range">1~100</div>
+                                    <div class="game-stat-label">범위</div>
+                                </div>
+                            </div>
+
+                            <div class="game-message">
+                                <div class="game-hint" id="game-hint">숫자를 입력하세요</div>
+                                <div class="game-hint-sub" id="game-hint-sub">행운을 빕니다! 🍀</div>
+                            </div>
+
+                            <div class="game-input-area">
+                                <input type="number" class="game-input" id="game-input" min="1" max="100" placeholder="1-100">
+                                <button class="game-btn" id="game-submit" onclick="submitGuess()">확인</button>
+                            </div>
+
+                            <button class="game-reset" onclick="resetGame()">🔄 새 게임</button>
+
+                            <div class="game-history" id="game-history" style="display: none;">
+                                <div class="game-history-title">시도한 숫자</div>
+                                <div class="game-history-list" id="game-history-list"></div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
             </div>
 
             <footer class="main-footer">
@@ -1767,7 +1967,8 @@
             'calculator': '검사 계산기',
             'quote': '쉬어가기 > 오늘의 명언',
             'dday': '쉬어가기 > D-day 계산기',
-            'worldclock': '쉬어가기 > 세계 시간'
+            'worldclock': '쉬어가기 > 세계 시간',
+            'numbergame': '쉬어가기 > 숫자 맞추기'
         };
 
         // Quotes data
@@ -2201,6 +2402,105 @@
             updateWorldClocks();
             setInterval(updateWorldClocks, 1000);
         }
+
+        // Number Game Functions
+        let gameNumber = 0;
+        let gameAttempts = 0;
+        let gameMin = 1;
+        let gameMax = 100;
+        let gameOver = false;
+        let gameHistory = [];
+
+        function initializeGame() {
+            gameNumber = Math.floor(Math.random() * 100) + 1;
+            gameAttempts = 0;
+            gameMin = 1;
+            gameMax = 100;
+            gameOver = false;
+            gameHistory = [];
+
+            document.getElementById('game-attempts').textContent = '0';
+            document.getElementById('game-range').textContent = '1~100';
+            document.getElementById('game-hint').textContent = '숫자를 입력하세요';
+            document.getElementById('game-hint').className = 'game-hint';
+            document.getElementById('game-hint-sub').textContent = '행운을 빕니다! 🍀';
+            document.getElementById('game-input').value = '';
+            document.getElementById('game-input').disabled = false;
+            document.getElementById('game-submit').disabled = false;
+            document.getElementById('game-history').style.display = 'none';
+            document.getElementById('game-history-list').innerHTML = '';
+        }
+
+        function submitGuess() {
+            if (gameOver) return;
+
+            const input = document.getElementById('game-input');
+            const guess = parseInt(input.value);
+
+            if (isNaN(guess) || guess < 1 || guess > 100) {
+                alert('1부터 100 사이의 숫자를 입력해주세요.');
+                return;
+            }
+
+            gameAttempts++;
+            document.getElementById('game-attempts').textContent = gameAttempts;
+
+            const hintEl = document.getElementById('game-hint');
+            const hintSubEl = document.getElementById('game-hint-sub');
+            const historyEl = document.getElementById('game-history');
+            const historyListEl = document.getElementById('game-history-list');
+
+            // Add to history
+            const historyItem = document.createElement('span');
+            historyItem.textContent = guess;
+            historyItem.className = 'game-history-item';
+
+            if (guess < gameNumber) {
+                hintEl.textContent = '⬆️ UP!';
+                hintEl.className = 'game-hint up';
+                hintSubEl.textContent = `${guess}보다 큽니다`;
+                gameMin = Math.max(gameMin, guess + 1);
+                historyItem.classList.add('up');
+            } else if (guess > gameNumber) {
+                hintEl.textContent = '⬇️ DOWN!';
+                hintEl.className = 'game-hint down';
+                hintSubEl.textContent = `${guess}보다 작습니다`;
+                gameMax = Math.min(gameMax, guess - 1);
+                historyItem.classList.add('down');
+            } else {
+                hintEl.textContent = '🎉 정답!';
+                hintEl.className = 'game-hint correct';
+                hintSubEl.textContent = `${gameAttempts}번 만에 맞추셨습니다!`;
+                gameOver = true;
+                document.getElementById('game-input').disabled = true;
+                document.getElementById('game-submit').disabled = true;
+            }
+
+            historyListEl.appendChild(historyItem);
+            historyEl.style.display = 'block';
+
+            document.getElementById('game-range').textContent = `${gameMin}~${gameMax}`;
+            input.value = '';
+            input.focus();
+        }
+
+        function resetGame() {
+            initializeGame();
+            document.getElementById('game-input').focus();
+        }
+
+        // Add Enter key support for game input
+        document.addEventListener('DOMContentLoaded', function() {
+            const gameInput = document.getElementById('game-input');
+            if (gameInput) {
+                gameInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        submitGuess();
+                    }
+                });
+            }
+            initializeGame();
+        });
     </script>
 </body>
 </html>
