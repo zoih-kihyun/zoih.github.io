@@ -780,6 +780,9 @@
                             <a class="nav-item" data-page="numbergame" onclick="showPage('numbergame')">
                                 <span>🔢 숫자 맞추기</span>
                             </a>
+                            <a class="nav-item" data-page="medquiz" onclick="showPage('medquiz')">
+                                <span>🧩 의료 퀴즈</span>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -1947,6 +1950,169 @@
                         </div>
                     </div>
                 </section>
+
+                <!-- Medical Quiz Page -->
+                <section class="page-section" id="page-medquiz">
+                    <style>
+                        .quiz-container {
+                            display: flex;
+                            flex-direction: column;
+                            align-items: center;
+                            padding: 40px 20px;
+                        }
+                        .quiz-card {
+                            background: var(--card-bg);
+                            border: 1px solid var(--card-border);
+                            border-radius: var(--radius);
+                            padding: 32px;
+                            max-width: 600px;
+                            width: 100%;
+                        }
+                        .quiz-header {
+                            display: flex;
+                            justify-content: space-between;
+                            align-items: center;
+                            margin-bottom: 24px;
+                            padding-bottom: 16px;
+                            border-bottom: 1px solid var(--card-border);
+                        }
+                        .quiz-progress {
+                            font-size: 0.9rem;
+                            color: var(--text-muted);
+                        }
+                        .quiz-score {
+                            font-size: 0.9rem;
+                            color: var(--accent-cyan);
+                            font-weight: 600;
+                        }
+                        .quiz-question {
+                            font-size: 1.2rem;
+                            font-weight: 600;
+                            color: var(--text-primary);
+                            margin-bottom: 24px;
+                            line-height: 1.6;
+                        }
+                        .quiz-options {
+                            display: flex;
+                            flex-direction: column;
+                            gap: 12px;
+                            margin-bottom: 24px;
+                        }
+                        .quiz-option {
+                            background: var(--sidebar-bg);
+                            border: 2px solid var(--card-border);
+                            border-radius: var(--radius-sm);
+                            padding: 16px 20px;
+                            color: var(--text-primary);
+                            font-size: 1rem;
+                            cursor: pointer;
+                            transition: all 0.2s ease;
+                            text-align: left;
+                        }
+                        .quiz-option:hover:not(.disabled) {
+                            border-color: var(--accent-blue);
+                            background: rgba(59, 130, 246, 0.1);
+                        }
+                        .quiz-option.selected {
+                            border-color: var(--accent-blue);
+                            background: rgba(59, 130, 246, 0.2);
+                        }
+                        .quiz-option.correct {
+                            border-color: var(--accent-green);
+                            background: rgba(16, 185, 129, 0.2);
+                        }
+                        .quiz-option.wrong {
+                            border-color: #ef4444;
+                            background: rgba(239, 68, 68, 0.2);
+                        }
+                        .quiz-option.disabled {
+                            cursor: not-allowed;
+                            opacity: 0.7;
+                        }
+                        .quiz-feedback {
+                            padding: 16px;
+                            border-radius: var(--radius-sm);
+                            margin-bottom: 20px;
+                            display: none;
+                        }
+                        .quiz-feedback.correct {
+                            background: rgba(16, 185, 129, 0.1);
+                            border: 1px solid var(--accent-green);
+                            color: var(--accent-green);
+                        }
+                        .quiz-feedback.wrong {
+                            background: rgba(239, 68, 68, 0.1);
+                            border: 1px solid #ef4444;
+                            color: #ef4444;
+                        }
+                        .quiz-explanation {
+                            margin-top: 8px;
+                            font-size: 0.9rem;
+                            color: var(--text-secondary);
+                        }
+                        .quiz-btn {
+                            background: linear-gradient(135deg, var(--accent-blue), var(--accent-cyan));
+                            color: white;
+                            border: none;
+                            border-radius: var(--radius-sm);
+                            padding: 14px 28px;
+                            font-size: 1rem;
+                            font-weight: 600;
+                            cursor: pointer;
+                            transition: all 0.2s ease;
+                            width: 100%;
+                        }
+                        .quiz-btn:hover {
+                            transform: translateY(-1px);
+                            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+                        }
+                        .quiz-btn:disabled {
+                            opacity: 0.5;
+                            cursor: not-allowed;
+                            transform: none;
+                        }
+                        .quiz-result {
+                            text-align: center;
+                            padding: 40px 20px;
+                        }
+                        .quiz-result-icon {
+                            font-size: 4rem;
+                            margin-bottom: 16px;
+                        }
+                        .quiz-result-title {
+                            font-size: 1.5rem;
+                            font-weight: 700;
+                            color: var(--text-primary);
+                            margin-bottom: 8px;
+                        }
+                        .quiz-result-score {
+                            font-size: 2rem;
+                            font-weight: 700;
+                            color: var(--accent-cyan);
+                            margin-bottom: 16px;
+                        }
+                        .quiz-result-message {
+                            color: var(--text-secondary);
+                            margin-bottom: 24px;
+                        }
+                    </style>
+
+                    <div class="quiz-container">
+                        <div class="quiz-card" id="quiz-card">
+                            <div class="quiz-header">
+                                <span class="quiz-progress" id="quiz-progress">문제 1/10</span>
+                                <span class="quiz-score" id="quiz-score">점수: 0</span>
+                            </div>
+                            <div class="quiz-question" id="quiz-question">퀴즈를 시작하려면 아래 버튼을 클릭하세요.</div>
+                            <div class="quiz-options" id="quiz-options"></div>
+                            <div class="quiz-feedback" id="quiz-feedback">
+                                <div id="quiz-feedback-text"></div>
+                                <div class="quiz-explanation" id="quiz-explanation"></div>
+                            </div>
+                            <button class="quiz-btn" id="quiz-btn" onclick="startQuiz()">퀴즈 시작</button>
+                        </div>
+                    </div>
+                </section>
             </div>
 
             <footer class="main-footer">
@@ -1968,7 +2134,8 @@
             'quote': '쉬어가기 > 오늘의 명언',
             'dday': '쉬어가기 > D-day 계산기',
             'worldclock': '쉬어가기 > 세계 시간',
-            'numbergame': '쉬어가기 > 숫자 맞추기'
+            'numbergame': '쉬어가기 > 숫자 맞추기',
+            'medquiz': '쉬어가기 > 의료 퀴즈'
         };
 
         // Quotes data
@@ -2501,6 +2668,245 @@
             }
             initializeGame();
         });
+
+        // Medical Quiz Data
+        const medQuizQuestions = [
+            {
+                question: "혈액 검체를 담는 EDTA 튜브의 뚜껑 색깔은?",
+                options: ["빨간색", "보라색", "파란색", "초록색"],
+                answer: 1,
+                explanation: "EDTA 튜브는 보라색(Lavender) 뚜껑으로 구분되며, 주로 CBC(일반혈액검사)에 사용됩니다."
+            },
+            {
+                question: "정상 성인의 공복 혈당 기준치로 올바른 것은?",
+                options: ["50-70 mg/dL", "70-100 mg/dL", "100-126 mg/dL", "126-150 mg/dL"],
+                answer: 1,
+                explanation: "정상 공복 혈당은 70-100 mg/dL입니다. 100-125 mg/dL은 공복혈당장애, 126 mg/dL 이상은 당뇨병으로 분류됩니다."
+            },
+            {
+                question: "CBC 검사에서 WBC가 의미하는 것은?",
+                options: ["적혈구", "백혈구", "혈소판", "혈색소"],
+                answer: 1,
+                explanation: "WBC(White Blood Cell)는 백혈구를 의미하며, 감염이나 염증 등을 평가하는 지표입니다."
+            },
+            {
+                question: "응고 검사(PT, aPTT)에 사용되는 튜브의 뚜껑 색깔은?",
+                options: ["빨간색", "보라색", "파란색", "노란색"],
+                answer: 2,
+                explanation: "응고 검사용 튜브는 파란색 뚜껑으로 구분되며, 구연산나트륨(Sodium Citrate)이 첨가되어 있습니다."
+            },
+            {
+                question: "HbA1c 검사가 반영하는 혈당 조절 기간은?",
+                options: ["지난 1주일", "지난 1개월", "지난 2-3개월", "지난 6개월"],
+                answer: 2,
+                explanation: "HbA1c(당화혈색소)는 적혈구의 수명(약 120일)동안의 평균 혈당을 반영하여 약 2-3개월의 혈당 조절 상태를 보여줍니다."
+            },
+            {
+                question: "혈청(Serum)과 혈장(Plasma)의 차이점은?",
+                options: ["혈청에는 적혈구가 있다", "혈장에는 혈소판이 없다", "혈청에는 피브리노겐이 없다", "혈장에는 백혈구가 있다"],
+                answer: 2,
+                explanation: "혈청은 혈액 응고 후 얻어지므로 피브리노겐이 피브린으로 전환되어 없고, 혈장은 항응고제 처리 후 얻어져 피브리노겐을 포함합니다."
+            },
+            {
+                question: "BUN 검사가 평가하는 장기는?",
+                options: ["간", "신장", "췌장", "심장"],
+                answer: 1,
+                explanation: "BUN(Blood Urea Nitrogen, 혈중요소질소)은 신장 기능을 평가하는 지표로, 신장에서 배설되는 요소의 혈중 농도를 측정합니다."
+            },
+            {
+                question: "HL7 프로토콜의 주요 용도는?",
+                options: ["영상 저장", "의료 정보 교환", "환자 스케줄링", "약물 조제"],
+                answer: 1,
+                explanation: "HL7(Health Level Seven)은 의료 정보 시스템 간의 데이터 교환을 위한 국제 표준 프로토콜입니다."
+            },
+            {
+                question: "AST, ALT 수치 상승이 주로 의미하는 것은?",
+                options: ["신장 손상", "간 손상", "폐 손상", "근육 손상만"],
+                answer: 1,
+                explanation: "AST(GOT)와 ALT(GPT)는 주로 간세포에 존재하며, 간 손상 시 혈중으로 유출되어 수치가 상승합니다."
+            },
+            {
+                question: "ESR(적혈구침강속도) 검사에서 증가하는 경우는?",
+                options: ["탈수", "다혈구증", "염증/감염", "적혈구증가증"],
+                answer: 2,
+                explanation: "ESR은 염증, 감염, 자가면역질환 등에서 증가하며, 비특이적 염증 지표로 사용됩니다."
+            },
+            {
+                question: "미생물 배양에서 '콜로니(Colony)'란?",
+                options: ["단일 세균", "세균 집락", "항생제 디스크", "배지 이름"],
+                answer: 1,
+                explanation: "콜로니는 하나의 미생물이 증식하여 형성된 눈에 보이는 세균 집락을 말합니다."
+            },
+            {
+                question: "혈액형 검사에서 ABO 타입과 함께 반드시 확인하는 것은?",
+                options: ["HLA 타입", "Rh 인자", "HbA1c", "혈청 단백"],
+                answer: 1,
+                explanation: "ABO 혈액형과 함께 Rh 인자(+/-)를 확인하는 것이 수혈과 임신 관리에 필수적입니다."
+            },
+            {
+                question: "PCR 검사의 원리는?",
+                options: ["항원-항체 반응", "DNA 증폭", "세포 배양", "효소 분석"],
+                answer: 1,
+                explanation: "PCR(Polymerase Chain Reaction)은 특정 DNA 서열을 수백만 배로 증폭시켜 검출하는 분자진단 기법입니다."
+            },
+            {
+                question: "정상 성인의 혈소판 수 정상 범위는?",
+                options: ["5만-10만/μL", "15만-40만/μL", "50만-80만/μL", "100만 이상/μL"],
+                answer: 1,
+                explanation: "정상 혈소판 수는 약 15만-40만/μL이며, 이보다 낮으면 혈소판감소증, 높으면 혈소판증가증입니다."
+            },
+            {
+                question: "ASTM 프로토콜이 주로 사용되는 곳은?",
+                options: ["병동 환자 관리", "검사 장비 인터페이스", "약국 처방 시스템", "영상의학과 PACS"],
+                answer: 1,
+                explanation: "ASTM(American Society for Testing and Materials)은 검사실 장비와 LIS 간 데이터 통신에 주로 사용되는 프로토콜입니다."
+            },
+            {
+                question: "Creatinine 검사가 평가하는 것은?",
+                options: ["간 기능", "신장 기능", "췌장 기능", "갑상선 기능"],
+                answer: 1,
+                explanation: "Creatinine(크레아티닌)은 근육 대사 산물로 신장에서 배설되어, 신장 기능(사구체여과율)을 평가하는 지표입니다."
+            },
+            {
+                question: "요검사에서 단백뇨가 지속적으로 나타나면 의심되는 것은?",
+                options: ["당뇨병", "신장 질환", "간 질환", "갑상선 질환"],
+                answer: 1,
+                explanation: "지속적인 단백뇨는 신장 사구체의 손상을 시사하며, 당뇨병성 신장병증이나 만성 신장질환의 징후일 수 있습니다."
+            },
+            {
+                question: "혈액 응고 검사에서 INR이 사용되는 이유는?",
+                options: ["검사 속도 향상", "검사 결과 표준화", "비용 절감", "환자 편의성"],
+                answer: 1,
+                explanation: "INR(International Normalized Ratio)은 PT 결과를 국제적으로 표준화하여 시약과 장비에 관계없이 비교 가능하게 합니다."
+            },
+            {
+                question: "CBC 검사에서 MCV, MCH, MCHC는 무엇을 평가하는가?",
+                options: ["백혈구 종류", "적혈구 지수", "혈소판 기능", "응고 인자"],
+                answer: 1,
+                explanation: "MCV(평균적혈구용적), MCH(평균적혈구혈색소), MCHC(평균적혈구혈색소농도)는 적혈구의 크기와 헤모글로빈 함량을 나타내는 적혈구 지수입니다."
+            },
+            {
+                question: "LIS(Laboratory Information System)의 주요 역할은?",
+                options: ["환자 진료 예약", "검사실 정보 관리", "의료 영상 저장", "전자 처방"],
+                answer: 1,
+                explanation: "LIS는 검사 의뢰, 결과 보고, 장비 인터페이스, 정도관리 등 검사실의 모든 정보를 관리하는 시스템입니다."
+            }
+        ];
+
+        // Quiz state variables
+        let quizQuestions = [];
+        let currentQuizIndex = 0;
+        let quizScore = 0;
+        let selectedAnswer = null;
+
+        function startQuiz() {
+            // Shuffle and select 10 questions
+            quizQuestions = [...medQuizQuestions].sort(() => Math.random() - 0.5).slice(0, 10);
+            currentQuizIndex = 0;
+            quizScore = 0;
+            selectedAnswer = null;
+
+            document.getElementById('quiz-start-screen').style.display = 'none';
+            document.getElementById('quiz-game-screen').style.display = 'block';
+            document.getElementById('quiz-result-screen').style.display = 'none';
+
+            showQuestion();
+        }
+
+        function showQuestion() {
+            const question = quizQuestions[currentQuizIndex];
+
+            document.getElementById('quiz-progress').textContent = `문제 ${currentQuizIndex + 1} / ${quizQuestions.length}`;
+            document.getElementById('quiz-score').textContent = `점수: ${quizScore}`;
+            document.getElementById('quiz-question').textContent = question.question;
+
+            const optionsContainer = document.getElementById('quiz-options');
+            optionsContainer.innerHTML = '';
+
+            question.options.forEach((option, index) => {
+                const button = document.createElement('button');
+                button.className = 'quiz-option';
+                button.textContent = option;
+                button.onclick = () => selectQuizAnswer(index);
+                optionsContainer.appendChild(button);
+            });
+
+            document.getElementById('quiz-feedback').style.display = 'none';
+            document.getElementById('quiz-next-btn').style.display = 'none';
+            selectedAnswer = null;
+        }
+
+        function selectQuizAnswer(index) {
+            if (selectedAnswer !== null) return; // Already answered
+            selectedAnswer = index;
+
+            const question = quizQuestions[currentQuizIndex];
+            const options = document.querySelectorAll('.quiz-option');
+            const feedback = document.getElementById('quiz-feedback');
+
+            options.forEach((option, i) => {
+                option.disabled = true;
+                if (i === question.answer) {
+                    option.classList.add('correct');
+                } else if (i === index && index !== question.answer) {
+                    option.classList.add('wrong');
+                }
+            });
+
+            if (index === question.answer) {
+                quizScore += 10;
+                document.getElementById('quiz-score').textContent = `점수: ${quizScore}`;
+                feedback.innerHTML = `<span style="color: var(--primary-color);">정답입니다!</span><br>${question.explanation}`;
+            } else {
+                feedback.innerHTML = `<span style="color: #e74c3c;">오답입니다.</span><br>${question.explanation}`;
+            }
+
+            feedback.style.display = 'block';
+            document.getElementById('quiz-next-btn').style.display = 'block';
+        }
+
+        function nextQuestion() {
+            currentQuizIndex++;
+            if (currentQuizIndex < quizQuestions.length) {
+                showQuestion();
+            } else {
+                showQuizResult();
+            }
+        }
+
+        function showQuizResult() {
+            document.getElementById('quiz-game-screen').style.display = 'none';
+            document.getElementById('quiz-result-screen').style.display = 'block';
+
+            const percentage = (quizScore / (quizQuestions.length * 10)) * 100;
+            let grade, message;
+
+            if (percentage === 100) {
+                grade = "S";
+                message = "완벽합니다! 당신은 진정한 검사실 전문가입니다!";
+            } else if (percentage >= 80) {
+                grade = "A";
+                message = "훌륭합니다! 검사실에 대해 잘 알고 계시네요!";
+            } else if (percentage >= 60) {
+                grade = "B";
+                message = "좋습니다! 조금만 더 공부하면 전문가가 될 수 있어요!";
+            } else if (percentage >= 40) {
+                grade = "C";
+                message = "괜찮아요! 검사실에 대해 더 알아가는 중이시네요!";
+            } else {
+                grade = "D";
+                message = "아쉽네요. 검사실의 세계는 넓답니다. 다시 도전해보세요!";
+            }
+
+            document.getElementById('quiz-final-score').textContent = quizScore;
+            document.getElementById('quiz-grade').textContent = grade;
+            document.getElementById('quiz-message').textContent = message;
+        }
+
+        function restartQuiz() {
+            document.getElementById('quiz-result-screen').style.display = 'none';
+            document.getElementById('quiz-start-screen').style.display = 'block';
+        }
     </script>
 </body>
 </html>
