@@ -774,6 +774,9 @@
                             <a class="nav-item" data-page="dday" onclick="showPage('dday')">
                                 <span>📅 D-day 계산기</span>
                             </a>
+                            <a class="nav-item" data-page="worldclock" onclick="showPage('worldclock')">
+                                <span>🕐 세계 시간</span>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -1591,6 +1594,159 @@
                         </p>
                     </div>
                 </section>
+
+                <!-- World Clock Page -->
+                <section class="page-section" id="page-worldclock">
+                    <style>
+                        .clock-grid {
+                            display: grid;
+                            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+                            gap: 20px;
+                        }
+                        .clock-card {
+                            background: var(--card-bg);
+                            border: 1px solid var(--card-border);
+                            border-radius: var(--radius);
+                            padding: 24px;
+                            text-align: center;
+                            transition: all 0.3s ease;
+                        }
+                        .clock-card:hover {
+                            border-color: var(--accent-blue);
+                            transform: translateY(-2px);
+                        }
+                        .clock-card.local {
+                            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(6, 182, 212, 0.1));
+                            border-color: var(--accent-cyan);
+                        }
+                        .clock-city {
+                            font-size: 1.1rem;
+                            font-weight: 600;
+                            color: var(--text-primary);
+                            margin-bottom: 4px;
+                        }
+                        .clock-country {
+                            font-size: 0.85rem;
+                            color: var(--text-muted);
+                            margin-bottom: 12px;
+                        }
+                        .clock-time {
+                            font-size: 2.5rem;
+                            font-weight: 700;
+                            color: var(--accent-cyan);
+                            font-family: 'Consolas', 'Monaco', monospace;
+                            letter-spacing: 2px;
+                        }
+                        .clock-date {
+                            font-size: 0.9rem;
+                            color: var(--text-secondary);
+                            margin-top: 8px;
+                        }
+                        .clock-diff {
+                            font-size: 0.8rem;
+                            color: var(--text-muted);
+                            margin-top: 8px;
+                            padding: 4px 12px;
+                            background: var(--sidebar-bg);
+                            border-radius: 999px;
+                            display: inline-block;
+                        }
+                        .clock-status {
+                            display: inline-block;
+                            width: 8px;
+                            height: 8px;
+                            border-radius: 50%;
+                            margin-right: 6px;
+                        }
+                        .clock-status.day { background: var(--accent-amber); }
+                        .clock-status.night { background: var(--accent-violet); }
+                    </style>
+
+                    <div class="section-header" style="margin-bottom: 24px;">
+                        <h2 class="section-title">세계 시간</h2>
+                        <p class="section-desc">주요 도시의 현재 시간 (의료장비 업체 소재지 기준)</p>
+                    </div>
+
+                    <div class="clock-grid">
+                        <!-- Seoul (Local) -->
+                        <div class="clock-card local">
+                            <div class="clock-city">🇰🇷 서울</div>
+                            <div class="clock-country">대한민국 (현지)</div>
+                            <div class="clock-time" id="clock-seoul">--:--:--</div>
+                            <div class="clock-date" id="date-seoul">-</div>
+                            <div class="clock-diff">KST (UTC+9)</div>
+                        </div>
+
+                        <!-- Tokyo -->
+                        <div class="clock-card">
+                            <div class="clock-city">🇯🇵 도쿄</div>
+                            <div class="clock-country">일본</div>
+                            <div class="clock-time" id="clock-tokyo">--:--:--</div>
+                            <div class="clock-date" id="date-tokyo">-</div>
+                            <div class="clock-diff">JST (UTC+9)</div>
+                        </div>
+
+                        <!-- Beijing -->
+                        <div class="clock-card">
+                            <div class="clock-city">🇨🇳 베이징</div>
+                            <div class="clock-country">중국</div>
+                            <div class="clock-time" id="clock-beijing">--:--:--</div>
+                            <div class="clock-date" id="date-beijing">-</div>
+                            <div class="clock-diff">CST (UTC+8)</div>
+                        </div>
+
+                        <!-- Singapore -->
+                        <div class="clock-card">
+                            <div class="clock-city">🇸🇬 싱가포르</div>
+                            <div class="clock-country">싱가포르</div>
+                            <div class="clock-time" id="clock-singapore">--:--:--</div>
+                            <div class="clock-date" id="date-singapore">-</div>
+                            <div class="clock-diff">SGT (UTC+8)</div>
+                        </div>
+
+                        <!-- Frankfurt -->
+                        <div class="clock-card">
+                            <div class="clock-city">🇩🇪 프랑크푸르트</div>
+                            <div class="clock-country">독일</div>
+                            <div class="clock-time" id="clock-frankfurt">--:--:--</div>
+                            <div class="clock-date" id="date-frankfurt">-</div>
+                            <div class="clock-diff" id="diff-frankfurt">CET (UTC+1)</div>
+                        </div>
+
+                        <!-- London -->
+                        <div class="clock-card">
+                            <div class="clock-city">🇬🇧 런던</div>
+                            <div class="clock-country">영국</div>
+                            <div class="clock-time" id="clock-london">--:--:--</div>
+                            <div class="clock-date" id="date-london">-</div>
+                            <div class="clock-diff" id="diff-london">GMT (UTC+0)</div>
+                        </div>
+
+                        <!-- New York -->
+                        <div class="clock-card">
+                            <div class="clock-city">🇺🇸 뉴욕</div>
+                            <div class="clock-country">미국 동부</div>
+                            <div class="clock-time" id="clock-newyork">--:--:--</div>
+                            <div class="clock-date" id="date-newyork">-</div>
+                            <div class="clock-diff" id="diff-newyork">EST (UTC-5)</div>
+                        </div>
+
+                        <!-- Los Angeles -->
+                        <div class="clock-card">
+                            <div class="clock-city">🇺🇸 로스앤젤레스</div>
+                            <div class="clock-country">미국 서부</div>
+                            <div class="clock-time" id="clock-la">--:--:--</div>
+                            <div class="clock-date" id="date-la">-</div>
+                            <div class="clock-diff" id="diff-la">PST (UTC-8)</div>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 24px; padding: 16px; background: var(--card-bg); border: 1px solid var(--card-border); border-radius: var(--radius);">
+                        <p style="color: var(--text-muted); font-size: 0.85rem; text-align: center;">
+                            🔄 1초마다 자동 업데이트 | 서머타임(DST) 자동 반영
+                        </p>
+                    </div>
+                </section>
             </div>
 
             <footer class="main-footer">
@@ -1610,7 +1766,8 @@
             'contact': '연락처',
             'calculator': '검사 계산기',
             'quote': '쉬어가기 > 오늘의 명언',
-            'dday': '쉬어가기 > D-day 계산기'
+            'dday': '쉬어가기 > D-day 계산기',
+            'worldclock': '쉬어가기 > 세계 시간'
         };
 
         // Quotes data
@@ -1872,11 +2029,12 @@
             }
         }
 
-        // Initialize quote on page load
+        // Initialize on page load
         document.addEventListener('DOMContentLoaded', function() {
             showRandomQuote();
             updateQuoteDate();
             initializeDdayPage();
+            initializeWorldClock();
         });
 
         // D-day Calculator Functions
@@ -1997,6 +2155,51 @@
             document.getElementById('add-weekday').textContent = result.toLocaleDateString('ko-KR', weekdayOptions);
 
             document.getElementById('add-result').style.display = 'block';
+        }
+
+        // World Clock Functions
+        const worldClockCities = [
+            { id: 'seoul', timezone: 'Asia/Seoul' },
+            { id: 'tokyo', timezone: 'Asia/Tokyo' },
+            { id: 'beijing', timezone: 'Asia/Shanghai' },
+            { id: 'singapore', timezone: 'Asia/Singapore' },
+            { id: 'frankfurt', timezone: 'Europe/Berlin' },
+            { id: 'london', timezone: 'Europe/London' },
+            { id: 'newyork', timezone: 'America/New_York' },
+            { id: 'la', timezone: 'America/Los_Angeles' }
+        ];
+
+        function updateWorldClocks() {
+            const now = new Date();
+
+            worldClockCities.forEach(city => {
+                const timeEl = document.getElementById(`clock-${city.id}`);
+                const dateEl = document.getElementById(`date-${city.id}`);
+
+                if (timeEl && dateEl) {
+                    const timeOptions = {
+                        timeZone: city.timezone,
+                        hour: '2-digit',
+                        minute: '2-digit',
+                        second: '2-digit',
+                        hour12: false
+                    };
+                    const dateOptions = {
+                        timeZone: city.timezone,
+                        month: 'short',
+                        day: 'numeric',
+                        weekday: 'short'
+                    };
+
+                    timeEl.textContent = now.toLocaleTimeString('ko-KR', timeOptions);
+                    dateEl.textContent = now.toLocaleDateString('ko-KR', dateOptions);
+                }
+            });
+        }
+
+        function initializeWorldClock() {
+            updateWorldClocks();
+            setInterval(updateWorldClocks, 1000);
         }
     </script>
 </body>
