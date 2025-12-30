@@ -768,6 +768,9 @@
                             <a class="nav-item" href="https://varoyutnori.vercel.app/" target="_blank">
                                 <span>🎲 윳놀이</span>
                             </a>
+                            <a class="nav-item" data-page="quote" onclick="showPage('quote')">
+                                <span>💬 오늘의 명언</span>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -1327,6 +1330,88 @@
                         </p>
                     </div>
                 </section>
+
+                <!-- Quote Page -->
+                <section class="page-section" id="page-quote">
+                    <style>
+                        .quote-container {
+                            display: flex;
+                            flex-direction: column;
+                            align-items: center;
+                            justify-content: center;
+                            min-height: 60vh;
+                            text-align: center;
+                            padding: 40px 20px;
+                        }
+                        .quote-card {
+                            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(139, 92, 246, 0.1));
+                            border: 1px solid var(--card-border);
+                            border-radius: var(--radius);
+                            padding: 60px 40px;
+                            max-width: 700px;
+                            width: 100%;
+                            position: relative;
+                        }
+                        .quote-icon {
+                            font-size: 4rem;
+                            opacity: 0.3;
+                            position: absolute;
+                            top: 20px;
+                            left: 30px;
+                        }
+                        .quote-text {
+                            font-size: 1.6rem;
+                            font-weight: 500;
+                            line-height: 1.8;
+                            color: var(--text-primary);
+                            margin-bottom: 24px;
+                            position: relative;
+                            z-index: 1;
+                        }
+                        .quote-author {
+                            font-size: 1.1rem;
+                            color: var(--accent-cyan);
+                            font-weight: 600;
+                        }
+                        .quote-author-title {
+                            font-size: 0.9rem;
+                            color: var(--text-muted);
+                            margin-top: 4px;
+                        }
+                        .quote-btn {
+                            margin-top: 40px;
+                            background: linear-gradient(135deg, var(--accent-blue), var(--accent-violet));
+                            color: white;
+                            border: none;
+                            border-radius: 999px;
+                            padding: 14px 32px;
+                            font-size: 1rem;
+                            font-weight: 600;
+                            cursor: pointer;
+                            transition: all 0.2s ease;
+                        }
+                        .quote-btn:hover {
+                            transform: translateY(-2px);
+                            box-shadow: 0 8px 24px rgba(139, 92, 246, 0.3);
+                        }
+                        .quote-date {
+                            margin-top: 24px;
+                            font-size: 0.85rem;
+                            color: var(--text-muted);
+                        }
+                    </style>
+
+                    <div class="quote-container">
+                        <div class="quote-card">
+                            <div class="quote-icon">"</div>
+                            <p class="quote-text" id="quote-text">인생에서 가장 중요한 것은 자신을 발견하는 것이다.</p>
+                            <p class="quote-author" id="quote-author">소크라테스</p>
+                            <p class="quote-author-title" id="quote-author-title">고대 그리스 철학자</p>
+                        </div>
+                        <button class="quote-btn" onclick="showRandomQuote()">✨ 다른 명언 보기</button>
+                        <p class="quote-date" id="quote-date"></p>
+                    </div>
+                </section>
             </div>
 
             <footer class="main-footer">
@@ -1344,8 +1429,38 @@
             'product-olbaro': '제품 소개 > 올바로',
             'about': '회사소개',
             'contact': '연락처',
-            'calculator': '검사 계산기'
+            'calculator': '검사 계산기',
+            'quote': '쉬어가기 > 오늘의 명언'
         };
+
+        // Quotes data
+        const quotes = [
+            { text: "인생에서 가장 중요한 것은 자신을 발견하는 것이다.", author: "소크라테스", title: "고대 그리스 철학자" },
+            { text: "천 리 길도 한 걸음부터 시작된다.", author: "노자", title: "고대 중국 철학자" },
+            { text: "배움에는 왕도가 없다.", author: "유클리드", title: "고대 그리스 수학자" },
+            { text: "실패는 성공의 어머니다.", author: "토마스 에디슨", title: "발명가" },
+            { text: "오늘 할 수 있는 일을 내일로 미루지 마라.", author: "벤자민 프랭클린", title: "정치가, 과학자" },
+            { text: "작은 기회로부터 종종 위대한 업적이 시작된다.", author: "데모스테네스", title: "고대 그리스 웅변가" },
+            { text: "지식은 힘이다.", author: "프랜시스 베이컨", title: "영국 철학자" },
+            { text: "행복은 습관이다. 그것을 몸에 지니라.", author: "엘버트 허버드", title: "미국 작가" },
+            { text: "성공의 비결은 단 한 가지, 잘할 수 있는 일에 광적으로 집중하는 것이다.", author: "톰 모나건", title: "도미노피자 창업자" },
+            { text: "나는 생각한다, 고로 존재한다.", author: "르네 데카르트", title: "프랑스 철학자" },
+            { text: "시작이 반이다.", author: "아리스토텔레스", title: "고대 그리스 철학자" },
+            { text: "위대한 일을 이루려면 행동만 해서는 안 되고, 꿈도 꾸어야 한다.", author: "아나톨 프랑스", title: "프랑스 작가" },
+            { text: "삶이 있는 한 희망은 있다.", author: "키케로", title: "로마 정치가" },
+            { text: "스스로 할 수 있다고 믿든, 할 수 없다고 믿든, 믿는 대로 될 것이다.", author: "헨리 포드", title: "포드 창업자" },
+            { text: "가장 큰 영광은 한 번도 실패하지 않음이 아니라, 실패할 때마다 다시 일어서는 데 있다.", author: "공자", title: "고대 중국 사상가" },
+            { text: "현재를 즐겨라.", author: "호라티우스", title: "로마 시인" },
+            { text: "인내는 쓰지만 그 열매는 달다.", author: "장 자크 루소", title: "프랑스 철학자" },
+            { text: "모든 위대한 꿈은 몽상가로부터 시작된다.", author: "해리엇 터브먼", title: "미국 인권운동가" },
+            { text: "진정한 발견의 여정은 새로운 풍경을 찾는 것이 아니라 새로운 눈을 갖는 것이다.", author: "마르셀 프루스트", title: "프랑스 작가" },
+            { text: "불가능이란 노력하지 않는 자의 변명이다.", author: "나폴레옹 보나파르트", title: "프랑스 황제" },
+            { text: "아는 것이 힘이다.", author: "토마스 홉스", title: "영국 철학자" },
+            { text: "겨울이 오면 봄이 멀지 않으리.", author: "퍼시 비시 셸리", title: "영국 시인" },
+            { text: "오직 배움만이 정신의 젊음을 유지할 수 있다.", author: "헨리 포드", title: "포드 창업자" },
+            { text: "삶은 가까이서 보면 비극이지만, 멀리서 보면 희극이다.", author: "찰리 채플린", title: "영화배우, 감독" },
+            { text: "꿈을 계속 간직하고 있으면 반드시 실현할 때가 온다.", author: "괴테", title: "독일 문학가" }
+        ];
 
         // Show page
         function showPage(pageId) {
@@ -1556,6 +1671,32 @@
                 interpretation.className = 'calc-result-interpretation danger';
             }
         }
+
+        // Quote Functions
+        function showRandomQuote() {
+            const randomIndex = Math.floor(Math.random() * quotes.length);
+            const quote = quotes[randomIndex];
+
+            document.getElementById('quote-text').textContent = quote.text;
+            document.getElementById('quote-author').textContent = quote.author;
+            document.getElementById('quote-author-title').textContent = quote.title;
+        }
+
+        function updateQuoteDate() {
+            const now = new Date();
+            const options = { year: 'numeric', month: 'long', day: 'numeric', weekday: 'long' };
+            const dateStr = now.toLocaleDateString('ko-KR', options);
+            const dateEl = document.getElementById('quote-date');
+            if (dateEl) {
+                dateEl.textContent = dateStr;
+            }
+        }
+
+        // Initialize quote on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            showRandomQuote();
+            updateQuoteDate();
+        });
     </script>
 </body>
 </html>
