@@ -256,12 +256,112 @@ permalink: /games/run-joykim/
             jumpForce: -15,
             doubleJumpForce: -13,
             groundHeight: 60,
-            initialSpeed: 6,
-            maxSpeed: 18,
-            speedIncrement: 0.001,
-            obstacleMinGap: 80,
-            obstacleMaxGap: 200,
+            initialSpeed: 3,          // 시작 속도 (느리게)
+            maxSpeed: 12,             // 최대 속도 (기존 초기값 수준)
+            speedIncrement: 0.0002,   // 속도 증가율 (천천히)
+            obstacleMinGap: 250,      // 최소 장애물 간격 (넓게)
+            obstacleMaxGap: 450,      // 최대 장애물 간격 (넓게)
         };
+
+        // ===== Sound System (Web Audio API) =====
+        const SoundManager = {
+            audioContext: null,
+            enabled: true,
+
+            init() {
+                try {
+                    this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                } catch (e) {
+                    console.log('Web Audio API not supported');
+                    this.enabled = false;
+                }
+            },
+
+            resume() {
+                if (this.audioContext && this.audioContext.state === 'suspended') {
+                    this.audioContext.resume();
+                }
+            },
+
+            play(type) {
+                if (!this.enabled || !this.audioContext) return;
+                this.resume();
+
+                const ctx = this.audioContext;
+                const oscillator = ctx.createOscillator();
+                const gainNode = ctx.createGain();
+
+                oscillator.connect(gainNode);
+                gainNode.connect(ctx.destination);
+
+                const now = ctx.currentTime;
+
+                switch (type) {
+                    case 'jump':
+                        oscillator.type = 'sine';
+                        oscillator.frequency.setValueAtTime(400, now);
+                        oscillator.frequency.exponentialRampToValueAtTime(600, now + 0.1);
+                        gainNode.gain.setValueAtTime(0.3, now);
+                        gainNode.gain.exponentialRampToValueAtTime(0.01, now + 0.15);
+                        oscillator.start(now);
+                        oscillator.stop(now + 0.15);
+                        break;
+
+                    case 'doubleJump':
+                        oscillator.type = 'sine';
+                        oscillator.frequency.setValueAtTime(500, now);
+                        oscillator.frequency.exponentialRampToValueAtTime(800, now + 0.1);
+                        gainNode.gain.setValueAtTime(0.25, now);
+                        gainNode.gain.exponentialRampToValueAtTime(0.01, now + 0.12);
+                        oscillator.start(now);
+                        oscillator.stop(now + 0.12);
+                        break;
+
+                    case 'gameOver':
+                        oscillator.type = 'sawtooth';
+                        oscillator.frequency.setValueAtTime(300, now);
+                        oscillator.frequency.exponentialRampToValueAtTime(100, now + 0.3);
+                        gainNode.gain.setValueAtTime(0.3, now);
+                        gainNode.gain.exponentialRampToValueAtTime(0.01, now + 0.4);
+                        oscillator.start(now);
+                        oscillator.stop(now + 0.4);
+                        break;
+
+                    case 'start':
+                        oscillator.type = 'square';
+                        oscillator.frequency.setValueAtTime(440, now);
+                        gainNode.gain.setValueAtTime(0.2, now);
+                        gainNode.gain.exponentialRampToValueAtTime(0.01, now + 0.1);
+                        oscillator.start(now);
+                        oscillator.stop(now + 0.1);
+
+                        // Second beep
+                        const osc2 = ctx.createOscillator();
+                        const gain2 = ctx.createGain();
+                        osc2.connect(gain2);
+                        gain2.connect(ctx.destination);
+                        osc2.type = 'square';
+                        osc2.frequency.setValueAtTime(660, now + 0.12);
+                        gain2.gain.setValueAtTime(0.2, now + 0.12);
+                        gain2.gain.exponentialRampToValueAtTime(0.01, now + 0.22);
+                        osc2.start(now + 0.12);
+                        osc2.stop(now + 0.22);
+                        break;
+
+                    case 'score':
+                        oscillator.type = 'sine';
+                        oscillator.frequency.setValueAtTime(880, now);
+                        gainNode.gain.setValueAtTime(0.15, now);
+                        gainNode.gain.exponentialRampToValueAtTime(0.01, now + 0.08);
+                        oscillator.start(now);
+                        oscillator.stop(now + 0.08);
+                        break;
+                }
+            }
+        };
+
+        // Initialize sound on first user interaction
+        SoundManager.init();
 
         // ===== Canvas Setup =====
         const canvas = document.getElementById('gameCanvas');
@@ -402,12 +502,14 @@ permalink: /games/run-joykim/
                 player.jumpCount = 1;
                 player.canDoubleJump = true;
                 createJumpParticles();
+                SoundManager.play('jump');
             } else if (player.canDoubleJump && player.jumpCount < 2) {
                 // Double jump
                 player.velocityY = CONFIG.doubleJumpForce;
                 player.jumpCount = 2;
                 player.canDoubleJump = false;
                 createJumpParticles();
+                SoundManager.play('doubleJump');
             }
         }
 
@@ -463,11 +565,13 @@ permalink: /games/run-joykim/
             document.getElementById('startOverlay').classList.add('hidden');
             document.getElementById('gameOverOverlay').classList.add('hidden');
 
+            SoundManager.play('start');
             updateUI();
         }
 
         function gameOver() {
             gameState = 'gameOver';
+            SoundManager.play('gameOver');
 
             const isNewRecord = score > highScore;
             if (isNewRecord) {
@@ -483,11 +587,29 @@ permalink: /games/run-joykim/
         }
 
         function spawnObstacle() {
-            const types = [
-                { width: 30, height: 50, color: '#ef4444' },  // 박스
-                { width: 25, height: 70, color: '#f97316' },  // 기둥
-                { width: 50, height: 35, color: '#eab308' },  // 낮은 장애물
+            // 난이도에 따라 장애물 종류 결정
+            const easyTypes = [
+                { width: 30, height: 40, color: '#eab308' },   // 낮은 박스
             ];
+            const mediumTypes = [
+                { width: 30, height: 40, color: '#eab308' },   // 낮은 박스
+                { width: 35, height: 50, color: '#ef4444' },   // 중간 박스
+            ];
+            const hardTypes = [
+                { width: 30, height: 40, color: '#eab308' },   // 낮은 박스
+                { width: 35, height: 50, color: '#ef4444' },   // 중간 박스
+                { width: 25, height: 65, color: '#f97316' },   // 높은 기둥
+            ];
+
+            // 속도에 따라 장애물 종류 선택
+            let types;
+            if (gameSpeed < 5) {
+                types = easyTypes;      // 초반: 낮은 장애물만
+            } else if (gameSpeed < 8) {
+                types = mediumTypes;    // 중반: 중간 장애물 추가
+            } else {
+                types = hardTypes;      // 후반: 높은 장애물 추가
+            }
 
             const type = types[Math.floor(Math.random() * types.length)];
 
@@ -499,8 +621,9 @@ permalink: /games/run-joykim/
                 color: type.color,
             });
 
-            // 난이도에 따라 다음 장애물 간격 조절
-            const gapReduction = Math.min(gameSpeed * 5, 60);
+            // 난이도에 따라 다음 장애물 간격 조절 (천천히 좁아짐)
+            const progress = (gameSpeed - CONFIG.initialSpeed) / (CONFIG.maxSpeed - CONFIG.initialSpeed);
+            const gapReduction = progress * 150;  // 최대 150까지만 간격 감소
             nextObstacleDistance = CONFIG.obstacleMinGap +
                 Math.random() * (CONFIG.obstacleMaxGap - gapReduction);
         }
