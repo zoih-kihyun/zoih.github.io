@@ -209,7 +209,7 @@
         }
 
         .nav-submenu.open {
-            max-height: 200px;
+            max-height: 500px;
         }
 
         .nav-submenu .nav-item {
@@ -751,6 +751,11 @@
                         <span>연락처</span>
                     </a>
 
+                    <a class="nav-item" data-page="remote" onclick="showPage('remote')">
+                        <span class="nav-item-icon">🖥️</span>
+                        <span>원격지원</span>
+                    </a>
+
                     <a class="nav-item" data-page="calculator" onclick="showPage('calculator')">
                         <span class="nav-item-icon">🧮</span>
                         <span>검사 계산기</span>
@@ -1089,10 +1094,340 @@
 
                 <!-- Contact Page -->
                 <section class="page-section" id="page-contact">
-                    <div class="contact-section">
-                        <h2>연락하기</h2>
-                        <p>따뜻한 기술로 함께할 프로젝트 문의나 상담이 필요하시면 언제든 연락주세요</p>
-                        <a href="mailto:contact@zoihsoft.com" class="contact-email">contact@zoihsoft.com</a>
+                    <style>
+                        .contact-container {
+                            max-width: 800px;
+                            margin: 0 auto;
+                        }
+                        .contact-header {
+                            text-align: center;
+                            margin-bottom: 40px;
+                        }
+                        .contact-header h2 {
+                            font-size: 2rem;
+                            margin-bottom: 12px;
+                        }
+                        .contact-header p {
+                            color: var(--text-secondary);
+                        }
+                        .contact-grid {
+                            display: grid;
+                            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+                            gap: 24px;
+                            margin-bottom: 32px;
+                        }
+                        .contact-card {
+                            background: var(--card-bg);
+                            border: 1px solid var(--card-border);
+                            border-radius: var(--radius);
+                            padding: 24px;
+                        }
+                        .contact-card-title {
+                            font-size: 0.85rem;
+                            color: var(--text-muted);
+                            margin-bottom: 8px;
+                            text-transform: uppercase;
+                            letter-spacing: 0.5px;
+                        }
+                        .contact-card-content {
+                            font-size: 1.1rem;
+                            color: var(--text-primary);
+                            font-weight: 500;
+                        }
+                        .contact-card-content a {
+                            color: var(--accent-cyan);
+                            text-decoration: none;
+                        }
+                        .contact-card-content a:hover {
+                            text-decoration: underline;
+                        }
+                        .contact-card-sub {
+                            font-size: 0.9rem;
+                            color: var(--text-secondary);
+                            margin-top: 4px;
+                        }
+                        .contact-highlight {
+                            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(139, 92, 246, 0.1));
+                            border: 1px solid var(--card-border);
+                            border-radius: var(--radius);
+                            padding: 32px;
+                            text-align: center;
+                            margin-top: 24px;
+                        }
+                        .contact-highlight-icon {
+                            font-size: 2.5rem;
+                            margin-bottom: 12px;
+                        }
+                        .contact-highlight-text {
+                            font-size: 1.2rem;
+                            color: var(--accent-green);
+                            font-weight: 600;
+                        }
+                        .contact-highlight-sub {
+                            color: var(--text-secondary);
+                            margin-top: 8px;
+                        }
+                        .contact-email-btn {
+                            display: inline-block;
+                            background: linear-gradient(135deg, var(--accent-blue), var(--accent-violet));
+                            color: white;
+                            padding: 14px 32px;
+                            border-radius: 999px;
+                            text-decoration: none;
+                            font-weight: 700;
+                            font-size: 1rem;
+                            transition: all 0.2s ease;
+                            margin-top: 24px;
+                        }
+                        .contact-email-btn:hover {
+                            transform: translateY(-2px);
+                            box-shadow: 0 12px 32px rgba(139, 92, 246, 0.3);
+                        }
+                    </style>
+                    <div class="contact-container">
+                        <div class="contact-header">
+                            <h2>연락하기</h2>
+                            <p>따뜻한 기술로 함께할 프로젝트 문의나 상담이 필요하시면 언제든 연락주세요</p>
+                        </div>
+
+                        <div class="contact-grid">
+                            <div class="contact-card">
+                                <div class="contact-card-title">상호명</div>
+                                <div class="contact-card-content">조이소프트 주식회사</div>
+                            </div>
+                            <div class="contact-card">
+                                <div class="contact-card-title">대표자</div>
+                                <div class="contact-card-content">조현태</div>
+                            </div>
+                            <div class="contact-card">
+                                <div class="contact-card-title">전화</div>
+                                <div class="contact-card-content">
+                                    <a href="tel:0507-1314-2592">0507-1314-2592</a>
+                                </div>
+                            </div>
+                            <div class="contact-card">
+                                <div class="contact-card-title">이메일</div>
+                                <div class="contact-card-content">
+                                    <a href="mailto:zoih.contact@gmail.com">zoih.contact@gmail.com</a>
+                                </div>
+                            </div>
+                            <div class="contact-card">
+                                <div class="contact-card-title">근무시간</div>
+                                <div class="contact-card-content">월~금 09:00 ~ 18:00</div>
+                                <div class="contact-card-sub">법정공휴일, 토/일요일 휴무</div>
+                            </div>
+                            <div class="contact-card">
+                                <div class="contact-card-title">사업자등록번호</div>
+                                <div class="contact-card-content">449-81-03948</div>
+                            </div>
+                        </div>
+
+                        <div class="contact-card" style="margin-bottom: 24px;">
+                            <div class="contact-card-title">사업장 소재지</div>
+                            <div class="contact-card-content">대구광역시 달서구 송현로 205 B.I센터 404호</div>
+                        </div>
+
+                        <div class="contact-highlight">
+                            <div class="contact-highlight-icon">🛠️</div>
+                            <div class="contact-highlight-text">기술지원 24시간 365일</div>
+                            <div class="contact-highlight-sub">긴급 기술지원이 필요하시면 언제든 연락주세요</div>
+                        </div>
+
+                        <div style="text-align: center;">
+                            <a href="mailto:zoih.contact@gmail.com" class="contact-email-btn">📧 이메일 문의하기</a>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Remote Support Page -->
+                <section class="page-section" id="page-remote">
+                    <style>
+                        .remote-container {
+                            max-width: 800px;
+                            margin: 0 auto;
+                        }
+                        .remote-header {
+                            background: linear-gradient(135deg, #1e293b, #334155);
+                            border-radius: var(--radius);
+                            padding: 48px 32px;
+                            text-align: center;
+                            margin-bottom: 32px;
+                        }
+                        .remote-header-icon {
+                            font-size: 4rem;
+                            margin-bottom: 16px;
+                            color: var(--accent-cyan);
+                        }
+                        .remote-header h2 {
+                            font-size: 1.8rem;
+                            margin-bottom: 12px;
+                        }
+                        .remote-header p {
+                            color: var(--text-secondary);
+                        }
+                        .remote-guide {
+                            background: var(--card-bg);
+                            border: 1px solid var(--card-border);
+                            border-radius: var(--radius);
+                            padding: 32px;
+                            margin-bottom: 32px;
+                        }
+                        .remote-guide-title {
+                            font-size: 1.2rem;
+                            font-weight: 600;
+                            margin-bottom: 20px;
+                            display: flex;
+                            align-items: center;
+                            gap: 8px;
+                        }
+                        .remote-guide-title span {
+                            color: var(--accent-cyan);
+                        }
+                        .remote-steps {
+                            list-style: none;
+                            padding: 0;
+                        }
+                        .remote-steps li {
+                            padding: 12px 0;
+                            padding-left: 32px;
+                            position: relative;
+                            color: var(--text-secondary);
+                            border-bottom: 1px solid var(--card-border);
+                        }
+                        .remote-steps li:last-child {
+                            border-bottom: none;
+                        }
+                        .remote-steps li::before {
+                            content: attr(data-step);
+                            position: absolute;
+                            left: 0;
+                            color: var(--accent-cyan);
+                            font-weight: 600;
+                        }
+                        .remote-steps strong {
+                            color: var(--text-primary);
+                        }
+                        .remote-btn-container {
+                            text-align: center;
+                            margin-bottom: 32px;
+                        }
+                        .remote-btn {
+                            display: inline-flex;
+                            align-items: center;
+                            gap: 8px;
+                            background: linear-gradient(135deg, var(--accent-blue), var(--accent-violet));
+                            color: white;
+                            padding: 16px 40px;
+                            border-radius: 999px;
+                            text-decoration: none;
+                            font-weight: 700;
+                            font-size: 1.1rem;
+                            transition: all 0.2s ease;
+                        }
+                        .remote-btn:hover {
+                            transform: translateY(-2px);
+                            box-shadow: 0 12px 32px rgba(139, 92, 246, 0.3);
+                        }
+                        .remote-btn-sub {
+                            color: var(--text-muted);
+                            font-size: 0.9rem;
+                            margin-top: 12px;
+                        }
+                        .remote-contact {
+                            background: var(--card-bg);
+                            border: 1px solid var(--card-border);
+                            border-radius: var(--radius);
+                            padding: 32px;
+                        }
+                        .remote-contact-title {
+                            font-size: 1.2rem;
+                            font-weight: 600;
+                            margin-bottom: 20px;
+                            display: flex;
+                            align-items: center;
+                            gap: 8px;
+                        }
+                        .remote-contact-grid {
+                            display: grid;
+                            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                            gap: 16px;
+                            margin-bottom: 16px;
+                        }
+                        .remote-contact-item {
+                            background: var(--main-bg);
+                            border-radius: var(--radius-sm);
+                            padding: 16px;
+                        }
+                        .remote-contact-label {
+                            font-size: 0.85rem;
+                            color: var(--text-muted);
+                            margin-bottom: 4px;
+                        }
+                        .remote-contact-value {
+                            font-size: 1.1rem;
+                            font-weight: 600;
+                            color: var(--text-primary);
+                        }
+                        .remote-contact-value a {
+                            color: var(--accent-cyan);
+                            text-decoration: none;
+                        }
+                        .remote-contact-value a:hover {
+                            text-decoration: underline;
+                        }
+                        .remote-contact-note {
+                            color: var(--text-secondary);
+                            font-size: 0.9rem;
+                        }
+                    </style>
+                    <div class="remote-container">
+                        <div class="remote-header">
+                            <div class="remote-header-icon">🖥️</div>
+                            <h2>원격지원 서비스 안내</h2>
+                            <p>조이소프트(주) 기술지원팀에서 원격으로 문제를 해결해 드립니다.</p>
+                        </div>
+
+                        <div class="remote-guide">
+                            <div class="remote-guide-title">
+                                <span>❓</span> 원격지원 이용 방법
+                            </div>
+                            <ol class="remote-steps">
+                                <li data-step="1.">아래 "<strong>원격지원 시작</strong>" 버튼을 클릭합니다.</li>
+                                <li data-step="2.">원격지원 프로그램을 다운로드하고 실행합니다.</li>
+                                <li data-step="3.">화면에 표시되는 <strong>접속 코드</strong>를 기술지원 담당자에게 알려주세요.</li>
+                                <li data-step="4.">담당자가 원격으로 접속하여 문제를 해결해 드립니다.</li>
+                            </ol>
+                        </div>
+
+                        <div class="remote-btn-container">
+                            <a href="https://120.223.kr/" target="_blank" class="remote-btn">
+                                🔗 원격지원 시작
+                            </a>
+                            <div class="remote-btn-sub">새 창에서 원격지원 페이지가 열립니다.</div>
+                        </div>
+
+                        <div class="remote-contact">
+                            <div class="remote-contact-title">
+                                📞 기술지원 연락처
+                            </div>
+                            <div class="remote-contact-grid">
+                                <div class="remote-contact-item">
+                                    <div class="remote-contact-label">전화 문의</div>
+                                    <div class="remote-contact-value">
+                                        <a href="tel:0507-1314-2592">0507-1314-2592</a>
+                                    </div>
+                                </div>
+                                <div class="remote-contact-item">
+                                    <div class="remote-contact-label">이메일 문의</div>
+                                    <div class="remote-contact-value">
+                                        <a href="mailto:zoih.contact@gmail.com">zoih.contact@gmail.com</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="remote-contact-note">
+                                운영시간: 평일 09:00 ~ 18:00 (점심시간 12:00 ~ 13:00 제외)
+                            </div>
+                        </div>
                     </div>
                 </section>
 
@@ -2098,18 +2433,38 @@
                     </style>
 
                     <div class="quiz-container">
-                        <div class="quiz-card" id="quiz-card">
+                        <!-- Start Screen -->
+                        <div class="quiz-card" id="quiz-start-screen">
+                            <div style="text-align: center; padding: 40px 20px;">
+                                <div style="font-size: 4rem; margin-bottom: 16px;">🧩</div>
+                                <h2 style="font-size: 1.5rem; margin-bottom: 12px;">의료 퀴즈</h2>
+                                <p style="color: var(--text-secondary); margin-bottom: 24px;">검사실 관련 지식을 테스트해보세요!<br>총 10문제가 무작위로 출제됩니다.</p>
+                                <button class="quiz-btn" onclick="startQuiz()">퀴즈 시작</button>
+                            </div>
+                        </div>
+
+                        <!-- Game Screen -->
+                        <div class="quiz-card" id="quiz-game-screen" style="display: none;">
                             <div class="quiz-header">
                                 <span class="quiz-progress" id="quiz-progress">문제 1/10</span>
                                 <span class="quiz-score" id="quiz-score">점수: 0</span>
                             </div>
-                            <div class="quiz-question" id="quiz-question">퀴즈를 시작하려면 아래 버튼을 클릭하세요.</div>
+                            <div class="quiz-question" id="quiz-question"></div>
                             <div class="quiz-options" id="quiz-options"></div>
-                            <div class="quiz-feedback" id="quiz-feedback">
-                                <div id="quiz-feedback-text"></div>
-                                <div class="quiz-explanation" id="quiz-explanation"></div>
+                            <div class="quiz-feedback" id="quiz-feedback"></div>
+                            <button class="quiz-btn" id="quiz-next-btn" onclick="nextQuestion()" style="display: none;">다음 문제</button>
+                        </div>
+
+                        <!-- Result Screen -->
+                        <div class="quiz-card" id="quiz-result-screen" style="display: none;">
+                            <div class="quiz-result">
+                                <div class="quiz-result-icon">🏆</div>
+                                <div class="quiz-result-title">퀴즈 완료!</div>
+                                <div class="quiz-result-score"><span id="quiz-final-score">0</span>점</div>
+                                <div style="font-size: 3rem; margin-bottom: 8px;" id="quiz-grade">-</div>
+                                <div class="quiz-result-message" id="quiz-message"></div>
+                                <button class="quiz-btn" onclick="restartQuiz()">다시 도전하기</button>
                             </div>
-                            <button class="quiz-btn" id="quiz-btn" onclick="startQuiz()">퀴즈 시작</button>
                         </div>
                     </div>
                 </section>
@@ -2130,6 +2485,7 @@
             'product-olbaro': '제품 소개 > 올바로',
             'about': '회사소개',
             'contact': '연락처',
+            'remote': '원격지원',
             'calculator': '검사 계산기',
             'quote': '쉬어가기 > 오늘의 명언',
             'dday': '쉬어가기 > D-day 계산기',
@@ -2790,6 +3146,499 @@
                 options: ["환자 진료 예약", "검사실 정보 관리", "의료 영상 저장", "전자 처방"],
                 answer: 1,
                 explanation: "LIS는 검사 의뢰, 결과 보고, 장비 인터페이스, 정도관리 등 검사실의 모든 정보를 관리하는 시스템입니다."
+            },
+            // 추가 문제 21-100
+            {
+                question: "혈액 배양 검사 시 최적의 채혈량은?",
+                options: ["1-2mL", "5-10mL", "20-30mL", "50mL 이상"],
+                answer: 1,
+                explanation: "성인 혈액 배양 시 병당 8-10mL가 권장되며, 채혈량이 많을수록 양성률이 높아집니다."
+            },
+            {
+                question: "TSH 수치가 높고 T4가 낮으면 의심되는 질환은?",
+                options: ["갑상선기능항진증", "갑상선기능저하증", "부갑상선기능항진증", "쿠싱증후군"],
+                answer: 1,
+                explanation: "TSH 상승과 T4 저하는 원발성 갑상선기능저하증의 전형적인 소견입니다."
+            },
+            {
+                question: "D-dimer 검사가 주로 사용되는 진단은?",
+                options: ["당뇨병", "심근경색", "혈전색전증", "간경변"],
+                answer: 2,
+                explanation: "D-dimer는 혈전 분해 산물로, 심부정맥혈전증(DVT)과 폐색전증(PE) 선별에 사용됩니다."
+            },
+            {
+                question: "Troponin I/T 상승이 의미하는 것은?",
+                options: ["간세포 손상", "심근세포 손상", "신장세포 손상", "췌장세포 손상"],
+                answer: 1,
+                explanation: "Troponin은 심근 특이적 단백질로, 급성 심근경색의 진단에 가장 중요한 표지자입니다."
+            },
+            {
+                question: "CRP(C-반응성 단백)가 상승하는 경우는?",
+                options: ["빈혈", "급성 염증", "고지혈증", "저혈당"],
+                answer: 1,
+                explanation: "CRP는 급성기 반응 단백질로, 감염, 염증, 조직 손상 시 간에서 합성되어 혈중 농도가 상승합니다."
+            },
+            {
+                question: "procalcitonin(PCT)이 특히 유용한 감염 유형은?",
+                options: ["바이러스 감염", "세균성 패혈증", "진균 감염", "기생충 감염"],
+                answer: 1,
+                explanation: "PCT는 세균 감염에 특이적으로 상승하며, 바이러스 감염과 세균 감염의 감별에 유용합니다."
+            },
+            {
+                question: "요검사에서 nitrite 양성이 의미하는 것은?",
+                options: ["당뇨", "세균뇨", "혈뇨", "단백뇨"],
+                answer: 1,
+                explanation: "Nitrite는 세균이 질산염을 환원시켜 생성하므로, 양성은 요로감염(UTI)을 시사합니다."
+            },
+            {
+                question: "황달 환자에서 직접 빌리루빈이 상승하면 의심되는 것은?",
+                options: ["용혈성 빈혈", "폐쇄성 황달", "Gilbert 증후군", "신생아 황달"],
+                answer: 1,
+                explanation: "직접(포합) 빌리루빈 상승은 담도 폐쇄나 간세포 배설 장애를 시사합니다."
+            },
+            {
+                question: "암모니아 수치가 상승하면 가장 우려되는 장기는?",
+                options: ["신장", "뇌", "심장", "폐"],
+                answer: 1,
+                explanation: "간부전 시 암모니아가 축적되어 간성뇌증을 일으킬 수 있어 뇌 기능에 영향을 줍니다."
+            },
+            {
+                question: "Lipase 상승이 가장 특이적으로 나타나는 질환은?",
+                options: ["위염", "췌장염", "간염", "담낭염"],
+                answer: 1,
+                explanation: "Lipase는 췌장 특이적 효소로, 급성 췌장염 진단에 amylase보다 특이도가 높습니다."
+            },
+            {
+                question: "정상 성인의 헤모글로빈 수치로 옳은 것은? (남성 기준)",
+                options: ["8-10 g/dL", "10-12 g/dL", "13-17 g/dL", "18-22 g/dL"],
+                answer: 2,
+                explanation: "성인 남성 헤모글로빈 정상치는 13-17 g/dL, 여성은 12-16 g/dL입니다."
+            },
+            {
+                question: "호산구(Eosinophil) 증가와 관련 있는 것은?",
+                options: ["세균 감염", "바이러스 감염", "알레르기/기생충", "만성 염증"],
+                answer: 2,
+                explanation: "호산구는 알레르기 반응, 기생충 감염, 약물 과민반응 등에서 증가합니다."
+            },
+            {
+                question: "PT(프로트롬빈 시간)가 연장되는 경우는?",
+                options: ["철분 결핍", "비타민 K 결핍", "엽산 결핍", "비타민 B12 결핍"],
+                answer: 1,
+                explanation: "비타민 K는 간에서 응고인자(II, VII, IX, X) 합성에 필수적이며, 결핍 시 PT가 연장됩니다."
+            },
+            {
+                question: "혈액가스분석에서 pH 7.25, PaCO2 60mmHg는?",
+                options: ["대사성 산증", "대사성 알칼리증", "호흡성 산증", "호흡성 알칼리증"],
+                answer: 2,
+                explanation: "pH 감소와 PaCO2 상승은 호흡성 산증(환기 부전)을 의미합니다."
+            },
+            {
+                question: "BNP/NT-proBNP가 상승하는 주요 질환은?",
+                options: ["폐렴", "심부전", "간경변", "신부전"],
+                answer: 1,
+                explanation: "BNP는 심실 벽 장력 증가 시 분비되어 심부전의 진단과 예후 판정에 사용됩니다."
+            },
+            {
+                question: "ALP(알칼리성 인산분해효소)가 상승하는 경우는?",
+                options: ["심근경색", "담도질환/뼈질환", "신부전", "갑상선기능저하"],
+                answer: 1,
+                explanation: "ALP는 담도계와 뼈에 많이 존재하여 담도 폐쇄, 골질환에서 상승합니다."
+            },
+            {
+                question: "GGT 상승과 가장 관련 있는 것은?",
+                options: ["신장 질환", "알코올성 간질환", "폐 질환", "심장 질환"],
+                answer: 1,
+                explanation: "GGT는 알코올 섭취에 민감하여 알코올성 간질환의 선별 검사로 유용합니다."
+            },
+            {
+                question: "LDH(젖산탈수소효소) 동종효소 중 심장에 특이적인 것은?",
+                options: ["LDH-1", "LDH-3", "LDH-5", "LDH-7"],
+                answer: 0,
+                explanation: "LDH-1은 주로 심장과 적혈구에 존재하며, 심근경색 시 상승합니다."
+            },
+            {
+                question: "요산(Uric acid) 상승과 관련된 질환은?",
+                options: ["류마티스 관절염", "통풍", "골다공증", "섬유근육통"],
+                answer: 1,
+                explanation: "요산은 퓨린 대사 산물로, 고요산혈증은 통풍 발작의 원인이 됩니다."
+            },
+            {
+                question: "칼슘 수치 해석 시 함께 확인해야 하는 것은?",
+                options: ["나트륨", "알부민", "포도당", "요소질소"],
+                answer: 1,
+                explanation: "칼슘의 약 40%가 알부민과 결합하므로, 저알부민혈증 시 보정 칼슘을 계산해야 합니다."
+            },
+            {
+                question: "마그네슘 결핍 시 나타나는 증상은?",
+                options: ["고혈압", "근육 경련/부정맥", "다뇨", "황달"],
+                answer: 1,
+                explanation: "저마그네슘혈증은 근육 경련, 부정맥, 저칼슘혈증, 저칼륨혈증을 유발할 수 있습니다."
+            },
+            {
+                question: "인(Phosphorus) 수치가 상승하는 경우는?",
+                options: ["알코올 중독", "만성 신부전", "영양실조", "화상"],
+                answer: 1,
+                explanation: "인은 주로 신장으로 배설되어 신기능 저하 시 혈중 인 수치가 상승합니다."
+            },
+            {
+                question: "Ferritin 수치가 의미하는 것은?",
+                options: ["즉각적 철분 수준", "체내 철분 저장량", "철분 흡수율", "철분 배설량"],
+                answer: 1,
+                explanation: "Ferritin은 체내 철분 저장량을 반영하는 지표로, 철결핍성 빈혈에서 감소합니다."
+            },
+            {
+                question: "TIBC(총철결합능)가 상승하는 경우는?",
+                options: ["철 과잉", "철 결핍", "만성 질환", "용혈성 빈혈"],
+                answer: 1,
+                explanation: "철 결핍 시 더 많은 철을 운반하기 위해 transferrin 합성이 증가하여 TIBC가 상승합니다."
+            },
+            {
+                question: "망상적혈구(Reticulocyte) 증가가 의미하는 것은?",
+                options: ["골수 억제", "적혈구 생성 증가", "철분 결핍", "비타민 결핍"],
+                answer: 1,
+                explanation: "망상적혈구는 미성숙 적혈구로, 증가 시 골수의 적혈구 생성 증가를 의미합니다."
+            },
+            {
+                question: "Haptoglobin이 감소하는 상황은?",
+                options: ["염증", "혈관내 용혈", "감염", "외상"],
+                answer: 1,
+                explanation: "Haptoglobin은 유리 헤모글로빈과 결합하여 제거되므로, 용혈 시 급격히 감소합니다."
+            },
+            {
+                question: "직접 Coombs 검사 양성이 의미하는 것은?",
+                options: ["ABO 부적합", "자가면역 용혈성 빈혈", "철 결핍", "엽산 결핍"],
+                answer: 1,
+                explanation: "직접 Coombs 검사는 적혈구 표면의 항체나 보체를 검출하여 자가면역 용혈을 진단합니다."
+            },
+            {
+                question: "말초혈액도말에서 표적세포(Target cell)가 관찰되는 질환은?",
+                options: ["철결핍성 빈혈", "지중해빈혈/간질환", "재생불량성 빈혈", "급성 백혈병"],
+                answer: 1,
+                explanation: "표적세포는 지중해빈혈, 간질환, 비장적출 후, 혈색소병증에서 관찰됩니다."
+            },
+            {
+                question: "PSA(전립선특이항원) 검사의 목적은?",
+                options: ["방광암 선별", "전립선암 선별", "신장암 선별", "고환암 선별"],
+                answer: 1,
+                explanation: "PSA는 전립선암의 선별, 진단, 치료 후 모니터링에 사용되는 종양표지자입니다."
+            },
+            {
+                question: "CA-125 상승과 관련된 암은?",
+                options: ["유방암", "난소암", "위암", "폐암"],
+                answer: 1,
+                explanation: "CA-125는 난소암의 대표적 종양표지자로, 치료 반응 및 재발 모니터링에 사용됩니다."
+            },
+            {
+                question: "AFP(알파태아단백)가 상승하는 경우는?",
+                options: ["대장암", "간세포암/생식세포종양", "폐암", "유방암"],
+                answer: 1,
+                explanation: "AFP는 간세포암, 난황낭종양, 태아 기형 선별(다운증후군)에서 상승합니다."
+            },
+            {
+                question: "CEA(암배아항원)가 주로 사용되는 암은?",
+                options: ["대장암", "뇌종양", "백혈병", "림프종"],
+                answer: 0,
+                explanation: "CEA는 대장암의 예후 판정과 재발 모니터링에 주로 사용되는 종양표지자입니다."
+            },
+            {
+                question: "CA 19-9가 상승하는 대표적 질환은?",
+                options: ["유방암", "췌장암", "폐암", "갑상선암"],
+                answer: 1,
+                explanation: "CA 19-9는 췌장암과 담도암의 종양표지자로 사용됩니다."
+            },
+            {
+                question: "혈액 검체 채취 시 올바른 순서는?",
+                options: ["EDTA → SST → 응고", "응고 → SST → EDTA", "SST → 응고 → EDTA", "응고 → EDTA → SST"],
+                answer: 1,
+                explanation: "CLSI 가이드라인에 따라 무첨가 또는 응고 튜브 → SST → 헤파린 → EDTA 순서로 채혈합니다."
+            },
+            {
+                question: "용혈된 검체가 영향을 주는 검사는?",
+                options: ["WBC", "칼륨(K)", "나트륨(Na)", "혈당"],
+                answer: 1,
+                explanation: "적혈구 내 칼륨 농도가 높아 용혈 시 혈청 칼륨이 가성으로 상승합니다."
+            },
+            {
+                question: "공복 채혈이 필요한 검사는?",
+                options: ["CBC", "중성지방", "갑상선호르몬", "전해질"],
+                answer: 1,
+                explanation: "중성지방은 식사 영향을 많이 받아 최소 12시간 공복 후 채혈해야 합니다."
+            },
+            {
+                question: "혈액가스분석 검체의 적절한 보관 온도는?",
+                options: ["실온", "냉장", "얼음", "냉동"],
+                answer: 2,
+                explanation: "혈액가스 검체는 세포 대사를 억제하기 위해 얼음에 보관하고 즉시 검사해야 합니다."
+            },
+            {
+                question: "그람 염색에서 보라색으로 염색되는 균은?",
+                options: ["그람 음성균", "그람 양성균", "항산균", "진균"],
+                answer: 1,
+                explanation: "그람 양성균은 두꺼운 펩티도글리칸 층으로 크리스탈 바이올렛을 유지하여 보라색으로 보입니다."
+            },
+            {
+                question: "항산균(AFB) 도말 염색에 사용되는 방법은?",
+                options: ["그람 염색", "Ziehl-Neelsen 염색", "Wright 염색", "PAS 염색"],
+                answer: 1,
+                explanation: "결핵균 등 항산균은 세포벽의 mycolic acid로 인해 Ziehl-Neelsen 항산성 염색으로 검출합니다."
+            },
+            {
+                question: "MIC(최소억제농도)가 의미하는 것은?",
+                options: ["세균 사멸 농도", "세균 증식 억제 최소 농도", "항생제 독성 농도", "혈중 최대 농도"],
+                answer: 1,
+                explanation: "MIC는 세균의 눈에 보이는 증식을 억제하는 최소 항생제 농도입니다."
+            },
+            {
+                question: "MRSA에서 'MR'이 의미하는 것은?",
+                options: ["Multidrug Resistant", "Methicillin Resistant", "Metronidazole Resistant", "Macrolide Resistant"],
+                answer: 1,
+                explanation: "MRSA는 Methicillin-Resistant Staphylococcus aureus로 메티실린 내성 황색포도알균입니다."
+            },
+            {
+                question: "VRE에서 내성을 보이는 항생제는?",
+                options: ["페니실린", "반코마이신", "세팔로스포린", "아미노글리코사이드"],
+                answer: 1,
+                explanation: "VRE는 Vancomycin-Resistant Enterococcus로 반코마이신에 내성인 장구균입니다."
+            },
+            {
+                question: "ESBL 양성균에 사용 가능한 항생제는?",
+                options: ["암피실린", "세프트리악손", "카바페넴", "세파졸린"],
+                answer: 2,
+                explanation: "ESBL은 대부분의 베타락탐 항생제를 분해하나 카바페넴은 안정적입니다."
+            },
+            {
+                question: "혐기성 배양에 사용되는 배지는?",
+                options: ["MacConkey", "Blood agar", "Thioglycollate", "Sabouraud"],
+                answer: 2,
+                explanation: "Thioglycollate 배지는 산소를 환원시켜 혐기성 세균 배양에 적합합니다."
+            },
+            {
+                question: "요배양에서 유의미한 세균 집락수 기준은?",
+                options: ["10² CFU/mL", "10³ CFU/mL", "10⁵ CFU/mL", "10⁷ CFU/mL"],
+                answer: 2,
+                explanation: "중간뇨 배양에서 10⁵ CFU/mL 이상이면 유의미한 세균뇨로 판정합니다."
+            },
+            {
+                question: "CSF(뇌척수액) 정상 백혈구 수는?",
+                options: ["0-5/μL", "20-50/μL", "100-200/μL", "500 이상/μL"],
+                answer: 0,
+                explanation: "정상 CSF 백혈구 수는 0-5/μL이며, 증가 시 뇌수막염을 의심합니다."
+            },
+            {
+                question: "세균성 뇌수막염에서 CSF 포도당 변화는?",
+                options: ["증가", "감소", "변화 없음", "측정 불가"],
+                answer: 1,
+                explanation: "세균이 포도당을 소비하여 세균성 뇌수막염에서 CSF 포도당이 감소합니다."
+            },
+            {
+                question: "혈액 배양 양성 시 가장 흔한 오염균은?",
+                options: ["E. coli", "Coagulase-negative Staphylococcus", "S. aureus", "Pseudomonas"],
+                answer: 1,
+                explanation: "피부 상재균인 Coagulase-negative Staphylococcus가 가장 흔한 오염균입니다."
+            },
+            {
+                question: "객담 검체의 적합성 기준은?",
+                options: ["상피세포 >25개/저배율", "백혈구 >25개/저배율", "적혈구 >25개/저배율", "세균 >25개/저배율"],
+                answer: 1,
+                explanation: "적합한 객담은 저배율에서 백혈구 >25개, 상피세포 <10개여야 합니다."
+            },
+            {
+                question: "교차시험(Crossmatch)의 목적은?",
+                options: ["혈액형 확인", "수혈 적합성 확인", "항체 역가 측정", "응고 기능 검사"],
+                answer: 1,
+                explanation: "교차시험은 공혈자 적혈구와 수혈자 혈청의 반응을 확인하여 수혈 부작용을 예방합니다."
+            },
+            {
+                question: "비예기항체(Unexpected antibody)란?",
+                options: ["ABO 항체", "ABO 이외의 적혈구 항체", "백혈구 항체", "혈소판 항체"],
+                answer: 1,
+                explanation: "비예기항체는 ABO 혈액형 항체 외에 다른 혈액형 항원에 대한 항체입니다."
+            },
+            {
+                question: "수혈 후 발열 반응의 가장 흔한 원인은?",
+                options: ["ABO 부적합", "백혈구 항체", "세균 오염", "알레르기"],
+                answer: 1,
+                explanation: "백혈구 항체에 의한 발열성 비용혈성 수혈반응이 가장 흔합니다."
+            },
+            {
+                question: "급성 용혈성 수혈반응의 가장 흔한 원인은?",
+                options: ["Rh 부적합", "ABO 부적합", "Kell 항체", "Duffy 항체"],
+                answer: 1,
+                explanation: "ABO 혈액형 오류가 급성 용혈성 수혈반응의 가장 흔하고 치명적인 원인입니다."
+            },
+            {
+                question: "농축적혈구 1단위 수혈 시 예상 Hb 상승치는?",
+                options: ["0.5 g/dL", "1 g/dL", "2 g/dL", "3 g/dL"],
+                answer: 1,
+                explanation: "성인에서 농축적혈구 1단위 수혈 시 Hb이 약 1g/dL 상승합니다."
+            },
+            {
+                question: "혈소판 제제의 보관 온도와 기간은?",
+                options: ["4°C, 35일", "22°C 진탕, 5일", "-20°C, 1년", "37°C, 24시간"],
+                answer: 1,
+                explanation: "혈소판은 20-24°C에서 지속적 진탕 보관하며 유효기간은 5일입니다."
+            },
+            {
+                question: "신선동결혈장(FFP)의 주요 적응증은?",
+                options: ["빈혈", "응고인자 결핍", "혈소판 감소", "백혈구 감소"],
+                answer: 1,
+                explanation: "FFP는 응고인자가 포함되어 다발성 응고인자 결핍, DIC 등에 사용됩니다."
+            },
+            {
+                question: "방사선 조사 혈액제제가 필요한 경우는?",
+                options: ["일반 수술", "면역저하 환자", "응급 수혈", "만성 빈혈"],
+                answer: 1,
+                explanation: "면역저하 환자에서 수혈연관 이식편대숙주병(TA-GVHD) 예방을 위해 방사선 조사합니다."
+            },
+            {
+                question: "eGFR 계산에 필요한 검사 항목은?",
+                options: ["BUN", "크레아티닌", "요산", "시스타틴 C만"],
+                answer: 1,
+                explanation: "eGFR은 혈청 크레아티닌, 나이, 성별을 이용하여 계산합니다."
+            },
+            {
+                question: "당뇨병 진단 기준 중 HbA1c 수치는?",
+                options: ["5.7% 이상", "6.0% 이상", "6.5% 이상", "7.0% 이상"],
+                answer: 2,
+                explanation: "HbA1c 6.5% 이상은 당뇨병 진단 기준 중 하나입니다."
+            },
+            {
+                question: "총콜레스테롤 정상 기준치는?",
+                options: ["100 mg/dL 미만", "150 mg/dL 미만", "200 mg/dL 미만", "250 mg/dL 미만"],
+                answer: 2,
+                explanation: "총콜레스테롤 200 mg/dL 미만이 정상이며, 240 이상은 고콜레스테롤혈증입니다."
+            },
+            {
+                question: "HDL 콜레스테롤이 '좋은' 콜레스테롤인 이유는?",
+                options: ["에너지 공급", "말초 콜레스테롤 제거", "세포막 구성", "호르몬 합성"],
+                answer: 1,
+                explanation: "HDL은 말초 조직의 콜레스테롤을 간으로 운반하여 동맥경화를 예방합니다."
+            },
+            {
+                question: "LDL 콜레스테롤 직접 측정이 필요한 경우는?",
+                options: ["정상인", "중성지방 400 mg/dL 이상", "저콜레스테롤혈증", "HDL 상승"],
+                answer: 1,
+                explanation: "중성지방이 높으면 Friedewald 공식이 부정확하여 직접 측정이 필요합니다."
+            },
+            {
+                question: "OGTT(경구당부하검사)에서 당뇨병 진단 기준은?",
+                options: ["1시간 혈당 200 이상", "2시간 혈당 200 이상", "3시간 혈당 200 이상", "공복 혈당만"],
+                answer: 1,
+                explanation: "75g OGTT 후 2시간 혈당 200 mg/dL 이상이면 당뇨병으로 진단합니다."
+            },
+            {
+                question: "소변 케톤체 양성이 의미하는 것은?",
+                options: ["단백질 대사", "지방 대사 증가", "탄수화물 과잉", "수분 부족"],
+                answer: 1,
+                explanation: "케톤체는 지방 대사 산물로, 당뇨병성 케톤산증, 기아, 저탄수화물 식이에서 양성입니다."
+            },
+            {
+                question: "미세알부민뇨 검사의 목적은?",
+                options: ["간 기능 평가", "조기 신장 손상 발견", "빈혈 진단", "감염 확인"],
+                answer: 1,
+                explanation: "미세알부민뇨는 당뇨병성 신장병증의 조기 지표로 사용됩니다."
+            },
+            {
+                question: "혈청 나트륨 정상 범위는?",
+                options: ["125-135 mEq/L", "136-145 mEq/L", "146-155 mEq/L", "156-165 mEq/L"],
+                answer: 1,
+                explanation: "혈청 나트륨 정상 범위는 136-145 mEq/L입니다."
+            },
+            {
+                question: "저나트륨혈증의 가장 흔한 원인은?",
+                options: ["탈수", "SIADH", "애디슨병", "당뇨"],
+                answer: 1,
+                explanation: "SIADH(항이뇨호르몬 부적절분비증후군)가 입원 환자 저나트륨혈증의 흔한 원인입니다."
+            },
+            {
+                question: "고칼륨혈증 시 가장 위험한 합병증은?",
+                options: ["두통", "심장 부정맥", "관절통", "피부 발진"],
+                answer: 1,
+                explanation: "고칼륨혈증은 심장 전도 장애와 치명적인 부정맥을 유발할 수 있습니다."
+            },
+            {
+                question: "동맥혈 가스분석 검체 채취 부위로 가장 흔한 곳은?",
+                options: ["대퇴동맥", "요골동맥", "상완동맥", "경동맥"],
+                answer: 1,
+                explanation: "요골동맥은 표재성이고 접근이 용이하며 척측 순환이 있어 선호됩니다."
+            },
+            {
+                question: "산소포화도(SpO2) 정상 범위는?",
+                options: ["80-85%", "85-90%", "90-95%", "95-100%"],
+                answer: 3,
+                explanation: "정상 산소포화도는 95-100%이며, 90% 미만은 저산소증을 의미합니다."
+            },
+            {
+                question: "젖산(Lactate) 상승이 의미하는 것은?",
+                options: ["고혈당", "조직 저산소증", "고칼륨혈증", "탈수"],
+                answer: 1,
+                explanation: "젖산은 혐기성 대사 산물로, 상승 시 조직 관류 저하나 저산소증을 시사합니다."
+            },
+            {
+                question: "검사실 정도관리(QC)의 목적은?",
+                options: ["비용 절감", "검사 정확성 보장", "인력 관리", "장비 유지보수"],
+                answer: 1,
+                explanation: "정도관리는 검사 결과의 정확성과 정밀성을 지속적으로 모니터링하고 보장합니다."
+            },
+            {
+                question: "Westgard 규칙에서 1-2s 규칙이 의미하는 것은?",
+                options: ["불합격", "경고", "합격", "재검 필요"],
+                answer: 1,
+                explanation: "1-2s는 평균±2SD를 벗어난 것으로 경고 규칙이며, 무작위 오차를 시사합니다."
+            },
+            {
+                question: "내부 정도관리와 외부 정도관리의 차이는?",
+                options: ["비용 차이", "일상 vs 타 기관 비교", "장비 차이", "검사 종류 차이"],
+                answer: 1,
+                explanation: "내부 QC는 일상적 정밀도 확인, 외부 QC는 타 기관과 정확도를 비교 평가합니다."
+            },
+            {
+                question: "Delta check가 검출하는 것은?",
+                options: ["장비 오류", "검체 오류/급격한 변화", "시약 오류", "교정 오류"],
+                answer: 1,
+                explanation: "Delta check는 동일 환자의 이전-현재 결과 차이로 검체 오류나 급성 변화를 검출합니다."
+            },
+            {
+                question: "자동화 검사 장비에서 'carry-over'란?",
+                options: ["시료 부족", "이전 검체 잔류 영향", "시약 소모", "교정 오차"],
+                answer: 1,
+                explanation: "Carry-over는 이전 고농도 검체가 다음 검체 결과에 영향을 주는 현상입니다."
+            },
+            {
+                question: "검사 결과 보고 시 'Critical value'란?",
+                options: ["정상 범위", "생명 위협 수치", "borderline 수치", "평균값"],
+                answer: 1,
+                explanation: "Critical value(공황치)는 즉시 임상 조치가 필요한 생명 위협적 검사 결과입니다."
+            },
+            {
+                question: "TAT(Turn Around Time)이란?",
+                options: ["검사 소요 시간", "의뢰~결과보고 시간", "장비 가동 시간", "시약 유효기간"],
+                answer: 1,
+                explanation: "TAT은 검사 의뢰부터 결과 보고까지의 총 소요 시간을 의미합니다."
+            },
+            {
+                question: "POCT(Point of Care Testing)의 장점은?",
+                options: ["정확도 향상", "신속한 결과", "비용 절감", "자동화"],
+                answer: 1,
+                explanation: "POCT는 환자 곁에서 즉시 검사하여 신속한 결과 확인이 가능합니다."
+            },
+            {
+                question: "혈당 측정기 사용 시 주의사항이 아닌 것은?",
+                options: ["손 씻기", "첫 번째 혈액 사용", "충분한 혈액량", "검사지 유효기간 확인"],
+                answer: 1,
+                explanation: "첫 번째 혈액방울은 닦아내고 두 번째 방울을 사용하는 것이 권장됩니다."
+            },
+            {
+                question: "INR 목표 범위가 2.0-3.0인 적응증은?",
+                options: ["심부정맥혈전증", "기계 심장판막", "출혈 질환", "혈소판 감소증"],
+                answer: 0,
+                explanation: "심부정맥혈전증, 심방세동 등에서 INR 2.0-3.0을 목표로 항응고 치료합니다."
+            },
+            {
+                question: "aPTT 검사로 모니터링하는 약물은?",
+                options: ["와파린", "헤파린", "아스피린", "클로피도그렐"],
+                answer: 1,
+                explanation: "비분획 헤파린 치료 시 aPTT로 모니터링하며, 정상의 1.5-2.5배를 목표로 합니다."
             }
         ];
 
