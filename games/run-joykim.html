@@ -1,0 +1,855 @@
+---
+layout: null
+title: "달려라 조이김 | ZOIHSOFT"
+description: "달려라 조이김 - 무한 러닝 게임"
+permalink: /games/run-joykim/
+---
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>달려라 조이김 | ZOIHSOFT</title>
+    <meta name="description" content="달려라 조이김 - 무한 러닝 게임">
+    <link rel="icon" type="image/png" href="/assets/images/조이소프트_엠블럼.png">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            touch-action: manipulation;
+        }
+
+        .game-container {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .game-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            max-width: 800px;
+            padding: 0 16px;
+            color: #f1f5f9;
+        }
+
+        .game-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #3b82f6, #06b6d4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .score-display {
+            display: flex;
+            gap: 24px;
+            font-size: 1rem;
+        }
+
+        .score-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .score-label {
+            color: #94a3b8;
+        }
+
+        .score-value {
+            font-weight: 700;
+            color: #f59e0b;
+            min-width: 60px;
+        }
+
+        #gameCanvas {
+            border-radius: 12px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            cursor: pointer;
+            max-width: 100%;
+            height: auto;
+        }
+
+        .game-info {
+            color: #64748b;
+            font-size: 0.875rem;
+            text-align: center;
+        }
+
+        .overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: #f1f5f9;
+            z-index: 10;
+            pointer-events: none;
+        }
+
+        .overlay.hidden {
+            display: none;
+        }
+
+        .overlay h2 {
+            font-size: 2.5rem;
+            margin-bottom: 16px;
+            text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .overlay p {
+            font-size: 1.125rem;
+            color: #94a3b8;
+            margin-bottom: 8px;
+        }
+
+        .overlay .final-score {
+            font-size: 3rem;
+            font-weight: 700;
+            color: #f59e0b;
+            margin: 16px 0;
+        }
+
+        .overlay .new-record {
+            color: #10b981;
+            font-size: 1.25rem;
+            animation: pulse 1s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .start-btn {
+            pointer-events: auto;
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            border: none;
+            color: white;
+            padding: 16px 48px;
+            font-size: 1.25rem;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            margin-top: 24px;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 10px 30px -10px rgba(59, 130, 246, 0.5);
+        }
+
+        .start-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 40px -10px rgba(59, 130, 246, 0.6);
+        }
+
+        .start-btn:active {
+            transform: translateY(0);
+        }
+
+        .home-link {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            color: #94a3b8;
+            text-decoration: none;
+            font-size: 0.875rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: color 0.2s;
+            z-index: 100;
+        }
+
+        .home-link:hover {
+            color: #f1f5f9;
+        }
+
+        .controls-hint {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #64748b;
+            font-size: 0.75rem;
+            text-align: center;
+        }
+
+        @media (max-width: 840px) {
+            .game-header {
+                flex-direction: column;
+                gap: 8px;
+            }
+            .score-display {
+                gap: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <a href="/" class="home-link">
+        <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+            <path d="M8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4.5a.5.5 0 0 0 .5-.5v-4h2v4a.5.5 0 0 0 .5.5H14a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146z"/>
+        </svg>
+        홈으로
+    </a>
+
+    <div class="game-container">
+        <div class="game-header">
+            <h1 class="game-title">달려라 조이김</h1>
+            <div class="score-display">
+                <div class="score-item">
+                    <span class="score-label">점수</span>
+                    <span class="score-value" id="currentScore">0</span>
+                </div>
+                <div class="score-item">
+                    <span class="score-label">최고</span>
+                    <span class="score-value" id="highScore">0</span>
+                </div>
+            </div>
+        </div>
+
+        <canvas id="gameCanvas" width="800" height="400"></canvas>
+
+        <div class="overlay" id="startOverlay">
+            <h2>달려라 조이김</h2>
+            <p>장애물을 피해 최대한 멀리 달려보세요!</p>
+            <p style="font-size: 0.875rem; color: #64748b;">스페이스바 / 터치로 점프 (2단 점프 가능)</p>
+            <button class="start-btn" id="startBtn">게임 시작</button>
+        </div>
+
+        <div class="overlay hidden" id="gameOverOverlay">
+            <h2>게임 오버</h2>
+            <p>최종 점수</p>
+            <div class="final-score" id="finalScore">0</div>
+            <div class="new-record hidden" id="newRecord">새로운 기록!</div>
+            <button class="start-btn" id="restartBtn">다시 시작</button>
+        </div>
+
+        <p class="game-info">시간이 지날수록 속도가 빨라집니다!</p>
+    </div>
+
+    <div class="controls-hint">
+        PC: 스페이스바 / 위 화살표 &nbsp;|&nbsp; 모바일: 화면 터치
+    </div>
+
+    <script>
+        // ===== Game Configuration =====
+        const CONFIG = {
+            gravity: 0.8,
+            jumpForce: -15,
+            doubleJumpForce: -13,
+            groundHeight: 60,
+            initialSpeed: 6,
+            maxSpeed: 18,
+            speedIncrement: 0.001,
+            obstacleMinGap: 80,
+            obstacleMaxGap: 200,
+        };
+
+        // ===== Canvas Setup =====
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+
+        // Responsive canvas
+        function resizeCanvas() {
+            const maxWidth = Math.min(800, window.innerWidth - 32);
+            const ratio = maxWidth / 800;
+            canvas.style.width = maxWidth + 'px';
+            canvas.style.height = (400 * ratio) + 'px';
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        // ===== Game State =====
+        let gameState = 'start'; // start, playing, gameOver
+        let score = 0;
+        let highScore = parseInt(localStorage.getItem('joykim_highscore')) || 0;
+        let gameSpeed = CONFIG.initialSpeed;
+        let frameCount = 0;
+
+        // ===== Player =====
+        const player = {
+            x: 100,
+            y: canvas.height - CONFIG.groundHeight - 60,
+            width: 40,
+            height: 60,
+            velocityY: 0,
+            isJumping: false,
+            canDoubleJump: true,
+            jumpCount: 0,
+            animFrame: 0,
+            animTimer: 0,
+        };
+
+        // ===== Obstacles =====
+        let obstacles = [];
+        let nextObstacleDistance = 200;
+
+        // ===== Background Layers (Parallax) =====
+        const bgLayers = [
+            { color: '#1e3a5f', speed: 0.1, elements: [] }, // 먼 산
+            { color: '#2d4a6f', speed: 0.3, elements: [] }, // 중간 산
+            { color: '#3d5a7f', speed: 0.5, elements: [] }, // 가까운 언덕
+        ];
+
+        // Initialize background elements
+        function initBackground() {
+            bgLayers.forEach((layer, idx) => {
+                layer.elements = [];
+                const count = 5 + idx * 2;
+                for (let i = 0; i < count; i++) {
+                    layer.elements.push({
+                        x: i * (canvas.width / count) + Math.random() * 100,
+                        width: 100 + Math.random() * 150,
+                        height: 50 + idx * 30 + Math.random() * 40,
+                    });
+                }
+            });
+        }
+        initBackground();
+
+        // ===== Ground Decoration =====
+        let groundDecorations = [];
+        function initGroundDecorations() {
+            groundDecorations = [];
+            for (let i = 0; i < 20; i++) {
+                groundDecorations.push({
+                    x: i * 50 + Math.random() * 30,
+                    type: Math.random() > 0.7 ? 'rock' : 'grass',
+                });
+            }
+        }
+        initGroundDecorations();
+
+        // ===== Clouds =====
+        let clouds = [];
+        function initClouds() {
+            clouds = [];
+            for (let i = 0; i < 5; i++) {
+                clouds.push({
+                    x: Math.random() * canvas.width,
+                    y: 30 + Math.random() * 80,
+                    width: 60 + Math.random() * 80,
+                    speed: 0.2 + Math.random() * 0.3,
+                });
+            }
+        }
+        initClouds();
+
+        // ===== Particle Effects =====
+        let particles = [];
+
+        function createDustParticles() {
+            if (!player.isJumping && Math.random() > 0.7) {
+                particles.push({
+                    x: player.x + 10,
+                    y: player.y + player.height,
+                    vx: -gameSpeed * 0.3,
+                    vy: -Math.random() * 2,
+                    life: 20,
+                    size: 3 + Math.random() * 3,
+                });
+            }
+        }
+
+        function createJumpParticles() {
+            for (let i = 0; i < 5; i++) {
+                particles.push({
+                    x: player.x + player.width / 2,
+                    y: player.y + player.height,
+                    vx: (Math.random() - 0.5) * 4,
+                    vy: Math.random() * 3,
+                    life: 15,
+                    size: 2 + Math.random() * 3,
+                });
+            }
+        }
+
+        // ===== UI Updates =====
+        function updateUI() {
+            document.getElementById('currentScore').textContent = Math.floor(score);
+            document.getElementById('highScore').textContent = highScore;
+        }
+        updateUI();
+
+        // ===== Input Handling =====
+        let jumpPressed = false;
+
+        function handleJump() {
+            if (gameState !== 'playing') return;
+
+            if (!player.isJumping) {
+                // First jump
+                player.velocityY = CONFIG.jumpForce;
+                player.isJumping = true;
+                player.jumpCount = 1;
+                player.canDoubleJump = true;
+                createJumpParticles();
+            } else if (player.canDoubleJump && player.jumpCount < 2) {
+                // Double jump
+                player.velocityY = CONFIG.doubleJumpForce;
+                player.jumpCount = 2;
+                player.canDoubleJump = false;
+                createJumpParticles();
+            }
+        }
+
+        // Keyboard
+        document.addEventListener('keydown', (e) => {
+            if (e.code === 'Space' || e.code === 'ArrowUp') {
+                e.preventDefault();
+                if (!jumpPressed) {
+                    jumpPressed = true;
+                    handleJump();
+                }
+            }
+        });
+
+        document.addEventListener('keyup', (e) => {
+            if (e.code === 'Space' || e.code === 'ArrowUp') {
+                jumpPressed = false;
+            }
+        });
+
+        // Touch
+        canvas.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            handleJump();
+        });
+
+        canvas.addEventListener('click', (e) => {
+            if (gameState === 'playing') {
+                handleJump();
+            }
+        });
+
+        // Start/Restart buttons
+        document.getElementById('startBtn').addEventListener('click', startGame);
+        document.getElementById('restartBtn').addEventListener('click', startGame);
+
+        // ===== Game Functions =====
+        function startGame() {
+            gameState = 'playing';
+            score = 0;
+            gameSpeed = CONFIG.initialSpeed;
+            frameCount = 0;
+            obstacles = [];
+            nextObstacleDistance = 200;
+            particles = [];
+
+            player.y = canvas.height - CONFIG.groundHeight - player.height;
+            player.velocityY = 0;
+            player.isJumping = false;
+            player.canDoubleJump = true;
+            player.jumpCount = 0;
+
+            document.getElementById('startOverlay').classList.add('hidden');
+            document.getElementById('gameOverOverlay').classList.add('hidden');
+
+            updateUI();
+        }
+
+        function gameOver() {
+            gameState = 'gameOver';
+
+            const isNewRecord = score > highScore;
+            if (isNewRecord) {
+                highScore = Math.floor(score);
+                localStorage.setItem('joykim_highscore', highScore);
+            }
+
+            document.getElementById('finalScore').textContent = Math.floor(score);
+            document.getElementById('newRecord').classList.toggle('hidden', !isNewRecord);
+            document.getElementById('gameOverOverlay').classList.remove('hidden');
+
+            updateUI();
+        }
+
+        function spawnObstacle() {
+            const types = [
+                { width: 30, height: 50, color: '#ef4444' },  // 박스
+                { width: 25, height: 70, color: '#f97316' },  // 기둥
+                { width: 50, height: 35, color: '#eab308' },  // 낮은 장애물
+            ];
+
+            const type = types[Math.floor(Math.random() * types.length)];
+
+            obstacles.push({
+                x: canvas.width + 50,
+                y: canvas.height - CONFIG.groundHeight - type.height,
+                width: type.width,
+                height: type.height,
+                color: type.color,
+            });
+
+            // 난이도에 따라 다음 장애물 간격 조절
+            const gapReduction = Math.min(gameSpeed * 5, 60);
+            nextObstacleDistance = CONFIG.obstacleMinGap +
+                Math.random() * (CONFIG.obstacleMaxGap - gapReduction);
+        }
+
+        function checkCollision(rect1, rect2) {
+            // 약간의 여유를 두어 공정한 충돌 판정
+            const margin = 5;
+            return rect1.x + margin < rect2.x + rect2.width - margin &&
+                   rect1.x + rect1.width - margin > rect2.x + margin &&
+                   rect1.y + margin < rect2.y + rect2.height - margin &&
+                   rect1.y + rect1.height - margin > rect2.y + margin;
+        }
+
+        // ===== Update Functions =====
+        function update() {
+            if (gameState !== 'playing') return;
+
+            frameCount++;
+
+            // Increase speed over time
+            gameSpeed = Math.min(CONFIG.maxSpeed, CONFIG.initialSpeed + frameCount * CONFIG.speedIncrement);
+
+            // Update score
+            score += gameSpeed * 0.1;
+
+            // Player physics
+            player.velocityY += CONFIG.gravity;
+            player.y += player.velocityY;
+
+            // Ground collision
+            const groundY = canvas.height - CONFIG.groundHeight - player.height;
+            if (player.y >= groundY) {
+                player.y = groundY;
+                player.velocityY = 0;
+                player.isJumping = false;
+                player.jumpCount = 0;
+                player.canDoubleJump = true;
+            }
+
+            // Animation
+            player.animTimer++;
+            if (player.animTimer > 5) {
+                player.animTimer = 0;
+                player.animFrame = (player.animFrame + 1) % 4;
+            }
+
+            // Spawn obstacles
+            nextObstacleDistance -= gameSpeed;
+            if (nextObstacleDistance <= 0) {
+                spawnObstacle();
+            }
+
+            // Update obstacles
+            for (let i = obstacles.length - 1; i >= 0; i--) {
+                obstacles[i].x -= gameSpeed;
+
+                // Collision check
+                if (checkCollision(player, obstacles[i])) {
+                    gameOver();
+                    return;
+                }
+
+                // Remove off-screen obstacles
+                if (obstacles[i].x + obstacles[i].width < 0) {
+                    obstacles.splice(i, 1);
+                }
+            }
+
+            // Update background
+            bgLayers.forEach(layer => {
+                layer.elements.forEach(el => {
+                    el.x -= gameSpeed * layer.speed;
+                    if (el.x + el.width < 0) {
+                        el.x = canvas.width + Math.random() * 100;
+                    }
+                });
+            });
+
+            // Update clouds
+            clouds.forEach(cloud => {
+                cloud.x -= cloud.speed;
+                if (cloud.x + cloud.width < 0) {
+                    cloud.x = canvas.width + Math.random() * 100;
+                    cloud.y = 30 + Math.random() * 80;
+                }
+            });
+
+            // Update ground decorations
+            groundDecorations.forEach(dec => {
+                dec.x -= gameSpeed;
+                if (dec.x < -30) {
+                    dec.x = canvas.width + Math.random() * 50;
+                }
+            });
+
+            // Particles
+            createDustParticles();
+            for (let i = particles.length - 1; i >= 0; i--) {
+                particles[i].x += particles[i].vx;
+                particles[i].y += particles[i].vy;
+                particles[i].life--;
+                if (particles[i].life <= 0) {
+                    particles.splice(i, 1);
+                }
+            }
+
+            updateUI();
+        }
+
+        // ===== Draw Functions =====
+        function drawBackground() {
+            // Sky gradient
+            const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
+            gradient.addColorStop(0, '#0f172a');
+            gradient.addColorStop(0.6, '#1e293b');
+            gradient.addColorStop(1, '#334155');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Stars (only visible at top)
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
+            for (let i = 0; i < 30; i++) {
+                const x = (i * 97 + frameCount * 0.02) % canvas.width;
+                const y = (i * 43) % 150;
+                ctx.beginPath();
+                ctx.arc(x, y, 1, 0, Math.PI * 2);
+                ctx.fill();
+            }
+
+            // Clouds
+            ctx.fillStyle = 'rgba(148, 163, 184, 0.2)';
+            clouds.forEach(cloud => {
+                ctx.beginPath();
+                ctx.ellipse(cloud.x, cloud.y, cloud.width / 2, 15, 0, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.beginPath();
+                ctx.ellipse(cloud.x - cloud.width * 0.3, cloud.y + 5, cloud.width / 3, 12, 0, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.beginPath();
+                ctx.ellipse(cloud.x + cloud.width * 0.25, cloud.y + 8, cloud.width / 4, 10, 0, 0, Math.PI * 2);
+                ctx.fill();
+            });
+
+            // Mountain layers
+            bgLayers.forEach((layer, idx) => {
+                ctx.fillStyle = layer.color;
+                layer.elements.forEach(el => {
+                    ctx.beginPath();
+                    ctx.moveTo(el.x, canvas.height - CONFIG.groundHeight);
+                    ctx.lineTo(el.x + el.width / 2, canvas.height - CONFIG.groundHeight - el.height);
+                    ctx.lineTo(el.x + el.width, canvas.height - CONFIG.groundHeight);
+                    ctx.closePath();
+                    ctx.fill();
+                });
+            });
+        }
+
+        function drawGround() {
+            // Main ground
+            const groundGradient = ctx.createLinearGradient(0, canvas.height - CONFIG.groundHeight, 0, canvas.height);
+            groundGradient.addColorStop(0, '#4a5568');
+            groundGradient.addColorStop(1, '#2d3748');
+            ctx.fillStyle = groundGradient;
+            ctx.fillRect(0, canvas.height - CONFIG.groundHeight, canvas.width, CONFIG.groundHeight);
+
+            // Ground line
+            ctx.strokeStyle = '#718096';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(0, canvas.height - CONFIG.groundHeight);
+            ctx.lineTo(canvas.width, canvas.height - CONFIG.groundHeight);
+            ctx.stroke();
+
+            // Ground decorations
+            groundDecorations.forEach(dec => {
+                if (dec.type === 'grass') {
+                    ctx.strokeStyle = '#48bb78';
+                    ctx.lineWidth = 2;
+                    ctx.beginPath();
+                    ctx.moveTo(dec.x, canvas.height - CONFIG.groundHeight);
+                    ctx.lineTo(dec.x - 3, canvas.height - CONFIG.groundHeight - 8);
+                    ctx.moveTo(dec.x, canvas.height - CONFIG.groundHeight);
+                    ctx.lineTo(dec.x + 2, canvas.height - CONFIG.groundHeight - 10);
+                    ctx.stroke();
+                } else {
+                    ctx.fillStyle = '#64748b';
+                    ctx.beginPath();
+                    ctx.ellipse(dec.x, canvas.height - CONFIG.groundHeight + 3, 6, 4, 0, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            });
+        }
+
+        function drawPlayer() {
+            const px = player.x;
+            const py = player.y;
+            const pw = player.width;
+            const ph = player.height;
+
+            // Shadow
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.3)';
+            ctx.beginPath();
+            ctx.ellipse(px + pw / 2, canvas.height - CONFIG.groundHeight + 5, pw / 2, 5, 0, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Body
+            ctx.fillStyle = '#3b82f6';
+            ctx.beginPath();
+            ctx.roundRect(px + 5, py + 15, pw - 10, ph - 25, 8);
+            ctx.fill();
+
+            // Head
+            ctx.fillStyle = '#fbbf24';
+            ctx.beginPath();
+            ctx.arc(px + pw / 2, py + 12, 14, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Face
+            ctx.fillStyle = '#1e293b';
+            // Eyes
+            const eyeOffset = player.isJumping ? -1 : 0;
+            ctx.beginPath();
+            ctx.arc(px + pw / 2 - 5, py + 10 + eyeOffset, 2, 0, Math.PI * 2);
+            ctx.arc(px + pw / 2 + 5, py + 10 + eyeOffset, 2, 0, Math.PI * 2);
+            ctx.fill();
+            // Smile
+            ctx.strokeStyle = '#1e293b';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            if (player.isJumping) {
+                ctx.arc(px + pw / 2, py + 16, 4, 0, Math.PI);
+            } else {
+                ctx.arc(px + pw / 2, py + 14, 4, 0, Math.PI);
+            }
+            ctx.stroke();
+
+            // Legs (running animation)
+            ctx.fillStyle = '#1e3a8a';
+            const legOffset = Math.sin(player.animFrame * Math.PI / 2) * 5;
+            if (!player.isJumping) {
+                ctx.fillRect(px + 10, py + ph - 12, 8, 12 + legOffset);
+                ctx.fillRect(px + pw - 18, py + ph - 12, 8, 12 - legOffset);
+            } else {
+                // Tucked legs while jumping
+                ctx.fillRect(px + 10, py + ph - 10, 8, 10);
+                ctx.fillRect(px + pw - 18, py + ph - 10, 8, 10);
+            }
+
+            // Arms
+            ctx.fillStyle = '#2563eb';
+            const armOffset = Math.sin(player.animFrame * Math.PI / 2) * 8;
+            ctx.save();
+            ctx.translate(px + 5, py + 25);
+            ctx.rotate((-30 + armOffset) * Math.PI / 180);
+            ctx.fillRect(-3, 0, 6, 20);
+            ctx.restore();
+
+            ctx.save();
+            ctx.translate(px + pw - 5, py + 25);
+            ctx.rotate((30 - armOffset) * Math.PI / 180);
+            ctx.fillRect(-3, 0, 6, 20);
+            ctx.restore();
+        }
+
+        function drawObstacles() {
+            obstacles.forEach(obs => {
+                // Shadow
+                ctx.fillStyle = 'rgba(0, 0, 0, 0.3)';
+                ctx.beginPath();
+                ctx.ellipse(obs.x + obs.width / 2, canvas.height - CONFIG.groundHeight + 5, obs.width / 2, 5, 0, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Obstacle body
+                const obsGradient = ctx.createLinearGradient(obs.x, obs.y, obs.x + obs.width, obs.y);
+                obsGradient.addColorStop(0, obs.color);
+                obsGradient.addColorStop(1, adjustColor(obs.color, -30));
+                ctx.fillStyle = obsGradient;
+                ctx.beginPath();
+                ctx.roundRect(obs.x, obs.y, obs.width, obs.height, 4);
+                ctx.fill();
+
+                // Highlight
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.2)';
+                ctx.fillRect(obs.x + 3, obs.y + 3, obs.width / 3, obs.height - 6);
+            });
+        }
+
+        function drawParticles() {
+            particles.forEach(p => {
+                ctx.fillStyle = `rgba(139, 92, 246, ${p.life / 20})`;
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size * (p.life / 20), 0, Math.PI * 2);
+                ctx.fill();
+            });
+        }
+
+        function drawSpeedIndicator() {
+            const speedPercent = (gameSpeed - CONFIG.initialSpeed) / (CONFIG.maxSpeed - CONFIG.initialSpeed);
+            const barWidth = 100;
+            const barHeight = 6;
+            const x = canvas.width - barWidth - 20;
+            const y = 20;
+
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.3)';
+            ctx.fillRect(x, y, barWidth, barHeight);
+
+            const gradient = ctx.createLinearGradient(x, y, x + barWidth, y);
+            gradient.addColorStop(0, '#10b981');
+            gradient.addColorStop(0.5, '#f59e0b');
+            gradient.addColorStop(1, '#ef4444');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(x, y, barWidth * speedPercent, barHeight);
+
+            ctx.fillStyle = '#94a3b8';
+            ctx.font = '10px sans-serif';
+            ctx.fillText('속도', x, y - 5);
+        }
+
+        function adjustColor(color, amount) {
+            const hex = color.replace('#', '');
+            const r = Math.max(0, Math.min(255, parseInt(hex.substr(0, 2), 16) + amount));
+            const g = Math.max(0, Math.min(255, parseInt(hex.substr(2, 2), 16) + amount));
+            const b = Math.max(0, Math.min(255, parseInt(hex.substr(4, 2), 16) + amount));
+            return `rgb(${r}, ${g}, ${b})`;
+        }
+
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            drawBackground();
+            drawGround();
+            drawParticles();
+            drawObstacles();
+            drawPlayer();
+
+            if (gameState === 'playing') {
+                drawSpeedIndicator();
+            }
+        }
+
+        // ===== Game Loop =====
+        function gameLoop() {
+            update();
+            draw();
+            requestAnimationFrame(gameLoop);
+        }
+
+        // Start the game loop
+        gameLoop();
+    </script>
+</body>
+</html>
