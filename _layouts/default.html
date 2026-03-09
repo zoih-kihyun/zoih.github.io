@@ -1831,6 +1831,40 @@
                                 </div>
                             </div>
                         </div>
+
+                        <!-- MDRD GFR -->
+                        <div class="calc-card">
+                            <h3>🩺 eGFR - MDRD</h3>
+                            <p class="calc-desc">MDRD 공식을 이용한 eGFR 계산 (4-variable MDRD)</p>
+                            <div class="calc-form">
+                                <div class="calc-input-row">
+                                    <div class="calc-input-group">
+                                        <label>Creatinine (mg/dL)</label>
+                                        <input type="number" id="mdrd-creatinine" step="0.01" placeholder="예: 1.0">
+                                    </div>
+                                    <div class="calc-input-group">
+                                        <label>나이 (세)</label>
+                                        <input type="number" id="mdrd-age" step="1" placeholder="예: 55">
+                                    </div>
+                                </div>
+                                <div class="calc-input-group">
+                                    <label>성별</label>
+                                    <select id="mdrd-sex">
+                                        <option value="male">남성</option>
+                                        <option value="female">여성</option>
+                                    </select>
+                                </div>
+                                <button class="calc-btn" onclick="calculateMDRD()">계산하기</button>
+                                <div class="calc-result" id="mdrd-result" style="display: none;">
+                                    <div class="calc-result-value" id="mdrd-value">-</div>
+                                    <div class="calc-result-unit">mL/min/1.73 m²</div>
+                                    <div class="calc-result-interpretation" id="mdrd-interpretation"></div>
+                                </div>
+                                <div class="calc-formula">
+                                    186 × Scr<sup>-1.154</sup> × Age<sup>-0.203</sup> × 0.742 [여성]
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <div style="margin-top: 24px; padding: 16px; background: var(--card-bg); border: 1px solid var(--card-border); border-radius: var(--radius);">
@@ -2994,6 +3028,47 @@
             document.getElementById('egfr-crcys-result').style.display = 'block';
 
             const interpretation = document.getElementById('egfr-crcys-interpretation');
+            if (egfr >= 90) {
+                interpretation.textContent = 'G1: 정상 또는 높음';
+                interpretation.className = 'calc-result-interpretation normal';
+            } else if (egfr >= 60) {
+                interpretation.textContent = 'G2: 경도 감소';
+                interpretation.className = 'calc-result-interpretation normal';
+            } else if (egfr >= 45) {
+                interpretation.textContent = 'G3a: 경도-중등도 감소';
+                interpretation.className = 'calc-result-interpretation warning';
+            } else if (egfr >= 30) {
+                interpretation.textContent = 'G3b: 중등도-중증 감소';
+                interpretation.className = 'calc-result-interpretation warning';
+            } else if (egfr >= 15) {
+                interpretation.textContent = 'G4: 중증 감소';
+                interpretation.className = 'calc-result-interpretation danger';
+            } else {
+                interpretation.textContent = 'G5: 신부전';
+                interpretation.className = 'calc-result-interpretation danger';
+            }
+        }
+
+        // MDRD GFR
+        function calculateMDRD() {
+            const creatinine = parseFloat(document.getElementById('mdrd-creatinine').value);
+            const age = parseFloat(document.getElementById('mdrd-age').value);
+            const sex = document.getElementById('mdrd-sex').value;
+
+            if (isNaN(creatinine) || isNaN(age) || creatinine <= 0 || age <= 0) {
+                alert('올바른 값을 입력해주세요.');
+                return;
+            }
+
+            let egfr = 186 * Math.pow(creatinine, -1.154) * Math.pow(age, -0.203);
+            if (sex === 'female') {
+                egfr = egfr * 0.742;
+            }
+
+            document.getElementById('mdrd-value').textContent = egfr.toFixed(1);
+            document.getElementById('mdrd-result').style.display = 'block';
+
+            const interpretation = document.getElementById('mdrd-interpretation');
             if (egfr >= 90) {
                 interpretation.textContent = 'G1: 정상 또는 높음';
                 interpretation.className = 'calc-result-interpretation normal';
