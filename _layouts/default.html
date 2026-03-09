@@ -1757,6 +1757,80 @@
                                 </div>
                             </div>
                         </div>
+
+                        <!-- eGFR CKD-EPI Cystatin C (2012) -->
+                        <div class="calc-card">
+                            <h3>🔬 eGFR - Cystatin C (CKD-EPI 2012)</h3>
+                            <p class="calc-desc">Cystatin C 기반 eGFR 계산 (CKD-EPI Cystatin C Equation 2012)</p>
+                            <div class="calc-form">
+                                <div class="calc-input-row">
+                                    <div class="calc-input-group">
+                                        <label>Cystatin C (mg/L)</label>
+                                        <input type="number" id="egfr-cys-cystatin" step="0.01" placeholder="예: 0.9">
+                                    </div>
+                                    <div class="calc-input-group">
+                                        <label>나이 (세)</label>
+                                        <input type="number" id="egfr-cys-age" step="1" placeholder="예: 55">
+                                    </div>
+                                </div>
+                                <div class="calc-input-group">
+                                    <label>성별</label>
+                                    <select id="egfr-cys-sex">
+                                        <option value="male">남성</option>
+                                        <option value="female">여성</option>
+                                    </select>
+                                </div>
+                                <button class="calc-btn" onclick="calculateEGFR_CysC()">계산하기</button>
+                                <div class="calc-result" id="egfr-cys-result" style="display: none;">
+                                    <div class="calc-result-value" id="egfr-cys-value">-</div>
+                                    <div class="calc-result-unit">mL/min/1.73 m²</div>
+                                    <div class="calc-result-interpretation" id="egfr-cys-interpretation"></div>
+                                </div>
+                                <div class="calc-formula">
+                                    133 × min(Scys/0.8, 1)<sup>-0.499</sup> × max(Scys/0.8, 1)<sup>-1.328</sup> × 0.996<sup>Age</sup> × 0.932 [여성]
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- eGFR CKD-EPI Creatinine-Cystatin C (2021) -->
+                        <div class="calc-card">
+                            <h3>🧬 eGFR - Cr-Cystatin C (CKD-EPI 2021)</h3>
+                            <p class="calc-desc">Creatinine + Cystatin C 복합 eGFR 계산 (CKD-EPI 2021)</p>
+                            <div class="calc-form">
+                                <div class="calc-input-row">
+                                    <div class="calc-input-group">
+                                        <label>Creatinine (mg/dL)</label>
+                                        <input type="number" id="egfr-crcys-creatinine" step="0.01" placeholder="예: 1.0">
+                                    </div>
+                                    <div class="calc-input-group">
+                                        <label>Cystatin C (mg/L)</label>
+                                        <input type="number" id="egfr-crcys-cystatin" step="0.01" placeholder="예: 0.9">
+                                    </div>
+                                </div>
+                                <div class="calc-input-row">
+                                    <div class="calc-input-group">
+                                        <label>나이 (세)</label>
+                                        <input type="number" id="egfr-crcys-age" step="1" placeholder="예: 55">
+                                    </div>
+                                    <div class="calc-input-group">
+                                        <label>성별</label>
+                                        <select id="egfr-crcys-sex">
+                                            <option value="male">남성</option>
+                                            <option value="female">여성</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <button class="calc-btn" onclick="calculateEGFR_CrCysC()">계산하기</button>
+                                <div class="calc-result" id="egfr-crcys-result" style="display: none;">
+                                    <div class="calc-result-value" id="egfr-crcys-value">-</div>
+                                    <div class="calc-result-unit">mL/min/1.73 m²</div>
+                                    <div class="calc-result-interpretation" id="egfr-crcys-interpretation"></div>
+                                </div>
+                                <div class="calc-formula">
+                                    135 × min(Scr/κ, 1)<sup>α</sup> × max(Scr/κ, 1)<sup>-0.544</sup> × min(Scys/0.8, 1)<sup>-0.323</sup> × max(Scys/0.8, 1)<sup>-0.778</sup> × 0.9961<sup>Age</sup> × 0.963 [여성]
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <div style="margin-top: 24px; padding: 16px; background: var(--card-bg); border: 1px solid var(--card-border); border-radius: var(--radius);">
@@ -2846,6 +2920,97 @@
                 interpretation.className = 'calc-result-interpretation danger';
             } else {
                 interpretation.textContent = '매우 높음 (≥190 mg/dL)';
+                interpretation.className = 'calc-result-interpretation danger';
+            }
+        }
+
+        // eGFR CKD-EPI Cystatin C (2012)
+        function calculateEGFR_CysC() {
+            const cysC = parseFloat(document.getElementById('egfr-cys-cystatin').value);
+            const age = parseFloat(document.getElementById('egfr-cys-age').value);
+            const sex = document.getElementById('egfr-cys-sex').value;
+
+            if (isNaN(cysC) || isNaN(age) || cysC <= 0 || age <= 0) {
+                alert('올바른 값을 입력해주세요.');
+                return;
+            }
+
+            const ratio = cysC / 0.8;
+            const minRatio = Math.min(ratio, 1);
+            const maxRatio = Math.max(ratio, 1);
+            const sexMultiplier = sex === 'female' ? 0.932 : 1.0;
+
+            const egfr = 133 * Math.pow(minRatio, -0.499) * Math.pow(maxRatio, -1.328) * Math.pow(0.996, age) * sexMultiplier;
+
+            document.getElementById('egfr-cys-value').textContent = egfr.toFixed(1);
+            document.getElementById('egfr-cys-result').style.display = 'block';
+
+            const interpretation = document.getElementById('egfr-cys-interpretation');
+            if (egfr >= 90) {
+                interpretation.textContent = 'G1: 정상 또는 높음';
+                interpretation.className = 'calc-result-interpretation normal';
+            } else if (egfr >= 60) {
+                interpretation.textContent = 'G2: 경도 감소';
+                interpretation.className = 'calc-result-interpretation normal';
+            } else if (egfr >= 45) {
+                interpretation.textContent = 'G3a: 경도-중등도 감소';
+                interpretation.className = 'calc-result-interpretation warning';
+            } else if (egfr >= 30) {
+                interpretation.textContent = 'G3b: 중등도-중증 감소';
+                interpretation.className = 'calc-result-interpretation warning';
+            } else if (egfr >= 15) {
+                interpretation.textContent = 'G4: 중증 감소';
+                interpretation.className = 'calc-result-interpretation danger';
+            } else {
+                interpretation.textContent = 'G5: 신부전';
+                interpretation.className = 'calc-result-interpretation danger';
+            }
+        }
+
+        // eGFR CKD-EPI Creatinine-Cystatin C (2021)
+        function calculateEGFR_CrCysC() {
+            const creatinine = parseFloat(document.getElementById('egfr-crcys-creatinine').value);
+            const cysC = parseFloat(document.getElementById('egfr-crcys-cystatin').value);
+            const age = parseFloat(document.getElementById('egfr-crcys-age').value);
+            const sex = document.getElementById('egfr-crcys-sex').value;
+
+            if (isNaN(creatinine) || isNaN(cysC) || isNaN(age) || creatinine <= 0 || cysC <= 0 || age <= 0) {
+                alert('올바른 값을 입력해주세요.');
+                return;
+            }
+
+            const kappa = sex === 'female' ? 0.7 : 0.9;
+            const alpha = sex === 'female' ? -0.219 : -0.144;
+            const sexMultiplier = sex === 'female' ? 0.963 : 1.0;
+
+            const minCrRatio = Math.min(creatinine / kappa, 1);
+            const maxCrRatio = Math.max(creatinine / kappa, 1);
+            const minCysRatio = Math.min(cysC / 0.8, 1);
+            const maxCysRatio = Math.max(cysC / 0.8, 1);
+
+            const egfr = 135 * Math.pow(minCrRatio, alpha) * Math.pow(maxCrRatio, -0.544) * Math.pow(minCysRatio, -0.323) * Math.pow(maxCysRatio, -0.778) * Math.pow(0.9961, age) * sexMultiplier;
+
+            document.getElementById('egfr-crcys-value').textContent = egfr.toFixed(1);
+            document.getElementById('egfr-crcys-result').style.display = 'block';
+
+            const interpretation = document.getElementById('egfr-crcys-interpretation');
+            if (egfr >= 90) {
+                interpretation.textContent = 'G1: 정상 또는 높음';
+                interpretation.className = 'calc-result-interpretation normal';
+            } else if (egfr >= 60) {
+                interpretation.textContent = 'G2: 경도 감소';
+                interpretation.className = 'calc-result-interpretation normal';
+            } else if (egfr >= 45) {
+                interpretation.textContent = 'G3a: 경도-중등도 감소';
+                interpretation.className = 'calc-result-interpretation warning';
+            } else if (egfr >= 30) {
+                interpretation.textContent = 'G3b: 중등도-중증 감소';
+                interpretation.className = 'calc-result-interpretation warning';
+            } else if (egfr >= 15) {
+                interpretation.textContent = 'G4: 중증 감소';
+                interpretation.className = 'calc-result-interpretation danger';
+            } else {
+                interpretation.textContent = 'G5: 신부전';
                 interpretation.className = 'calc-result-interpretation danger';
             }
         }
