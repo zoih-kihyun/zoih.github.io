@@ -1,3 +1,6 @@
+---
+permalink: /tools/
+---
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -783,7 +786,7 @@
         <!-- Sidebar -->
         <aside class="sidebar" id="sidebar">
             <div class="sidebar-header">
-                <a href="#" class="sidebar-logo" onclick="showPage('home')">
+                <a href="/" class="sidebar-logo" title="메인 홈페이지로">
                     <img src="assets/images/조이소프트_엠블럼.png" alt="ZOIHSOFT" class="logo-icon">
                     <div class="logo-text-wrap">
                         <div class="logo-text">ZOIH<span>SOFT</span></div>
@@ -4113,6 +4116,15 @@
             document.getElementById('quiz-result-screen').style.display = 'none';
             document.getElementById('quiz-start-screen').style.display = 'block';
         }
+        // Deep-link support: open a section from URL hash (e.g. /tools/#calculator)
+        (function () {
+            function openFromHash() {
+                var h = (window.location.hash || '').replace('#', '');
+                if (h) { showPage(h); }
+            }
+            document.addEventListener('DOMContentLoaded', openFromHash);
+            window.addEventListener('hashchange', openFromHash);
+        })();
     </script>
 </body>
 </html>
