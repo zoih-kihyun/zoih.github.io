@@ -806,9 +806,50 @@ permalink: /tools/
         /* Form controls read correctly on light surfaces */
         input, select, textarea { color: var(--text-primary); }
         input::placeholder, textarea::placeholder { color: var(--text-muted); }
+
+        /* ===== Tools hub: modern top-nav layout (사이드바 대시보드 제거) ===== */
+        .sidebar, .sidebar-overlay, .main-header { display: none !important; }
+        .main-content { margin-left: 0 !important; display: block !important; }
+        .app-container { display: block; }
+        .content-area { max-width: 1160px; margin: 0 auto; padding: 104px 24px 56px; }
+        .tnav { position: fixed; top:0; left:0; right:0; z-index:100; height:72px; display:flex; align-items:center; background:rgba(255,255,255,.82); backdrop-filter:saturate(180%) blur(14px); -webkit-backdrop-filter:saturate(180%) blur(14px); border-bottom:1px solid var(--card-border); }
+        .tnav-in { width:100%; max-width:1160px; margin:0 auto; padding:0 24px; display:flex; align-items:center; justify-content:space-between; gap:16px; }
+        .tnav-brand { display:flex; align-items:center; gap:10px; font-weight:800; color:var(--text-primary); text-decoration:none; letter-spacing:-.02em; }
+        .tnav-brand img { width:34px; height:34px; border-radius:8px; }
+        .tnav-brand span { color: var(--accent-blue); }
+        .tnav-links { display:flex; align-items:center; gap:2px; flex-wrap:wrap; }
+        .tnav-links a { padding:9px 12px; border-radius:10px; font-size:.92rem; font-weight:600; color:var(--text-secondary); cursor:pointer; text-decoration:none; transition:background .2s,color .2s; }
+        .tnav-links a:hover { background:var(--sidebar-hover); color:var(--accent-blue); }
+        .thero { text-align:center; padding:20px 0 40px; }
+        .thero .teyebrow { font-size:.8rem; font-weight:800; letter-spacing:.12em; text-transform:uppercase; color:var(--accent-blue); }
+        .thero h1 { font-size:clamp(2rem,4.5vw,3rem); letter-spacing:-.02em; margin:12px 0 12px; background:linear-gradient(135deg,#0d1b2a,#2563eb); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; }
+        .thero p { color:var(--text-secondary); font-size:1.05rem; max-width:600px; margin:0 auto; }
+        .tgrid { display:grid; grid-template-columns:repeat(auto-fill,minmax(248px,1fr)); gap:20px; }
+        .tcard { display:block; background:#fff; border:1px solid var(--card-border); border-radius:var(--radius); padding:26px; box-shadow:var(--shadow-sm); cursor:pointer; text-decoration:none; color:inherit; transition:transform .25s ease, box-shadow .25s ease, border-color .25s ease; }
+        .tcard:hover { transform:translateY(-5px); box-shadow:var(--shadow); border-color:#d5e3f7; }
+        .tcard .tic { width:52px; height:52px; border-radius:15px; display:grid; place-items:center; font-size:1.5rem; color:#fff; margin-bottom:16px; }
+        .tcard h3 { font-size:1.2rem; margin-bottom:6px; color:var(--text-primary); }
+        .tcard p { color:var(--text-secondary); font-size:.92rem; }
+        .tfoot { border-top:1px solid var(--card-border); background:var(--sidebar-bg); text-align:center; padding:30px 24px; color:var(--text-muted); font-size:.9rem; }
+        .tfoot a { color:var(--accent-blue); text-decoration:none; font-weight:600; }
+        @media (max-width:640px){ .tnav-links a:nth-child(n+4){ display:none; } .content-area{ padding-top:92px; } }
+
     </style>
 </head>
 <body>
+    <nav class="tnav">
+        <div class="tnav-in">
+            <a href="/" class="tnav-brand"><img src="/assets/images/조이소프트_엠블럼.png" alt="ZOIHSOFT"><b>ZOIH<span>SOFT</span></b></a>
+            <div class="tnav-links">
+                <a href="/">← 메인</a>
+                <a onclick="showPage('home');window.scrollTo(0,0);">도구 홈</a>
+                <a onclick="showPage('calculator');window.scrollTo(0,0);">검사계산기</a>
+                <a onclick="showPage('dday');window.scrollTo(0,0);">D-day</a>
+                <a onclick="showPage('worldclock');window.scrollTo(0,0);">세계시간</a>
+                <a onclick="showPage('medquiz');window.scrollTo(0,0);">의료퀴즈</a>
+            </div>
+        </div>
+    </nav>
     <div class="app-container">
         <!-- Sidebar -->
         <aside class="sidebar" id="sidebar">
@@ -928,63 +969,20 @@ permalink: /tools/
             <div class="content-area">
                 <!-- Home Page -->
                 <section class="page-section active" id="page-home">
-                    <div class="hero-section">
-                        <div class="hero-badge">Medical Device Interface Solution</div>
-                        <h1 class="hero-title">의료기기 인터페이스<br>전문 솔루션</h1>
-                        <h2 class="hero-subtitle">ZOIHSOFT</h2>
-                        <p class="hero-description">
-                            표준 기반(HL7/ASTM) 데이터 연동과 안정적 운영에 집중합니다.<br>
-                            전국 어디서나 원격/현장 지원으로 빠르고 안정적인 구축을 지원합니다.
-                        </p>
-                        <a href="#" class="hero-cta" onclick="showPage('contact')">문의하기</a>
+                    <div class="thero">
+                        <span class="teyebrow">ZOIHSOFT Toolbox</span>
+                        <h1>실용 도구 모음</h1>
+                        <p>진단검사의학과 실무 계산기부터 잠깐의 쉼표까지, 필요한 도구를 한곳에서.</p>
                     </div>
-
-                    <div class="stats-grid">
-                        <div class="stat-card">
-                            <div class="stat-value">18+</div>
-                            <div class="stat-label">평균 경력 (년)</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-value">29</div>
-                            <div class="stat-label">최대 경력 (년)</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-value">HL7/ASTM</div>
-                            <div class="stat-label">표준 프로토콜</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-value">24/7</div>
-                            <div class="stat-label">기술 지원</div>
-                        </div>
-                    </div>
-
-                    <div class="section-header">
-                        <h2 class="section-title">제품 소개</h2>
-                        <p class="section-desc">따뜻한 기술로 만들어가는 선한 영향력의 솔루션들</p>
-                    </div>
-
-                    <div class="product-grid">
-                        <div class="product-card" onclick="showPage('product-oreum')">
-                            <div class="product-icon blue">📈</div>
-                            <h3 class="product-name">오름</h3>
-                            <p class="product-tagline">"함께 올라가는 성장 플랫폼"</p>
-                            <p class="product-desc">160종 이상의 의료장비 인터페이스를 지원하는 검사실 통합 솔루션입니다.</p>
-                            <span class="product-status" style="background: linear-gradient(135deg, var(--accent-green), #059669);">판매 중</span>
-                        </div>
-                        <div class="product-card" onclick="showPage('product-baro')">
-                            <div class="product-icon cyan">⚡</div>
-                            <h3 class="product-name">바로</h3>
-                            <p class="product-tagline">"즉시 연결하는 통합 미들웨어"</p>
-                            <p class="product-desc">중앙검사실부터 분산검사 환경까지, 모든 검사 영역을 하나로 연결하는 통합 플랫폼입니다.</p>
-                            <span class="product-status">개발 중</span>
-                        </div>
-                        <div class="product-card" onclick="showPage('product-olbaro')">
-                            <div class="product-icon violet">🎯</div>
-                            <h3 class="product-name">올바로</h3>
-                            <p class="product-tagline">"선한 선택을 돕는 가이드"</p>
-                            <p class="product-desc">선한 영향력을 만들어가는 올바른 선택을 돕는 서비스입니다.</p>
-                            <span class="product-status">기획 중</span>
-                        </div>
+                    <div class="tgrid">
+                        <a class="tcard" onclick="showPage('calculator');window.scrollTo(0,0);"><span class="tic" style="background:linear-gradient(135deg,#2563eb,#06b6d4)">🧮</span><h3>검사 계산기</h3><p>eGFR·보정칼슘·음이온차·LDL 등 임상 계산식</p></a>
+                        <a class="tcard" onclick="showPage('dday');window.scrollTo(0,0);"><span class="tic" style="background:linear-gradient(135deg,#06b6d4,#3b82f6)">📅</span><h3>D-day 계산기</h3><p>납기일·기념일 등 날짜 계산</p></a>
+                        <a class="tcard" onclick="showPage('worldclock');window.scrollTo(0,0);"><span class="tic" style="background:linear-gradient(135deg,#7c5cff,#c026d3)">🕐</span><h3>세계 시간</h3><p>주요 도시의 현재 시간</p></a>
+                        <a class="tcard" onclick="showPage('quote');window.scrollTo(0,0);"><span class="tic" style="background:linear-gradient(135deg,#f59e0b,#ef4444)">💬</span><h3>오늘의 명언</h3><p>하루 한 문장의 영감</p></a>
+                        <a class="tcard" onclick="showPage('medquiz');window.scrollTo(0,0);"><span class="tic" style="background:linear-gradient(135deg,#10b981,#059669)">🧩</span><h3>의료 퀴즈</h3><p>진단검사 상식 퀴즈</p></a>
+                        <a class="tcard" onclick="showPage('numbergame');window.scrollTo(0,0);"><span class="tic" style="background:linear-gradient(135deg,#3b82f6,#7c5cff)">🔢</span><h3>숫자 맞추기</h3><p>간단한 두뇌 게임</p></a>
+                        <a class="tcard" href="https://varoyutnori.vercel.app/" target="_blank" rel="noopener"><span class="tic" style="background:linear-gradient(135deg,#a16207,#d97706)">🪵</span><h3>윳놀이 ↗</h3><p>새 창에서 즐기는 윳놀이</p></a>
+                        <a class="tcard" href="/games/run-joykim/" target="_blank" rel="noopener"><span class="tic" style="background:linear-gradient(135deg,#0891b2,#2563eb)">🎮</span><h3>달려라 조이김 ↗</h3><p>러닝 게임</p></a>
                     </div>
                 </section>
 
@@ -2697,10 +2695,12 @@ permalink: /tools/
                 </section>
             </div>
 
-            <footer class="main-footer">
-                <p>&copy; 2025 ZOIHSOFT. 사람과 세상을 위한 따뜻한 기술. All rights reserved.</p>
-            </footer>
         </main>
+        <footer class="tfoot">
+            <div style="margin-bottom:8px;"><a href="/">메인 홈페이지</a> · <a href="/#products">제품</a> · <a href="/#contact">문의하기</a> · <a href="/#remote">원격지원</a></div>
+            &copy; 2026 ZOIHSOFT. 사람과 세상을 위한 따뜻한 기술. All rights reserved.
+        </footer>
+
     </div>
 
     <script>
