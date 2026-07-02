@@ -10,32 +10,37 @@ permalink: /tools/
     <meta name="description" content="의료기기 인터페이스 전문 솔루션 ZOIHSOFT">
     <link rel="icon" type="image/png" href="/assets/images/조이소프트_엠블럼.png">
     <link rel="apple-touch-icon" href="/assets/images/조이소프트_엠블럼.png">
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
     <style>
         /* ===== CSS Variables ===== */
         :root {
-            --sidebar-bg: #0a1628;
-            --sidebar-hover: #1a2d4a;
+            /* Light theme — matches the main landing (index.html) */
+            --sidebar-bg: #eef3fa;      /* sidebar chrome + inset wells / table headers */
+            --sidebar-hover: #e5eefb;
             --sidebar-active: #2563eb;
-            --sidebar-text: #94a3b8;
+            --sidebar-text: #556579;
             --sidebar-text-active: #ffffff;
             --sidebar-width: 260px;
 
-            --main-bg: #0f172a;
-            --card-bg: #1e293b;
-            --card-border: #334155;
+            --main-bg: #f6f9fc;         /* page canvas */
+            --card-bg: #ffffff;
+            --card-border: #e6ecf4;
 
-            --text-primary: #f1f5f9;
-            --text-secondary: #94a3b8;
-            --text-muted: #64748b;
+            --text-primary: #0d1b2a;
+            --text-secondary: #4d5f74;
+            --text-muted: #8496ab;
 
-            --accent-blue: #3b82f6;
-            --accent-cyan: #06b6d4;
-            --accent-violet: #8b5cf6;
-            --accent-amber: #f59e0b;
-            --accent-green: #10b981;
+            --accent-blue: #2563eb;
+            --accent-cyan: #0891b2;
+            --accent-violet: #7c5cff;
+            --accent-amber: #d97706;
+            --accent-green: #059669;
 
-            --radius: 12px;
-            --radius-sm: 8px;
+            --radius: 16px;
+            --radius-sm: 10px;
+            --shadow-sm: 0 2px 8px rgba(15, 40, 80, 0.06);
+            --shadow: 0 12px 32px rgba(15, 40, 80, 0.08);
         }
 
         * {
@@ -230,7 +235,7 @@ permalink: /tools/
 
         .nav-item:hover {
             background: var(--sidebar-hover);
-            color: var(--sidebar-text-active);
+            color: var(--accent-blue);
         }
 
         .nav-item.active {
@@ -265,7 +270,7 @@ permalink: /tools/
 
         .nav-tree-item:hover {
             background: var(--sidebar-hover);
-            color: var(--sidebar-text-active);
+            color: var(--accent-blue);
         }
 
         .nav-tree-left {
@@ -779,6 +784,28 @@ permalink: /tools/
         .sidebar-overlay.active {
             display: block;
         }
+
+        /* ===== Light-theme polish (matches main landing) ===== */
+        body { -webkit-font-smoothing: antialiased; }
+        .sidebar { box-shadow: 2px 0 16px rgba(15, 40, 80, 0.04); }
+        .main-header {
+            background: rgba(246, 249, 252, 0.85);
+            backdrop-filter: saturate(180%) blur(10px);
+            -webkit-backdrop-filter: saturate(180%) blur(10px);
+        }
+        .stat-card, .product-card, .product-detail, .capability-card, .contact-card,
+        .remote-guide, .remote-contact, .contact-highlight {
+            box-shadow: var(--shadow-sm);
+            transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+        }
+        .product-card:hover, .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow);
+            border-color: #d5e3f7;
+        }
+        /* Form controls read correctly on light surfaces */
+        input, select, textarea { color: var(--text-primary); }
+        input::placeholder, textarea::placeholder { color: var(--text-muted); }
     </style>
 </head>
 <body>
@@ -1338,7 +1365,8 @@ permalink: /tools/
                             margin: 0 auto;
                         }
                         .remote-header {
-                            background: linear-gradient(135deg, #1e293b, #334155);
+                            background: linear-gradient(135deg, #eaf1ff 0%, #e6fbff 100%);
+                            border: 1px solid var(--card-border);
                             border-radius: var(--radius);
                             padding: 48px 32px;
                             text-align: center;
