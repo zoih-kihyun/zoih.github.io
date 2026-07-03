@@ -11,8 +11,35 @@
     <meta property="og:image" content="/assets/images/og-default.png">
     <link rel="icon" type="image/png" href="/assets/images/조이소프트_엠블럼.png">
     <link rel="apple-touch-icon" href="/assets/images/조이소프트_엠블럼.png">
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "조이소프트 주식회사",
+        "alternateName": "ZOIHSOFT",
+        "url": "https://zoihsoft.com",
+        "logo": "https://zoihsoft.com/assets/images/og-default.png",
+        "email": "contact@zoihsoft.com",
+        "telephone": "+82-507-1314-2592",
+        "description": "표준 기반(HL7/ASTM) 의료기기 인터페이스 전문 솔루션. 진단검사의학과 검사실 통합 및 원격/현장 전국 지원.",
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "달서구 송현로 205 B.I센터 404호",
+            "addressLocality": "대구광역시",
+            "addressCountry": "KR"
+        },
+        "contactPoint": {
+            "@type": "ContactPoint",
+            "telephone": "+82-507-1314-2592",
+            "contactType": "customer support",
+            "email": "contact@zoihsoft.com",
+            "areaServed": "KR",
+            "availableLanguage": "Korean"
+        }
+    }
+    </script>
     <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
-    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+    <link rel="stylesheet" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
     <style>
         :root {
             --bg: #ffffff;
@@ -143,12 +170,6 @@
         .eyebrow { font-size: .82rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: var(--brand); }
         .sec-head h2 { font-size: clamp(1.8rem, 3.5vw, 2.5rem); letter-spacing: -.02em; margin: 12px 0 14px; font-weight: 800; }
         .sec-head p { color: var(--muted); font-size: 1.05rem; }
-
-        /* ===== Stats ===== */
-        .stats { background: var(--ink); color: #fff; border-radius: 24px; padding: 44px 24px; display: grid; grid-template-columns: repeat(4,1fr); gap: 20px; box-shadow: var(--shadow-lg); }
-        .stat { text-align: center; }
-        .stat .v { font-size: clamp(1.8rem, 4vw, 2.6rem); font-weight: 800; letter-spacing: -.02em; background: linear-gradient(135deg,#7dd3fc,#a5b4fc); -webkit-background-clip: text; background-clip: text; color: transparent; }
-        .stat .l { color: #93a7c4; font-size: .92rem; margin-top: 6px; font-weight: 600; }
 
         /* ===== Products ===== */
         .products { display: grid; grid-template-columns: repeat(3,1fr); gap: 24px; }
@@ -283,7 +304,6 @@
             .hamburger { display: block; }
             .products { grid-template-columns: 1fr; }
             .caps { grid-template-columns: 1fr; }
-            .stats { grid-template-columns: repeat(2,1fr); gap: 28px 12px; }
             .info-grid { grid-template-columns: 1fr; }
             .foot-grid { grid-template-columns: 1fr; }
             section.block { padding: 70px 0; }
@@ -309,7 +329,7 @@
                 <a class="link" href="/#remote">원격지원</a>
                 <a class="btn btn-primary nav-cta" href="/#contact">문의하기</a>
             </div>
-            <button class="hamburger" id="hamburger" aria-label="메뉴 열기">☰</button>
+            <button class="hamburger" id="hamburger" aria-label="메뉴 열기" aria-expanded="false" aria-controls="mobileMenu">☰</button>
         </div>
     </nav>
     <div class="mobile-menu" id="mobileMenu">
@@ -376,8 +396,13 @@
         // Mobile menu
         var ham = document.getElementById('hamburger');
         var mm = document.getElementById('mobileMenu');
-        ham.addEventListener('click', function () { mm.classList.toggle('open'); });
-        mm.querySelectorAll('a').forEach(function (a) { a.addEventListener('click', function () { mm.classList.remove('open'); }); });
+        function setMenu(open) {
+            mm.classList.toggle('open', open);
+            ham.setAttribute('aria-expanded', open ? 'true' : 'false');
+            ham.setAttribute('aria-label', open ? '메뉴 닫기' : '메뉴 열기');
+        }
+        ham.addEventListener('click', function () { setMenu(!mm.classList.contains('open')); });
+        mm.querySelectorAll('a').forEach(function (a) { a.addEventListener('click', function () { setMenu(false); }); });
 
         // Scroll reveal
         var io = new IntersectionObserver(function (entries) {
@@ -386,24 +411,6 @@
             });
         }, { threshold: 0.14, rootMargin: '0px 0px -40px 0px' });
         document.querySelectorAll('.reveal').forEach(function (el) { io.observe(el); });
-
-        // Count-up for numeric stats
-        function countUp(el) {
-            var to = parseInt(el.dataset.to, 10), start = null, dur = 1100;
-            function step(ts) {
-                if (!start) start = ts;
-                var p = Math.min((ts - start) / dur, 1);
-                el.textContent = Math.floor((1 - Math.pow(1 - p, 3)) * to);
-                if (p < 1) requestAnimationFrame(step);
-            }
-            requestAnimationFrame(step);
-        }
-        var statObserver = new IntersectionObserver(function (entries) {
-            entries.forEach(function (e) {
-                if (e.isIntersecting) { countUp(e.target); statObserver.unobserve(e.target); }
-            });
-        }, { threshold: 0.5 });
-        document.querySelectorAll('.count').forEach(function (el) { statObserver.observe(el); });
     </script>
 </body>
 </html>
